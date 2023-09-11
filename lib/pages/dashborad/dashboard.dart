@@ -318,7 +318,7 @@ class DashboardState extends State<Dashboard> {
 
   getMediaConverter() async {
     var res = await Api.mediaConverter("status");
-    if (res['success']) {
+    if (res['success'] && mounted) {
       setState(() {
         converter = res['data'];
         if (converter != null && (converter['photo_remain'] + converter['thumb_remain'] + converter['video_remain'] > 0)) {
