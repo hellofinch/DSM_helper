@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:cool_ui/cool_ui.dart';
+import 'package:dsm_helper/pages/common/browser.dart';
 import 'package:dsm_helper/pages/setting/vip_login.dart';
 import 'package:dsm_helper/pages/setting/vip_record.dart';
 import 'package:dsm_helper/themes/app_theme.dart';
 import 'package:dsm_helper/util/function.dart';
 import 'package:dsm_helper/widgets/neu_back_button.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
@@ -27,11 +29,13 @@ class _VipState extends State<Vip> {
   bool isForever = false;
   String outTradeNo = "";
   String userToken = "";
+  Map activity;
   Timer timer;
   @override
   void initState() {
     weChatResponseEventHandler.distinct((a, b) => a == b).listen(wechatListener);
     initData();
+    getActivity();
 
     super.initState();
   }
@@ -288,14 +292,14 @@ class _VipState extends State<Vip> {
                     child: Column(
                       children: [
                         Text(
-                          "积分兑换",
+                          "兑换码",
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 16,
                         ),
                         Text(
-                          '关注群晖助手公众号，在聊天窗口回复"10006"获取兑换码',
+                          '可关注群晖助手公众号，在聊天窗口回复"10006"使用积分获取兑换码',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
                         ),
                         SizedBox(
@@ -521,6 +525,16 @@ class _VipState extends State<Vip> {
     }
   }
 
+  getActivity() async {
+    var res = await Util.post("${Util.appUrl}/activity/activity");
+    if (res['code'] == 1) {
+      activity = res['data'];
+      setState(() {});
+    } else {
+      Util.toast(res['msg']);
+    }
+  }
+
   payOrder(String type) async {
     var res = await Util.post("${Util.appUrl}/payment/wechat", data: {"token": userToken, "type": type});
     if (res['code'] == 1) {
@@ -568,6 +582,25 @@ class _VipState extends State<Vip> {
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
+          if (activity != null && activity['banner'] != null)
+            Padding(
+              padding: EdgeInsets.only(bottom: 20),
+              child: GestureDetector(
+                onTap: () {
+                  if (activity['url'] != null && activity['url'] != '') {
+                    Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                      return Browser(
+                        url: activity['url'],
+                      );
+                    }));
+                  }
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: ExtendedImage.network(activity['banner']),
+                ),
+              ),
+            ),
           NeuCard(
             decoration: NeumorphicDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
@@ -610,9 +643,8 @@ class _VipState extends State<Vip> {
             Text(
               "您的免广告剩余时长大于7天，为给您带来更清爽的体验，已为您隐藏设置页面的关闭广告入口，您可以点击设置页面右上角齿轮找到关闭广告页面。",
               style: TextStyle(color: Colors.red),
-            )
-          else
-            Text("${Util.appName}是一款开源免费的APP，作者花费大量时间开发${Util.appName}，但是为爱发电终究无法维持最初的激情。\n为了能继续将${Util.appName}做强做好，在近期的版本中加入了开屏广告以获取一些微薄的收入。当然广告会让很多朋友（包括作者自己）反感，所以加入了一些措施来关闭开屏广告，希望大家能够理解和支持。"),
+            ),
+          if (activity != null && activity['description'] != null) Text("${activity['description']}"),
           NoAdButton(
             "关闭3天",
             price: "观看广告",
@@ -624,8 +656,8 @@ class _VipState extends State<Vip> {
           if (!isForever) ...[
             Text("注意：以下方式购买的免广告时长与关闭3天不累加，将取最长时间作为实际免广告时长。"),
             NoAdButton(
-              "关闭7天",
-              price: "200积分",
+              "免广告兑换码",
+              price: "兑换",
               onPressed: close7,
             ),
             NoAdButton(
