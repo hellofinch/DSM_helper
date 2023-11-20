@@ -338,7 +338,7 @@ class _VipState extends State<Vip> {
                                   if (res['code'] == 0) {
                                     Util.toast(res['msg']);
                                   } else {
-                                    Util.toast("成功兑换7天免广告特权");
+                                    Util.toast("兑换成功");
                                     initData(tips: true);
                                     Navigator.of(context).pop();
                                   }

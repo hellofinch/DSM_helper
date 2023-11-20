@@ -1,9 +1,11 @@
+import 'package:cool_ui/cool_ui.dart';
 import 'package:dsm_helper/models/setting/vip_record_model.dart';
 import 'package:dsm_helper/themes/app_theme.dart';
 import 'package:dsm_helper/util/function.dart';
 import 'package:dsm_helper/widgets/neu_back_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:neumorphic/neumorphic.dart';
 
 class VipRecord extends StatefulWidget {
@@ -83,16 +85,135 @@ class _VipRecordState extends State<VipRecord> {
       ),
       padding: EdgeInsets.all(20),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("开通方式：${record.type == 1 ? '积分兑换' : '在线支付'} - ${record.cost}"),
-              Text("开通时间：${record.createTime}"),
-              Text("生效时间：${record.startTime}"),
-              Text("过期时间：${record.isForever == 0 ? record.endTime : '永不过期'}"),
-            ],
-          )
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("开通方式：${record.type == 1 ? '积分兑换' : '在线支付'} - ${record.cost}"),
+                Text("开通时间：${record.createTime}"),
+                Text("生效时间：${record.startTime}"),
+                Text("过期时间：${record.isForever == 0 ? record.endTime : '永不过期'}"),
+              ],
+            ),
+          ),
+          if (record.activityId != null && record.activityId > 0)
+            NeuButton(
+              onPressed: () async {
+                var hide = showWeuiLoadingToast(context: context);
+                String userToken = await Util.getStorage("user_token");
+                var res = await Util.post("${Util.appUrl}/vip/redemption", data: {"token": userToken, "id": record.id});
+                print(res);
+                hide();
+                if (res['code'] == 0) {
+                  Util.toast(res['msg']);
+                } else {
+                  showCupertinoDialog(
+                    context: context,
+                    builder: (context) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            NeuCard(
+                              width: double.infinity,
+                              margin: EdgeInsets.symmetric(horizontal: 50),
+                              curveType: CurveType.emboss,
+                              bevel: 5,
+                              decoration: NeumorphicDecoration(
+                                color: Theme.of(context).scaffoldBackgroundColor,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(20),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "兑换码",
+                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    NeuCard(
+                                      decoration: NeumorphicDecoration(
+                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      bevel: 20,
+                                      curveType: CurveType.flat,
+                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                      child: Text("${res['data']['code']}"),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: NeuButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            decoration: NeumorphicDecoration(
+                                              color: Theme.of(context).scaffoldBackgroundColor,
+                                              borderRadius: BorderRadius.circular(25),
+                                            ),
+                                            bevel: 20,
+                                            padding: EdgeInsets.symmetric(vertical: 10),
+                                            child: Text(
+                                              "关闭",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Expanded(
+                                          child: NeuButton(
+                                            onPressed: () async {
+                                              Clipboard.setData(ClipboardData(text: res['data']['code']));
+                                              Util.toast("兑换码已复制到剪贴板");
+                                            },
+                                            decoration: NeumorphicDecoration(
+                                              color: Theme.of(context).scaffoldBackgroundColor,
+                                              borderRadius: BorderRadius.circular(25),
+                                            ),
+                                            bevel: 20,
+                                            padding: EdgeInsets.symmetric(vertical: 10),
+                                            child: Text(
+                                              "复制",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+              decoration: NeumorphicDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              bevel: 5,
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+              child: Text(
+                "领取兑换码",
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
         ],
       ),
     );
