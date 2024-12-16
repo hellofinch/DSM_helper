@@ -57,8 +57,7 @@ dependencies:
   fl_chart: ^0.61.0
   file_picker: ^5.2.5
   open_file: ^3.2.1
-  flutter_datetime_picker:
-    git: https://github.com/Realank/flutter_datetime_picker.git
+  flutter_datetime_picker: ^1.5.1
   flutter_swiper_null_safety: ^1.0.2
   html: ^0.15.1
   flutter_html: ^2.2.1
@@ -77,19 +76,20 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^20.4.51
   wechat_assets_picker: 8.4.0  # 7.3.0 起支持Flutter3，不再支持flutter2.x
   fluwx: ^3.12.2
-  better_player:
-    git: https://github.com/tintran-dev/betterplayer.git
+  better_player: ^0.0.83
   device_info_plus: ^8.1.0
   xml2json: ^5.3.6
 #  wake_on_lan: ^3.0.0
   wakelock: ^0.6.2 #屏幕常亮
   dartssh2: ^2.7.3
-  pangle_flutter: ^1.9.7  # 穿山甲广告
+#  pangle_flutter: ^1.9.7  # 穿山甲广告
   xterm: ^3.4.1
   draggable_scrollbar:
     git: https://gitee.com/apaipai/draggable_scrollbar.git
   neumorphic:
-    git: https://gitee.com/apaipai/neumorphic.git
+    git:
+      url: https://gitee.com/apaipai/neumorphic.git
+      ref: 6ed266819b732176b562b20dead56001e75f4b50
   receive_sharing_intent:
     git: https://gitee.com/apaipai/receive_sharing_intent.git
   webview_flutter: ^3.0.4

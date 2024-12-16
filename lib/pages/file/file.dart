@@ -31,7 +31,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating/floating/assist/floating_slide_type.dart';
 import 'package:flutter_floating/floating/floating.dart';
-import 'package:flutter_floating/floating/listener/floating_listener.dart';
+import 'package:flutter_floating/floating/listener/event_listener.dart';
 import 'package:flutter_floating/floating/manager/floating_manager.dart';
 import 'package:flutter_floating/floating_increment.dart';
 import 'package:neumorphic/neumorphic.dart';
@@ -144,7 +144,7 @@ class FilesState extends State<Files> {
           slideBottomHeight: 100,
         ),
       );
-      FloatingListener listener = FloatingListener()
+      FloatingEventListener listener = FloatingEventListener()
         ..downListener = (x, y) {
           if (audioPlayerFloating.isShowing) {
             audioPlayerFloating.close();

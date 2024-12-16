@@ -23,7 +23,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pangle_flutter/pangle_flutter.dart';
+// import 'package:pangle_flutter/pangle_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/dark_mode.dart';
@@ -42,21 +42,21 @@ void main() async {
       stopLog();
     });
     // print("初始化穿山甲");
-    await pangle.init(
-      iOS: IOSConfig(
-        appId: '5215470',
-        logLevel: PangleLogLevel.error,
-      ),
-      android: AndroidConfig(
-        appId: '5215463',
-        debug: false,
-        allowShowNotify: true,
-        allowShowPageWhenScreenLock: false,
-      ),
-    );
+    // await pangle.init(
+    //   iOS: IOSConfig(
+    //     appId: '5215470',
+    //     logLevel: PangleLogLevel.error,
+    //   ),
+    //   android: AndroidConfig(
+    //     appId: '5215463',
+    //     debug: false,
+    //     allowShowNotify: true,
+    //     allowShowPageWhenScreenLock: false,
+    //   ),
+    // );
     // 是否关闭广告
     // 判断是否登录
-    bool isForever = false;
+    bool isForever = true;
     DateTime noAdTime;
     String userToken = await Util.getStorage("user_token");
     String noAdTimeStr = await Util.getStorage("no_ad_time");
@@ -89,11 +89,11 @@ void main() async {
         print("免广告有效期内");
       }
     } else {
-      Util.removeStorage("no_ad_time");
-      pangle.loadSplashAd(
-        iOS: IOSSplashConfig(slotId: '887561543'),
-        android: AndroidSplashConfig(slotId: '887561531', isExpress: false),
-      );
+      // Util.removeStorage("no_ad_time");
+      // pangle.loadSplashAd(
+      //   iOS: IOSSplashConfig(slotId: '887561543'),
+      //   android: AndroidSplashConfig(slotId: '887561531', isExpress: false),
+      // );
     }
   }
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);

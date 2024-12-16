@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:neumorphic/neumorphic.dart';
-import 'package:pangle_flutter/pangle_flutter.dart';
+// import 'package:pangle_flutter/pangle_flutter.dart';
 
 class Vip extends StatefulWidget {
   const Vip({Key key}) : super(key: key);
@@ -139,30 +139,30 @@ class _VipState extends State<Vip> {
   }
 
   playVideo() async {
-    Navigator.of(context).pop();
-    var hide = showWeuiLoadingToast(context: context, message: Text("广告加载中"));
-    try {
-      PangleResult result = await pangle.loadRewardedVideoAd(
-        iOS: IOSRewardedVideoConfig(slotId: "946681116"),
-        android: AndroidRewardedVideoConfig(slotId: "946681017"),
-      );
-      if (result.code == 0) {
-        if (noAdTime == null) {
-          noAdTime = DateTime.now();
-        }
-        setState(() {
-          noAdTime = noAdTime.add(Duration(days: 3));
-        });
-        lastVideoTime = DateTime.now();
-        Util.toast("恭喜您成功获得3天免广告特权");
-        Util.setStorage("no_ad_time", noAdTime.format("Y-m-d H:i:s"));
-        Util.setStorage("last_video_time", lastVideoTime.format("Y-m-d H:i:s"));
-      }
-    } catch (e) {
-      Util.toast("广告播放失败");
-    } finally {
-      hide();
-    }
+    // Navigator.of(context).pop();
+    // var hide = showWeuiLoadingToast(context: context, message: Text("广告加载中"));
+    // try {
+    //   PangleResult result = await pangle.loadRewardedVideoAd(
+    //     iOS: IOSRewardedVideoConfig(slotId: "946681116"),
+    //     android: AndroidRewardedVideoConfig(slotId: "946681017"),
+    //   );
+    //   if (result.code == 0) {
+    //     if (noAdTime == null) {
+    //       noAdTime = DateTime.now();
+    //     }
+    //     setState(() {
+    //       noAdTime = noAdTime.add(Duration(days: 3));
+    //     });
+    //     lastVideoTime = DateTime.now();
+    //     Util.toast("恭喜您成功获得3天免广告特权");
+    //     Util.setStorage("no_ad_time", noAdTime.format("Y-m-d H:i:s"));
+    //     Util.setStorage("last_video_time", lastVideoTime.format("Y-m-d H:i:s"));
+    //   }
+    // } catch (e) {
+    //   Util.toast("广告播放失败");
+    // } finally {
+    //   hide();
+    // }
   }
 
   close3() {
