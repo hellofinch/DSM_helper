@@ -8,6 +8,7 @@ import 'package:dsm_helper/pages/setting/license.dart';
 import 'package:dsm_helper/pages/update/update.dart';
 import 'package:dsm_helper/util/function.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -283,7 +284,11 @@ class _LoginState extends State<Login> {
   checkUpdate() async {
     if (Platform.isAndroid) {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      var res = await Api.update(packageInfo.buildNumber); //packageInfo.buildNumber
+      String buildNumber = packageInfo.buildNumber;
+      if (kDebugMode) {
+        buildNumber = '1';
+      }
+      var res = await Api.update(buildNumber); //packageInfo.buildNumber
       if (res['code'] == 1) {
         setState(() {
           updateInfo = res['data'];
@@ -358,8 +363,8 @@ class _LoginState extends State<Login> {
         Util.baseUrl = "${https ? "https" : "http"}://$host:$port";
       }
       //开始自动登录
-      print("BaseUrl:$baseUrl");
-      print("Util.BaseUrl:${Util.baseUrl}");
+      debugPrint("BaseUrl:$baseUrl");
+      debugPrint("Util.BaseUrl:${Util.baseUrl}");
       Util.sid = sid;
       //如果开启了自动登录，则判断当前登录状态
       if (autoLogin) {
@@ -375,7 +380,7 @@ class _LoginState extends State<Login> {
             });
           } else {
             //如果登录失效，尝试重新登录
-            print("尝试重新登录");
+            debugPrint("尝试重新登录");
             _login();
           }
         } else {
@@ -402,7 +407,7 @@ class _LoginState extends State<Login> {
     });
     if (host.contains(".") || host.contains(':')) {
       String baseUri = "${https ? "https" : "http"}://${host.trim()}:${port.trim()}";
-      print(baseUri);
+      debugPrint(baseUri);
       doLogin(baseUri);
     } else {
       qcLogin();
@@ -410,9 +415,8 @@ class _LoginState extends State<Login> {
   }
 
   qcLogin({String qcHost: "global.quickconnect.cn"}) async {
-    print("QuickConnectID:$host");
+    debugPrint("QuickConnectID:$host");
     var res = await Api.quickConnect(host, baseUrl: qcHost);
-    print(res);
     if (res['errno'] == 0) {
       if (res['server']['fqdn'] != "NULL") {
         qcAddresses.add("http://${res['server']['fqdn']}/");
@@ -459,7 +463,7 @@ class _LoginState extends State<Login> {
           }
         });
       }
-    } else if (res['errno'] == 4 && res['errinfo'] == "get_server_info.go:105[]" && res['sites'].length > 0) {
+    } else if (res['errno'] == 4 && res['errinfo'].startsWith("get_server_info.go") && res['sites'].length > 0) {
       qcLogin(qcHost: res['sites'][0]);
     } else {
       Util.toast("无法连接到服务器，请检查QuickConnect ID是否正确");
@@ -502,7 +506,7 @@ class _LoginState extends State<Login> {
       bool exist = false;
       for (int i = 0; i < servers.length; i++) {
         if (servers[i]['https'] == https && servers[i]['host'] == host && servers[i]['port'] == port && servers[i]['account'] == account) {
-          print("账号已存在，更新信息");
+          debugPrint("账号已存在，更新信息");
           if (rememberPassword) {
             servers[i]['password'] = password;
           } else {
@@ -520,7 +524,7 @@ class _LoginState extends State<Login> {
         }
       }
       if (!exist) {
-        print("账号不存在");
+        debugPrint("账号不存在");
         Map server = {
           "https": https,
           "host": host,

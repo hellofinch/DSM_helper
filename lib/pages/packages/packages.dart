@@ -204,7 +204,7 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
     return name;
   }
 
-  Widget _buildButton(package) {
+  Widget _buildButton(package, {bool beta = false}) {
     Widget button;
     if (package['can_update'] == null || package['installed'] == null) {
       button = NeuCard(
@@ -222,7 +222,7 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
           Navigator.of(context)
               .push(CupertinoPageRoute(
                   builder: (context) {
-                    return PackageDetail(package, method: "update");
+                    return PackageDetail(package, beta: beta, method: "update");
                   },
                   settings: RouteSettings(name: "package_detail")))
               .then((_) async {
@@ -276,80 +276,83 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                     bevel: 5,
                     curveType: CurveType.emboss,
                     decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          "停用套件",
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          "确认要停用此套件？",
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(
-                          height: 22,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: NeuButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  var res = await Api.launchPackage(package['id'], package['dsm_apps'], "stop");
-                                  if (res['success']) {
-                                    Util.toast("已停用");
-                                    // await getLaunchedPackages();
-                                    await getInstalledPackages();
+                    child: SafeArea(
+                      top: false,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            "停用套件",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text(
+                            "确认要停用此套件？",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(
+                            height: 22,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: NeuButton(
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
                                     setState(() {
-                                      loading = false;
+                                      loading = true;
                                     });
-                                  }
-                                },
-                                decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                bevel: 5,
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "停用",
-                                  style: TextStyle(fontSize: 18, color: Colors.redAccent),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: NeuButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                },
-                                decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                bevel: 5,
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "取消",
-                                  style: TextStyle(fontSize: 18),
+                                    var res = await Api.launchPackage(package['id'], package['dsm_apps'], "stop");
+                                    if (res['success']) {
+                                      Util.toast("已停用");
+                                      // await getLaunchedPackages();
+                                      await getInstalledPackages();
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                    }
+                                  },
+                                  decoration: NeumorphicDecoration(
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  bevel: 5,
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "停用",
+                                    style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                      ],
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: NeuButton(
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
+                                  },
+                                  decoration: NeumorphicDecoration(
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  bevel: 5,
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "取消",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -378,7 +381,7 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
           Navigator.of(context)
               .push(CupertinoPageRoute(
                   builder: (context) {
-                    return PackageDetail(package, method: "install");
+                    return PackageDetail(package, beta: beta, method: "install");
                   },
                   settings: RouteSettings(name: "package_detail")))
               .then((_) async {
@@ -493,7 +496,7 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
         Navigator.of(context)
             .push(CupertinoPageRoute(
                 builder: (context) {
-                  return PackageDetail(package);
+                  return PackageDetail(package, beta: isBeta);
                 },
                 settings: RouteSettings(name: "package_detail")))
             .then((_) async {
@@ -567,7 +570,7 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            Padding(padding: EdgeInsets.all(20), child: _buildButton(package)),
+            Padding(padding: EdgeInsets.all(20), child: _buildButton(package, beta: isBeta)),
           ],
         ),
       ),

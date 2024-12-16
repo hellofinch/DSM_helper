@@ -31,6 +31,7 @@ import 'package:flutter/services.dart';
 import 'package:neumorphic/neumorphic.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({key}) : super(key: key);
@@ -54,6 +55,7 @@ class DashboardState extends State<Dashboard> {
   List applications = [];
   List fileLogs = [];
   List<ShortcutItemModel> shortcutItems = [];
+  List validAppViewOrder = [];
   WallpaperModel wallpaperModel;
   List esatas = [];
   List usbs = [];
@@ -110,7 +112,7 @@ class DashboardState extends State<Dashboard> {
   }
 
   showFirstLaunchDialog() async {
-    bool firstLaunch = await Util.getStorage("first_launch_new") == null;
+    bool firstLaunch = await Util.getStorage("first_launch_channel") == null;
     if (firstLaunch) {
       showCupertinoDialog(
         context: context,
@@ -148,7 +150,53 @@ class DashboardState extends State<Dashboard> {
                           bevel: 20,
                           curveType: CurveType.flat,
                           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                          child: Text("关注以下公众号，获取最新${Util.appName}更新内容！\n前往'我的-关闭广告'页面，即可关闭开屏广告。"),
+                          child: Text("前往'设置-关闭广告'页面，即可关闭开屏广告。"),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        NeuCard(
+                          decoration: NeumorphicDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          curveType: CurveType.flat,
+                          child: Padding(
+                              padding: EdgeInsets.all(15),
+                              child: Column(
+                                children: Util.groups.channel.map((e) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 5),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/icons/qq.png",
+                                          width: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "${e.displayName}",
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                        Spacer(),
+                                        NeuButton(
+                                          decoration: NeumorphicDecoration(
+                                            color: Theme.of(context).scaffoldBackgroundColor,
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                          onPressed: () {
+                                            launchUrlString(e.key, mode: LaunchMode.externalApplication);
+                                          },
+                                          child: Text("加入"),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              )),
                         ),
                         SizedBox(
                           height: 20,
@@ -207,7 +255,7 @@ class DashboardState extends State<Dashboard> {
                               child: NeuButton(
                                 onPressed: () async {
                                   Navigator.of(context).pop();
-                                  Util.setStorage("first_launch_new", "0");
+                                  Util.setStorage("first_launch_channel", "0");
                                 },
                                 decoration: NeumorphicDecoration(
                                   color: Theme.of(context).scaffoldBackgroundColor,
@@ -237,8 +285,7 @@ class DashboardState extends State<Dashboard> {
 
   getNotifyStrings() async {
     var res = await Api.notifyStrings();
-    print("notifyStrings");
-    print(res);
+    debugPrint("notifyStrings");
     if (res['success']) {
       setState(() {
         Util.notifyStrings = res['data'] ?? {};
@@ -271,7 +318,7 @@ class DashboardState extends State<Dashboard> {
 
   getMediaConverter() async {
     var res = await Api.mediaConverter("status");
-    if (res['success']) {
+    if (res['success'] && mounted) {
       setState(() {
         converter = res['data'];
         if (converter != null && (converter['photo_remain'] + converter['thumb_remain'] + converter['video_remain'] > 0)) {
@@ -294,6 +341,7 @@ class DashboardState extends State<Dashboard> {
             applications = init['data']['UserSettings']['Desktop']['valid_appview_order'] ?? init['data']['UserSettings']['Desktop']['appview_order'] ?? [];
 
             shortcutItems = ShortcutItemModel.fromList(init['data']['UserSettings']['Desktop']['ShortcutItems']);
+            validAppViewOrder = init['data']['UserSettings']['Desktop']['valid_appview_order'];
             wallpaperModel = WallpaperModel.fromJson(init['data']['UserSettings']['Desktop']['wallpaper']);
           }
         }
@@ -1202,81 +1250,84 @@ class DashboardState extends State<Dashboard> {
                         bevel: 5,
                         curveType: CurveType.emboss,
                         decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
-                        child: Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text(
-                                "终止连接",
-                                style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Text(
-                                "确认要终止此连接？",
-                                style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400),
-                              ),
-                              SizedBox(
-                                height: 22,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: NeuButton(
-                                      onPressed: () async {
-                                        Navigator.of(context).pop();
-                                        setState(() {
-                                          user['running'] = true;
-                                        });
-                                        var res = await Api.kickConnection({"who": user['who'], "from": user['from']});
-                                        setState(() {
-                                          user['running'] = false;
-                                        });
+                        child: SafeArea(
+                          top: false,
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  "终止连接",
+                                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Text(
+                                  "确认要终止此连接？",
+                                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400),
+                                ),
+                                SizedBox(
+                                  height: 22,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: NeuButton(
+                                        onPressed: () async {
+                                          Navigator.of(context).pop();
+                                          setState(() {
+                                            user['running'] = true;
+                                          });
+                                          var res = await Api.kickConnection({"who": user['who'], "from": user['from']});
+                                          setState(() {
+                                            user['running'] = false;
+                                          });
 
-                                        if (res['success']) {
-                                          Util.toast("连接已终止");
-                                        }
-                                      },
-                                      decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      bevel: 5,
-                                      padding: EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        "终止连接",
-                                        style: TextStyle(fontSize: 18, color: Colors.redAccent),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  Expanded(
-                                    child: NeuButton(
-                                      onPressed: () async {
-                                        Navigator.of(context).pop();
-                                      },
-                                      decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      bevel: 5,
-                                      padding: EdgeInsets.symmetric(vertical: 10),
-                                      child: Text(
-                                        "取消",
-                                        style: TextStyle(fontSize: 18),
+                                          if (res['success']) {
+                                            Util.toast("连接已终止");
+                                          }
+                                        },
+                                        decoration: NeumorphicDecoration(
+                                          color: Theme.of(context).scaffoldBackgroundColor,
+                                          borderRadius: BorderRadius.circular(25),
+                                        ),
+                                        bevel: 5,
+                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        child: Text(
+                                          "终止连接",
+                                          style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                            ],
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+                                    Expanded(
+                                      child: NeuButton(
+                                        onPressed: () async {
+                                          Navigator.of(context).pop();
+                                        },
+                                        decoration: NeumorphicDecoration(
+                                          color: Theme.of(context).scaffoldBackgroundColor,
+                                          borderRadius: BorderRadius.circular(25),
+                                        ),
+                                        bevel: 5,
+                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        child: Text(
+                                          "取消",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -1782,68 +1833,71 @@ class DashboardState extends State<Dashboard> {
                                 bevel: 5,
                                 curveType: CurveType.emboss,
                                 decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
-                                child: Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(
-                                        "外接设备",
-                                        style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        height: 12,
-                                      ),
-                                      ...(esatas + usbs).map(_buildESataItem).toList(),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: NeuButton(
-                                              onPressed: () async {
-                                                Navigator.of(context).push(CupertinoPageRoute(
-                                                    builder: (context) {
-                                                      return ExternalDevice();
-                                                    },
-                                                    settings: RouteSettings(name: "external_device")));
-                                              },
-                                              decoration: NeumorphicDecoration(
-                                                color: Theme.of(context).scaffoldBackgroundColor,
-                                                borderRadius: BorderRadius.circular(25),
-                                              ),
-                                              bevel: 5,
-                                              padding: EdgeInsets.symmetric(vertical: 10),
-                                              child: Text(
-                                                "查看详情",
-                                                style: TextStyle(fontSize: 18),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 16,
-                                          ),
-                                          Expanded(
-                                            child: NeuButton(
-                                              onPressed: () async {
-                                                Navigator.of(context).pop();
-                                              },
-                                              decoration: NeumorphicDecoration(
-                                                color: Theme.of(context).scaffoldBackgroundColor,
-                                                borderRadius: BorderRadius.circular(25),
-                                              ),
-                                              bevel: 5,
-                                              padding: EdgeInsets.symmetric(vertical: 10),
-                                              child: Text(
-                                                "取消",
-                                                style: TextStyle(fontSize: 18),
+                                child: SafeArea(
+                                  top: false,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Text(
+                                          "外接设备",
+                                          style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 12,
+                                        ),
+                                        ...(esatas + usbs).map(_buildESataItem).toList(),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: NeuButton(
+                                                onPressed: () async {
+                                                  Navigator.of(context).push(CupertinoPageRoute(
+                                                      builder: (context) {
+                                                        return ExternalDevice();
+                                                      },
+                                                      settings: RouteSettings(name: "external_device")));
+                                                },
+                                                decoration: NeumorphicDecoration(
+                                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                                  borderRadius: BorderRadius.circular(25),
+                                                ),
+                                                bevel: 5,
+                                                padding: EdgeInsets.symmetric(vertical: 10),
+                                                child: Text(
+                                                  "查看详情",
+                                                  style: TextStyle(fontSize: 18),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                    ],
+                                            SizedBox(
+                                              width: 16,
+                                            ),
+                                            Expanded(
+                                              child: NeuButton(
+                                                onPressed: () async {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                decoration: NeumorphicDecoration(
+                                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                                  borderRadius: BorderRadius.circular(25),
+                                                ),
+                                                bevel: 5,
+                                                padding: EdgeInsets.symmetric(vertical: 10),
+                                                child: Text(
+                                                  "取消",
+                                                  style: TextStyle(fontSize: 18),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1981,7 +2035,16 @@ class DashboardState extends State<Dashboard> {
               ? ListView(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   children: [
-                    if (shortcutItems.where((element) => supportedShortcuts.contains(element.className)).length > 0 && Util.notReviewAccount && shortcutProvider.showShortcut) ShortcutList(shortcutItems, system, volumes, disks, appNotify, context),
+                    if (shortcutItems.where((element) => supportedShortcuts.contains(element.className)).length > 0 && Util.notReviewAccount && shortcutProvider.showShortcut)
+                      ShortcutList(
+                        shortcutItems,
+                        system,
+                        volumes,
+                        disks,
+                        appNotify,
+                        context,
+                        validAppViewOrder: validAppViewOrder,
+                      ),
                     if (widgets != null && widgets.length > 0)
                       ...widgets.map((widget) {
                         return _buildWidgetItem(widget);

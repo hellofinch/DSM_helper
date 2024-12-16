@@ -12,7 +12,7 @@ import 'function.dart';
 
 class Api {
   static Map<String, ApiModel> apiList = {};
-  static Future<Map> update(String buildNumber) async {
+  static Future<Map> update(String buildNumber, {bool force = false}) async {
     if (Platform.isAndroid) {
       // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
@@ -22,31 +22,37 @@ class Api {
       //     "msg": "已是最新版本",
       //   };
       // }
-      var res = await Util.get("${Util.appUrl}/version");
+      String urlBase64 = "aHR0cHM6Ly93d3cucGd5ZXIuY29tL2FwaXYyL2FwcC9jaGVjaw==";
+      var res = await Util.post(Util.base64ToString(urlBase64), data: {
+        "_api_key": "f4621000de0337cc74a156cea513e828",
+        "appKey": "ed1169bc9b9d290ef91c7e21d4ffb008",
+        "buildVersion": buildNumber,
+      });
       if (res != null) {
-        if (int.parse(buildNumber) < res['data']['build']) {
-          return {
-            "code": 1,
-            "msg": "版本更新",
-            "data": res['data'],
-          };
-        } else {
-          return {
-            "code": 0,
-            "msg": "已是最新版本",
-          };
-        }
+        try {
+          if (res['code'] == 0) {
+            List<String> ignoredVersions = [];
+            String ignoredVersionsString = await Util.getStorage("ignoredVersions");
+            if (ignoredVersionsString.isNotBlank) {
+              ignoredVersions = ignoredVersionsString.split(",");
+            }
+            if (int.parse(buildNumber) < int.parse(res['data']['buildVersionNo'])) {
+              if (force || !ignoredVersions.contains(res['data']['buildVersionNo'])) {
+                return {
+                  "code": 1,
+                  "msg": "版本更新",
+                  "data": res['data'],
+                };
+              }
+            }
+          }
+        } catch (e) {}
       }
-      return {
-        "code": 0,
-        "msg": "已是最新版本",
-      };
-    } else {
-      return {
-        "code": 0,
-        "msg": "已是最新版本",
-      };
     }
+    return {
+      "code": 0,
+      "msg": "已是最新版本",
+    };
 //    var res = await Util.post("base/update", data: {"platform": Platform.isAndroid ? "android" : "ios", "build": buildNumber});
   }
 
@@ -74,6 +80,8 @@ class Api {
       "method": "login",
       "session": "FileStation",
       "enable_device_token": rememberDevice ? "yes" : "no",
+      "enable_sync_token": "yes",
+      "isIframeLogin": "yes",
     };
     return await Util.get("auth.cgi", host: host, data: data, cancelToken: cancelToken, cookie: cookie);
   }
@@ -140,7 +148,6 @@ class Api {
         "enable_share_compress",
       ]),
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -183,7 +190,6 @@ class Api {
     } else {
       shareInfo['share_quota'] = 0;
     }
-    print(shareInfo);
     //"{"name":"testc","vol_path":"/volume3","desc":"bjxjbddb","enable_share_cow":true,"enable_share_compress":true,"share_quota":1024,"encryption":true,"enc_passwd":""}"
     var data = {
       "api": '"SYNO.Core.Share"',
@@ -299,7 +305,6 @@ class Api {
       "version": 1,
       "_sid": Util.sid,
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -366,7 +371,7 @@ class Api {
   }
 
   ///webapi/FileStation/file_delete.cgi?api=SYNO.FileStation.Delete&version=1&method=start&path=%2Fvideo%2Fdel_folder
-  static Future<Map> deleteTask(List path) async {
+  static Future<Map> deleteTask(List<String> path) async {
     var data = {
       "api": '"SYNO.FileStation.Delete"',
       "method": '"start"',
@@ -376,7 +381,6 @@ class Api {
       "_sid": Util.sid,
       "path": json.encode(path),
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -411,7 +415,6 @@ class Api {
       "version": 2,
       "_sid": Util.sid,
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -427,7 +430,6 @@ class Api {
       "version": 2,
       "_sid": Util.sid,
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -453,7 +455,6 @@ class Api {
       "password": password,
       "codepage": codepage,
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -533,7 +534,6 @@ class Api {
       data['request_name'] = requestName;
       data['request_info'] = requestInfo;
     }
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -561,6 +561,18 @@ class Api {
       "_sid": Util.sid,
     };
     return await Util.post("entry.cgi", data: data);
+  }
+
+  static Future<Map> backgroundTask() async {
+    return await Util.post("entry.cgi", data: {
+      "is_list_sharemove": true,
+      "is_vfs": true,
+      "bkg_info": true,
+      "api": 'SYNO.FileStation.BackgroundTask',
+      "method": 'list',
+      "version": 3,
+      "_sid": Util.sid,
+    });
   }
 
   static Future<Map> copyMoveResult(String taskId) async {
@@ -610,7 +622,6 @@ class Api {
     if (password != null) {
       data['password'] = '"$password"';
     }
-    print(data);
     var task = await Util.post("entry.cgi", data: data);
     return task;
   }
@@ -859,6 +870,7 @@ class Api {
       "method": "set",
       "_sid": Util.sid,
     };
+    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -1035,9 +1047,9 @@ class Api {
   // api: SYNO.Core.Package.Installation
   // method: get_queue
   // version: 1
-  static Future<Map> installPackageQueue(String pkg) async {
+  static Future<Map> installPackageQueue(String pkg, String version, {bool beta = false}) async {
     var data = {
-      "pkgs": '[{"pkg":"$pkg","beta":false}]',
+      "pkgs": '[{"pkg":"$pkg", "version": "$version","beta":$beta}]',
       "api": "SYNO.Core.Package.Installation",
       "version": 1,
       "method": "get_queue",
@@ -1094,6 +1106,17 @@ class Api {
       "version": 1,
       "method": "run",
       "task": jsonEncode(task),
+      "_sid": Util.sid,
+    };
+    return await Util.post("entry.cgi", data: data);
+  }
+
+  static Future<Map> eventRun(taskName) async {
+    var data = {
+      "api": "SYNO.Core.EventScheduler",
+      "version": 1,
+      "method": "run",
+      "task_name": taskName,
       "_sid": Util.sid,
     };
     return await Util.post("entry.cgi", data: data);
@@ -1164,8 +1187,6 @@ class Api {
       "version": 1,
       "_sid": Util.sid,
     };
-    print(dataStr);
-    print(data['data']);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -1231,7 +1252,6 @@ class Api {
       "version": 1,
       "_sid": Util.sid,
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -1305,7 +1325,6 @@ class Api {
       data['limit'] = 1000;
       data['offset'] = 0;
     }
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -1490,7 +1509,6 @@ class Api {
       "version": 2,
       "_sid": Util.sid,
     };
-    print(data);
     return await Util.post("entry.cgi", data: data);
   }
 
@@ -1808,7 +1826,6 @@ class Api {
       },
       {"api": "SYNO.Core.FileServ.FTP.SFTP", "method": "set", "version": "1", "enable": sftp['enable'], "sftp_portnum": sftp['portnum'], "portnum": sftp['portnum']}
     ];
-    print(apis);
     var result = await Util.post("entry.cgi", data: {
       "api": 'SYNO.Entry.Request',
       "method": 'request',
@@ -1888,7 +1905,6 @@ class Api {
   }
 
   static Future<Map> quickConnect(String connectConnectID, {String baseUrl: "global.quickconnect.cn"}) async {
-    print("connect:" + baseUrl);
     Dio dio = new Dio(
       new BaseOptions(
         baseUrl: "https://$baseUrl/",
@@ -1902,6 +1918,14 @@ class Api {
     "id":"dsm",
     "get_ca_fingerprints":true
 }''';
+    // if (kDebugMode) {
+    //   (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+    //     client.findProxy = (uri) {
+    //       return "PROXY 192.168.0.107:7890";
+    //     };
+    //     return client;
+    //   }; //
+    // }
     Response response;
     try {
       response = await dio.post("Serv.php", data: data);
@@ -1932,6 +1956,14 @@ class Api {
     );
     String data = '''{"version":1,"command":"request_tunnel","serverID":"$connectConnectID","id":"dsm","location":"cn","platform":"Android 11"}''';
     Response response;
+    // if (kDebugMode) {
+    //   (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+    //     client.findProxy = (uri) {
+    //       return "PROXY 192.168.0.107:7890";
+    //     };
+    //     return client;
+    //   }; //
+    // }
     try {
       response = await dio.post("Serv.php", data: data);
       if (response.data is String) {

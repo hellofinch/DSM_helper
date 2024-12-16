@@ -15,8 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:local_auth/local_auth.dart';
-import 'package:local_auth_android/types/auth_messages_android.dart';
-import 'package:local_auth_ios/types/auth_messages_ios.dart';
+import 'package:local_auth_ios/local_auth_ios.dart';
+import 'package:local_auth_android/local_auth_android.dart';
 import 'package:neumorphic/neumorphic.dart';
 import 'package:provider/provider.dart';
 import 'package:vibrate/vibrate.dart';
@@ -35,6 +35,12 @@ class _HelperSettingState extends State<HelperSetting> {
   bool videoPlayer = false;
   bool launchAccountPage = false;
   BiometricType biometricsType = BiometricType.fingerprint;
+
+  Map<BiometricType, String> biometricTypeName = {
+    BiometricType.face: "FaceId",
+    BiometricType.fingerprint: "指纹",
+    BiometricType.iris: "人脸",
+  };
   @override
   void initState() {
     initAuth();
@@ -499,7 +505,7 @@ class _HelperSettingState extends State<HelperSetting> {
                                             IOSAuthMessages(
                                               lockOut: "认证失败次数过多，请稍后再试",
                                               goToSettingsButton: "设置",
-                                              goToSettingsDescription: "系统未设置${biometricsType == BiometricType.fingerprint ? "指纹" : "Face ID"}，点击设置按钮前往系统设置页面",
+                                              goToSettingsDescription: "系统未设置${biometricTypeName[biometricsType]}，点击设置按钮前往系统设置页面",
                                               cancelButton: "取消",
                                             ),
                                             AndroidAuthMessages(
@@ -515,6 +521,7 @@ class _HelperSettingState extends State<HelperSetting> {
                                           ],
                                           localizedReason: '请触摸指纹传感器',
                                         );
+                                        auth.stopAuthentication();
                                         setState(() {
                                           biometrics = didAuthenticate;
                                           Util.setStorage("launch_auth_biometrics", biometrics ? "1" : "0");
@@ -556,11 +563,7 @@ class _HelperSettingState extends State<HelperSetting> {
                                         Row(
                                           children: [
                                             Text(
-                                              biometricsType == BiometricType.fingerprint
-                                                  ? "指纹验证"
-                                                  : biometricsType == BiometricType.face
-                                                      ? "Face ID"
-                                                      : "虹膜验证",
+                                              "${biometricTypeName[biometricsType]}验证",
                                               style: TextStyle(fontSize: 16, height: 1.6),
                                             ),
                                             Spacer(),

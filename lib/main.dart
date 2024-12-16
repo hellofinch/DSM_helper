@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cool_ui/cool_ui.dart';
@@ -25,7 +26,6 @@ import 'package:oktoast/oktoast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 // import 'package:pangle_flutter/pangle_flutter.dart';
 import 'package:provider/provider.dart';
-
 import '/providers/dark_mode.dart';
 
 void main() async {
@@ -33,6 +33,22 @@ void main() async {
   client.badCertificateCallback = (X509Certificate cert, String host, int port) {
     return true;
   };
+
+  Future<String> getBestDomain(List<String> domains) async {
+    final completer = Completer<String>();
+    for (String domain in domains) {
+      try {
+        Util.get(domain).then((res) {
+          if (res != null && res['code'] == 1) {
+            if (!completer.isCompleted) {
+              completer.complete("http://${res['data']}");
+            }
+          }
+        });
+      } catch (e) {}
+    }
+    return completer.future;
+  }
 
   WidgetsFlutterBinding.ensureInitialized();
   String agreement = await Util.getStorage("agreement");
@@ -54,10 +70,13 @@ void main() async {
     //     allowShowPageWhenScreenLock: false,
     //   ),
     // );
+    // 域名优选
+    Util.appUrl = await getBestDomain(['http://dsm.apaipai.top/index/check', 'http://dsm.flutter.fit/index/check']);
     // 是否关闭广告
     // 判断是否登录
     bool isForever = true;
     DateTime noAdTime;
+    Util.isWechatInstalled = await isWeChatInstalled;
     String userToken = await Util.getStorage("user_token");
     String noAdTimeStr = await Util.getStorage("no_ad_time");
     if (noAdTimeStr.isNotBlank) {
@@ -86,7 +105,7 @@ void main() async {
     if (isForever || (noAdTime != null && noAdTime.isAfter(DateTime.now()))) {
       // 处于关闭广告有效期内
       if (kDebugMode) {
-        print("免广告有效期内");
+        debugPrint("免广告有效期内");
       }
     } else {
       // Util.removeStorage("no_ad_time");

@@ -3,8 +3,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cool_ui/cool_ui.dart';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:dsm_helper/models/setting/group_model.dart';
 import 'package:dsm_helper/pages/download/download.dart';
 import 'package:dsm_helper/pages/update/update.dart';
@@ -12,6 +12,7 @@ import 'package:dsm_helper/util/api.dart';
 import 'package:dsm_helper/util/log.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:oktoast/oktoast.dart';
@@ -61,17 +62,21 @@ class Util {
       GroupModel(name: "交流群②", no: "97137990", key: "qp8XE0Ts1b_qR4wt5PThPJqhdWkBT2u5", status: "已满"),
       GroupModel(name: "交流群③", no: "133302624", key: "rOqv_Fq8g4W_Xaa95B7f0AmN_xxlvHu-", status: ""),
     ],
+    channel: [
+      GroupModel(name: "QQ频道", no: "群晖助手交流反馈", key: "https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&biz=ka&businessType=5&from=246611&inviteCode=206Vc8vi4fl&mainSourceId=qr_code&subSourceId=pic4&jumpsource=shorturl#/out", status: ""),
+    ],
     wechat: [
       GroupModel(name: "群晖助手", no: "", key: "", status: "受限"),
       GroupModel(name: "群晖助手APP", no: "", key: "", status: ""),
     ],
   );
+  static bool isWechatInstalled = false;
   static DateTime vipExpireTime = DateTime.now();
   static bool vipForever = false;
   static String appUrl = "https://dsm.apaipai.top";
   static String sid = "";
   static String account = "";
-  static String baseUrl = "";
+  static String baseUrl = "https://dsm.apaipai.top";
   static String hostname = "";
   static int version = 6;
   static bool checkSsl = true;
@@ -195,7 +200,7 @@ class Util {
   }
 
   static FileTypeEnum fileType(String name) {
-    List<String> image = ["png", "jpg", "jpeg", "gif", "bmp", "ico"];
+    List<String> image = ["png", "jpg", "jpeg", "gif", "bmp", "ico", "tiff", "tif"];
     List<String> movie = [
       "3gp",
       "3g2",
@@ -297,9 +302,17 @@ class Util {
         // connectTimeout: timeout,
       ),
     );
+    // if (kDebugMode) {
+    //   (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+    //     client.findProxy = (uri) {
+    //       return "PROXY 192.168.0.107:7890";
+    //     };
+    //     return client;
+    //   }; //
+    // }
     //忽略Https校验
     if (!(checkSsl ?? Util.checkSsl)) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
         client.badCertificateCallback = (cert, host, port) {
           return true;
         };
@@ -354,9 +367,8 @@ class Util {
         return response.data;
       }
     } on DioError catch (error) {
-      print(error.message);
       String code = "";
-      if (error.message.contains("CERTIFICATE_VERIFY_FAILED")) {
+      if (error.message != null && error.message.contains("CERTIFICATE_VERIFY_FAILED")) {
         code = "SSL/HTTPS证书有误";
       } else {
         code = error.message;
@@ -370,6 +382,13 @@ class Util {
     } catch (e) {
       print(e);
     }
+  }
+
+  static String base64ToString(String source) {
+    List<int> bytes = base64.decode(source);
+    String result = utf8.decode(bytes);
+
+    return result;
   }
 
   static void logPrint(Object obj) {
@@ -390,22 +409,30 @@ class Util {
         headers: headers,
       ),
     );
-    // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+    // if (kDebugMode) {
+    //   (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+    //     client.findProxy = (uri) {
+    //       return "PROXY 192.168.0.107:7890";
+    //     };
+    //     return client;
+    //   }; //
+    // }
+    // (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
     //   client.findProxy = (uri) {
     //     return "PROXY 192.168.1.159:8888";
     //   };
     // };
     //忽略Https校验
-    dio.interceptors.add(LogInterceptor(
-      requestHeader: false,
-      request: false,
-      requestBody: true,
-      responseBody: true,
-      responseHeader: false,
-      logPrint: logPrint,
-    ));
+    // dio.interceptors.add(LogInterceptor(
+    //   requestHeader: false,
+    //   request: false,
+    //   requestBody: true,
+    //   responseBody: true,
+    //   responseHeader: false,
+    //   logPrint: logPrint,
+    // ));
     if (!(checkSsl ?? Util.checkSsl)) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
         client.badCertificateCallback = (cert, host, port) {
           return true;
         };
@@ -418,7 +445,7 @@ class Util {
 
       return response.data;
     } on DioError catch (error) {
-      print("请求出错:${headers['origin']} $url 请求内容:$data");
+      debugPrint("请求出错:${headers['origin']} $url 请求内容:$data");
       return {
         "success": false,
         "error": {"code": error.message},
@@ -446,14 +473,14 @@ class Util {
         headers: headers,
       ),
     );
-    // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+    // (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
     //   client.findProxy = (uri) {
     //     return "PROXY 192.168.0.107:8888";
     //   };
     // };
     //忽略Https校验
     if (!checkSsl) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
         client.badCertificateCallback = (cert, host, port) {
           return true;
         };
@@ -476,7 +503,7 @@ class Util {
         return response.data;
       }
     } on DioError catch (error) {
-      print("请求出错:$baseUrl/$url 请求内容:$data msg:${error.message}");
+      debugPrint("请求出错:$baseUrl/$url 请求内容:$data msg:${error.message}");
       return {
         "success": false,
         "error": {"code": error.message},
@@ -521,11 +548,9 @@ class Util {
 
     try {
       response = await dio.download(url, tempPath + Platform.pathSeparator + saveName, deleteOnError: true, onReceiveProgress: onReceiveProgress, cancelToken: cancelToken);
-      print(response);
       return {"code": 1, "msg": "下载完成", "data": tempPath + Platform.pathSeparator + saveName};
     } on DioError catch (error) {
-      print(error);
-      print("请求出错:$url");
+      debugPrint("请求出错:$url");
       if (error.type == DioErrorType.cancel) {
         return {"code": 0, "msg": "下载已取消", "data": null};
       } else {
@@ -548,10 +573,10 @@ class Util {
       }
       fullPath = path + Platform.pathSeparator + uniqueName;
       if (File(fullPath).existsSync()) {
-        print("文件存在");
+        debugPrint("文件存在");
         num++;
       } else {
-        print("文件不存在");
+        debugPrint("文件不存在");
         unique = false;
       }
     }
@@ -568,18 +593,18 @@ class Util {
     //   return "";
     // }
     String savePath = await getDownloadPath();
-    print("savePath:$savePath");
+    debugPrint("savePath:$savePath");
     Directory saveDir = Directory(savePath);
     if (!saveDir.existsSync()) {
-      print("文件夹不存在");
+      debugPrint("文件夹不存在");
       Directory dir = await saveDir.create(recursive: true);
       print(dir);
     } else {
-      print("文件夹已存在");
+      debugPrint("文件夹已存在");
     }
 
     saveName = getUniqueName(savePath, saveName);
-    print(saveName);
+    debugPrint(saveName);
     // CancelToken cancelToken = CancelToken();
     // DioDownload().downloadFile(url: url, savePath: saveName, cancelToken: cancelToken);
     String taskId = await FlutterDownloader.enqueue(url: url, fileName: saveName, savedDir: savePath, showNotification: true, openFileFromNotification: true);
@@ -709,9 +734,13 @@ class Util {
     return r.toString();
   }
 
-  static checkUpdate(bool showMsg, BuildContext context) async {
+  static checkUpdate(bool showMsg, BuildContext context, {bool force = false}) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var res = await Api.update(packageInfo.buildNumber); //packageInfo.buildNumber
+    String buildNumber = packageInfo.buildNumber;
+    if (kDebugMode) {
+      buildNumber = '1';
+    }
+    var res = await Api.update(buildNumber, force: force); //packageInfo.buildNumber
     if (res['code'] == 1) {
       Navigator.of(context).push(CupertinoPageRoute(
           builder: (context) {
