@@ -48,7 +48,7 @@ dependencies:
   percent_indicator: ^4.2.3
   fl_chart: 0.62.0 # 0.63.0起不再支持flutter 3.7
   file_picker: 5.2.6
-  open_file: 3.3.1
+  open_file: 3.5.10
   flutter_datetime_picker:
     git: https://github.com/Realank/flutter_datetime_picker.git
   flutter_swiper_null_safety: ^1.0.2
@@ -58,7 +58,7 @@ dependencies:
   wave: ^0.2.2
   modal_bottom_sheet: ^3.0.0-pre
   photo_manager: 2.6.0
-  vibrate: ^0.0.4
+  flutter_vibrate: 1.0.0
   url_launcher: 6.1.10 # 6.1.12 起不再支持flutter3.7
   local_auth: ^2.1.6
   gesture_password: ^0.0.6

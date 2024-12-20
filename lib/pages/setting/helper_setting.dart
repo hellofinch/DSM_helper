@@ -19,7 +19,7 @@ import 'package:local_auth_ios/local_auth_ios.dart';
 import 'package:local_auth_android/local_auth_android.dart';
 import 'package:neumorphic/neumorphic.dart';
 import 'package:provider/provider.dart';
-import 'package:vibrate/vibrate.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class HelperSetting extends StatefulWidget {
   @override

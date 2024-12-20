@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:neumorphic/neumorphic.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:vibrate/vibrate.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class Upload extends StatefulWidget {

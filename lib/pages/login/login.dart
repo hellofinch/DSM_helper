@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:neumorphic/neumorphic.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:vibrate/vibrate.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class Login extends StatefulWidget {
   final Map server;

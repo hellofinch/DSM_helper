@@ -3,7 +3,7 @@ import 'package:dsm_helper/widgets/neu_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gesture_password/gesture_password.dart';
 import 'package:gesture_password/mini_gesture_password.dart';
-import 'package:vibrate/vibrate.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class GesturePasswordPage extends StatefulWidget {
   GesturePasswordPage({Key key, this.title}) : super(key: key);

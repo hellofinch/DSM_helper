@@ -14,7 +14,7 @@ import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
 import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import 'package:neumorphic/neumorphic.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:vibrate/vibrate.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'dashborad/dashboard.dart';
 import 'download_station/add_task.dart';
