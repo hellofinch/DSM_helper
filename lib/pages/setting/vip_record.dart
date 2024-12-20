@@ -65,7 +65,8 @@ class _VipRecordState extends State<VipRecord> {
                     : Center(
                         child: Text(
                           "暂无开通记录",
-                          style: TextStyle(color: AppTheme.of(context).placeholderColor),
+                          style: TextStyle(
+                              color: AppTheme.of(context).placeholderColor),
                         ),
                       ),
           ),
@@ -91,7 +92,8 @@ class _VipRecordState extends State<VipRecord> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("开通方式：${record.type == 1 ? '积分兑换' : '在线支付'} - ${record.cost}"),
+                Text(
+                    "开通方式：${record.type == 1 ? '积分兑换' : '在线支付'} - ${record.cost}"),
                 Text("开通时间：${record.createTime}"),
                 Text("生效时间：${record.startTime}"),
                 Text("过期时间：${record.isForever == 0 ? record.endTime : '永不过期'}"),
@@ -103,7 +105,8 @@ class _VipRecordState extends State<VipRecord> {
               onPressed: () async {
                 var hide = showWeuiLoadingToast(context: context);
                 String userToken = await Util.getStorage("user_token");
-                var res = await Util.post("${Util.appUrl}/vip/redemption", data: {"token": userToken, "id": record.id});
+                var res = await Util.post("${Util.appUrl}/vip/redemption",
+                    data: {"token": userToken, "id": record.id});
                 print(res);
                 hide();
                 if (res['code'] == 0) {
@@ -123,7 +126,8 @@ class _VipRecordState extends State<VipRecord> {
                               curveType: CurveType.emboss,
                               bevel: 5,
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: Padding(
@@ -132,19 +136,23 @@ class _VipRecordState extends State<VipRecord> {
                                   children: [
                                     Text(
                                       "兑换码",
-                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                     SizedBox(
                                       height: 16,
                                     ),
                                     NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       bevel: 20,
                                       curveType: CurveType.flat,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
                                       child: Text("${res['data']['code']}"),
                                     ),
                                     SizedBox(
@@ -158,11 +166,14 @@ class _VipRecordState extends State<VipRecord> {
                                               Navigator.of(context).pop();
                                             },
                                             decoration: NeumorphicDecoration(
-                                              color: Theme.of(context).scaffoldBackgroundColor,
-                                              borderRadius: BorderRadius.circular(25),
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
                                             ),
                                             bevel: 20,
-                                            padding: EdgeInsets.symmetric(vertical: 10),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
                                             child: Text(
                                               "关闭",
                                               style: TextStyle(fontSize: 18),
@@ -175,15 +186,19 @@ class _VipRecordState extends State<VipRecord> {
                                         Expanded(
                                           child: NeuButton(
                                             onPressed: () async {
-                                              Clipboard.setData(ClipboardData(text: res['data']['code']));
+                                              Clipboard.setData(ClipboardData(
+                                                  text: res['data']['code']));
                                               Util.toast("兑换码已复制到剪贴板");
                                             },
                                             decoration: NeumorphicDecoration(
-                                              color: Theme.of(context).scaffoldBackgroundColor,
-                                              borderRadius: BorderRadius.circular(25),
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
                                             ),
                                             bevel: 20,
-                                            padding: EdgeInsets.symmetric(vertical: 10),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
                                             child: Text(
                                               "复制",
                                               style: TextStyle(fontSize: 18),

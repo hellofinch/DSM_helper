@@ -7,7 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PhotoItemWidget extends StatelessWidget {
-  const PhotoItemWidget(this.photo, this.photos, {this.isTeam, this.showName: true, @required this.width, Key key}) : super(key: key);
+  const PhotoItemWidget(this.photo, this.photos,
+      {this.isTeam, this.showName: true, @required this.width, Key key})
+      : super(key: key);
   final PhotoModel photo;
   final List<PhotoModel> photos;
   final bool isTeam;
@@ -28,7 +30,9 @@ class PhotoItemWidget extends StatelessWidget {
           Navigator.of(context).push(TransparentPageRoute(
             pageBuilder: (context, _, __) {
               return ImagePreview(
-                photos.map((photo) => photo.thumbUrl(size: 'xl', isTeam: isTeam)).toList(),
+                photos
+                    .map((photo) => photo.thumbUrl(size: 'xl', isTeam: isTeam))
+                    .toList(),
                 photos.indexOf(photo),
                 tag: photo,
               );

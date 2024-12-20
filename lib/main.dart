@@ -16,7 +16,7 @@ import 'package:dsm_helper/util/function.dart';
 import 'package:dsm_helper/util/log.dart';
 import 'package:dsm_helper/widgets/keyboard_dismisser.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -24,13 +24,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-// import 'package:pangle_flutter/pangle_flutter.dart';
 import 'package:provider/provider.dart';
 import '/providers/dark_mode.dart';
 
 void main() async {
   HttpClient client = ExtendedNetworkImageProvider.httpClient as HttpClient;
-  client.badCertificateCallback = (X509Certificate cert, String host, int port) {
+  client.badCertificateCallback =
+      (X509Certificate cert, String host, int port) {
     return true;
   };
 
@@ -54,70 +54,58 @@ void main() async {
   String agreement = await Util.getStorage("agreement");
   Log.init();
   if (agreement != null && agreement == "1") {
-    registerWxApi(appId: "wxabdf23571f34b49b", universalLink: "https://dsm.apaipai.top/app/").then((value) {
+    registerWxApi(appId: "wxabdf23571f34b49b", universalLink: "").then((value) {
       stopLog();
     });
-    // print("初始化穿山甲");
-    // await pangle.init(
-    //   iOS: IOSConfig(
-    //     appId: '5215470',
-    //     logLevel: PangleLogLevel.error,
-    //   ),
-    //   android: AndroidConfig(
-    //     appId: '5215463',
-    //     debug: false,
-    //     allowShowNotify: true,
-    //     allowShowPageWhenScreenLock: false,
-    //   ),
-    // );
     // 域名优选
-    Util.appUrl = await getBestDomain(['http://dsm.apaipai.top/index/check', 'http://dsm.flutter.fit/index/check']);
+    Util.appUrl = await getBestDomain([
+      'http://dsm.apaipai.top/index/check',
+      'http://dsm.flutter.fit/index/check'
+    ]);
     // 是否关闭广告
     // 判断是否登录
-    bool isForever = true;
-    DateTime noAdTime;
+    // bool isForever = true;
+    // DateTime noAdTime;
     Util.isWechatInstalled = await isWeChatInstalled;
-    String userToken = await Util.getStorage("user_token");
-    String noAdTimeStr = await Util.getStorage("no_ad_time");
-    if (noAdTimeStr.isNotBlank) {
-      noAdTime = DateTime.parse(noAdTimeStr);
-    }
-    if (userToken.isNotBlank) {
-      var res = await Util.post("${Util.appUrl}/vip/info", data: {"token": userToken});
-      if (res['code'] == 1) {
-        isForever = Util.vipForever = res['data']['is_forever'] == 1;
-        if (res['data']['vip_expire_time'] != null) {
-          DateTime vipExpireTime = DateTime.parse(res['data']['vip_expire_time']);
-          Util.vipExpireTime = vipExpireTime;
-          if (noAdTime == null) {
-            if (vipExpireTime.isAfter(DateTime.now())) {
-              noAdTime = vipExpireTime;
-            }
-          } else {
-            if (vipExpireTime.isAfter(noAdTime)) {
-              noAdTime = vipExpireTime;
-            }
-          }
-        }
-      }
-    }
+    // String userToken = await Util.getStorage("user_token");
+    // String noAdTimeStr = await Util.getStorage("no_ad_time");
+    // if (noAdTimeStr.isNotBlank) {
+    //   noAdTime = DateTime.parse(noAdTimeStr);
+    // }
+    // if (userToken.isNotBlank) {
+    //   var res = await Util.post("${Util.appUrl}/vip/info",
+    //       data: {"token": userToken});
+    //   if (res['code'] == 1) {
+    //     isForever = Util.vipForever = res['data']['is_forever'] == 1;
+    //     if (res['data']['vip_expire_time'] != null) {
+    //       DateTime vipExpireTime =
+    //           DateTime.parse(res['data']['vip_expire_time']);
+    //       Util.vipExpireTime = vipExpireTime;
+    //       if (noAdTime == null) {
+    //         if (vipExpireTime.isAfter(DateTime.now())) {
+    //           noAdTime = vipExpireTime;
+    //         }
+    //       } else {
+    //         if (vipExpireTime.isAfter(noAdTime)) {
+    //           noAdTime = vipExpireTime;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
-    if (isForever || (noAdTime != null && noAdTime.isAfter(DateTime.now()))) {
-      // 处于关闭广告有效期内
-      if (kDebugMode) {
-        debugPrint("免广告有效期内");
-      }
-    } else {
-      // Util.removeStorage("no_ad_time");
-      // pangle.loadSplashAd(
-      //   iOS: IOSSplashConfig(slotId: '887561543'),
-      //   android: AndroidSplashConfig(slotId: '887561531', isExpress: false),
-      // );
-    }
+    // if (isForever || (noAdTime != null && noAdTime.isAfter(DateTime.now()))) {
+    //   // 处于关闭广告有效期内
+    //   if (kDebugMode) {
+    //     debugPrint("免广告有效期内");
+    //   }
+    // }
   }
+
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
 
-  Util.downloadSavePath = await Util.getStorage("download_save_path") ?? "/storage/emulated/0/dsm_helper/Download";
+  Util.downloadSavePath = await Util.getStorage("download_save_path") ??
+      "/storage/emulated/0/dsm_helper/Download";
   Util.getStorage("download_wifi_only").then((value) {
     if (value != null) {
       Util.downloadWifiOnly = value == "1";
@@ -135,7 +123,8 @@ void main() async {
   bool launchAccountPage = false;
   String launchAuthStr = await Util.getStorage("launch_auth");
   String launchAuthPasswordStr = await Util.getStorage("launch_auth_password");
-  String launchAuthBiometricsStr = await Util.getStorage("launch_auth_biometrics");
+  String launchAuthBiometricsStr =
+      await Util.getStorage("launch_auth_biometrics");
   String launchAccountPageStr = await Util.getStorage('launch_account_page');
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   Util.appName = packageInfo.appName;
@@ -258,7 +247,9 @@ class _MyAppState extends State<MyApp> {
               child: MaterialApp(
                 title: '${Util.appName}',
                 debugShowCheckedModeBanner: false,
-                theme: darkModeProvider.darkMode == 2 ? lightTheme : (darkModeProvider.darkMode == 0 ? lightTheme : darkTheme),
+                theme: darkModeProvider.darkMode == 2
+                    ? lightTheme
+                    : (darkModeProvider.darkMode == 0 ? lightTheme : darkTheme),
                 darkTheme: darkModeProvider.darkMode == 2 ? darkTheme : null,
                 localizationsDelegates: [
                   GlobalCupertinoLocalizations.delegate,

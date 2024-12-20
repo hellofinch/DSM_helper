@@ -83,7 +83,9 @@ class AlbumModel {
   }
 
   AlbumModel.fromJson(dynamic json) {
-    additional = json['additional'] != null ? PhotoAdditional.fromJson(json['additional']) : null;
+    additional = json['additional'] != null
+        ? PhotoAdditional.fromJson(json['additional'])
+        : null;
     cantMigrateCondition = json['cant_migrate_condition'];
     condition = json['condition'];
     createTime = json['create_time'];

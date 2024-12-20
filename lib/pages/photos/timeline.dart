@@ -10,7 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:neumorphic/neumorphic.dart';
 
 class Timeline extends StatefulWidget {
-  const Timeline(this.isTeam, {this.type, this.geocodingId, this.generalTagId, this.recentlyAdd: false, Key key}) : super(key: key);
+  const Timeline(this.isTeam,
+      {this.type,
+      this.geocodingId,
+      this.generalTagId,
+      this.recentlyAdd: false,
+      Key key})
+      : super(key: key);
   final bool isTeam;
   final String type;
   final int geocodingId;
@@ -86,7 +92,11 @@ class TimelineState extends State<Timeline> {
         : days.length > 0
             ? DraggableScrollbar.semicircle(
                 labelTextBuilder: (position) {
-                  var line = days.where((day) => day.startPosition <= position && day.endPosition >= position).toList();
+                  var line = days
+                      .where((day) =>
+                          day.startPosition <= position &&
+                          day.endPosition >= position)
+                      .toList();
                   if (line.length > 0) {
                     return Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -100,7 +110,8 @@ class TimelineState extends State<Timeline> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("${line[0].day.toString().padLeft(2, "0")}日"),
+                              Text(
+                                  "${line[0].day.toString().padLeft(2, "0")}日"),
                               Text("${line[0].year}"),
                             ],
                           )
@@ -111,7 +122,8 @@ class TimelineState extends State<Timeline> {
                     return null;
                   }
                 },
-                labelConstraints: BoxConstraints(minHeight: 60, maxHeight: 60, minWidth: 140, maxWidth: 140),
+                labelConstraints: BoxConstraints(
+                    minHeight: 60, maxHeight: 60, minWidth: 140, maxWidth: 140),
                 controller: _scrollController,
                 child: ListView.builder(
                   controller: _scrollController,
@@ -192,7 +204,9 @@ class TimelineState extends State<Timeline> {
           Navigator.of(context).push(TransparentPageRoute(
             pageBuilder: (context, _, __) {
               return ImagePreview(
-                photos.map((photo) => photo.thumbUrl(size: 'xl', isTeam: isTeam)).toList(),
+                photos
+                    .map((photo) => photo.thumbUrl(size: 'xl', isTeam: isTeam))
+                    .toList(),
                 photos.indexOf(photo),
                 tag: photo,
               );

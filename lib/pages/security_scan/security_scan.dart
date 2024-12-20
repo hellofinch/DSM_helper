@@ -13,7 +13,8 @@ class SecurityScan extends StatefulWidget {
   _SecurityScanState createState() => _SecurityScanState();
 }
 
-class _SecurityScanState extends State<SecurityScan> with SingleTickerProviderStateMixin {
+class _SecurityScanState extends State<SecurityScan>
+    with SingleTickerProviderStateMixin {
   Map colors = {
     "safe": Colors.green,
     "risk": Colors.red,
@@ -114,12 +115,16 @@ class _SecurityScanState extends State<SecurityScan> with SingleTickerProviderSt
   }
 
   String getTitle(String strId, int status) {
-    if (webManagerStrings['rules']["${strId}_desc_${status == 2 ? "good" : status == 0 ? "running" : "bad"}"] !=
+    if (webManagerStrings['rules'][
+            "${strId}_desc_${status == 2 ? "good" : status == 0 ? "running" : "bad"}"] !=
         null) {
-      return webManagerStrings['rules']["${strId}_desc_${status == 2 ? "good" : status == 0 ? "running" : "bad"}"];
+      return webManagerStrings['rules'][
+          "${strId}_desc_${status == 2 ? "good" : status == 0 ? "running" : "bad"}"];
     } else {
-      if (Util.strings['SYNO.SDS.SecurityScan.Instance'] != null && Util.strings['SYNO.SDS.SecurityScan.Instance']['rules'] != null) {
-        return (Util.strings['SYNO.SDS.SecurityScan.Instance']['rules']["${strId}_desc_${status == 2 ? "good" : status == 0 ? "running" : "bad"}"] ??
+      if (Util.strings['SYNO.SDS.SecurityScan.Instance'] != null &&
+          Util.strings['SYNO.SDS.SecurityScan.Instance']['rules'] != null) {
+        return (Util.strings['SYNO.SDS.SecurityScan.Instance']['rules'][
+                "${strId}_desc_${status == 2 ? "good" : status == 0 ? "running" : "bad"}"] ??
             "$strId");
       } else {
         return strId;
@@ -203,27 +208,34 @@ class _SecurityScanState extends State<SecurityScan> with SingleTickerProviderSt
                     isScrollable: true,
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
-                    labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                    labelColor: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
                     unselectedLabelColor: Colors.grey,
                     indicator: BubbleTabIndicator(
                       indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                      shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                      shadowColor: Util.getAdjustColor(
+                          Theme.of(context).scaffoldBackgroundColor, -20),
                     ),
                     tabs: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("总览"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("结果"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("登录分析"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("高级设置"),
                       ),
                     ],
@@ -264,13 +276,18 @@ class _SecurityScanState extends State<SecurityScan> with SingleTickerProviderSt
                                                   ],
                                           ),
                                           animateFromLastPercent: true,
-                                          circularStrokeCap: CircularStrokeCap.round,
+                                          circularStrokeCap:
+                                              CircularStrokeCap.round,
                                           lineWidth: 12,
                                           backgroundColor: Colors.black12,
                                           percent: sysProgress / 100,
                                           center: Text(
                                             "$sysProgress%",
-                                            style: TextStyle(color: sysProgress < 90 ? Colors.blue : Colors.red, fontSize: 22),
+                                            style: TextStyle(
+                                                color: sysProgress < 90
+                                                    ? Colors.blue
+                                                    : Colors.red,
+                                                fontSize: 22),
                                           ),
                                         )
                                       : Icon(
@@ -282,14 +299,21 @@ class _SecurityScanState extends State<SecurityScan> with SingleTickerProviderSt
                                     width: 10,
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        texts[sysStatus] != null ? texts[sysStatus]['title'] : "未知状态",
-                                        style: TextStyle(fontSize: 20, color: colors[sysStatus]),
+                                        texts[sysStatus] != null
+                                            ? texts[sysStatus]['title']
+                                            : "未知状态",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: colors[sysStatus]),
                                       ),
                                       Text(
-                                        texts[sysStatus] != null ? texts[sysStatus]['content'] : "未知状态",
+                                        texts[sysStatus] != null
+                                            ? texts[sysStatus]['content']
+                                            : "未知状态",
                                         style: TextStyle(fontSize: 14),
                                       ),
                                       if (lastScanTime.isNotBlank)

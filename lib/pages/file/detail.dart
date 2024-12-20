@@ -103,7 +103,8 @@ class _FileDetailState extends State<FileDetail> {
                   ),
                   NeuButton(
                     onPressed: () async {
-                      ClipboardData data = new ClipboardData(text: widget.file['path']);
+                      ClipboardData data =
+                          new ClipboardData(text: widget.file['path']);
                       Clipboard.setData(data);
                       Util.toast("已复制到剪贴板");
                     },
@@ -147,7 +148,8 @@ class _FileDetailState extends State<FileDetail> {
                   ),
                   NeuButton(
                     onPressed: () async {
-                      ClipboardData data = new ClipboardData(text: widget.file['additional']['real_path']);
+                      ClipboardData data = new ClipboardData(
+                          text: widget.file['additional']['real_path']);
                       Clipboard.setData(data);
                       Util.toast("已复制到剪贴板");
                     },
@@ -181,7 +183,12 @@ class _FileDetailState extends State<FileDetail> {
             curveType: CurveType.flat,
             bevel: 20,
             child: Row(
-              children: [Text("大小："), loadingSize ? CupertinoActivityIndicator() : Text(Util.formatSize(size))],
+              children: [
+                Text("大小："),
+                loadingSize
+                    ? CupertinoActivityIndicator()
+                    : Text(Util.formatSize(size))
+              ],
             ),
           ),
           if (widget.file['isdir'])
@@ -195,7 +202,12 @@ class _FileDetailState extends State<FileDetail> {
               curveType: CurveType.flat,
               bevel: 20,
               child: Row(
-                children: [Text("包含："), loadingSize ? CupertinoActivityIndicator() : Text("$folderCount个文件夹，$fileCount个文件")],
+                children: [
+                  Text("包含："),
+                  loadingSize
+                      ? CupertinoActivityIndicator()
+                      : Text("$folderCount个文件夹，$fileCount个文件")
+                ],
               ),
             ),
           NeuCard(
@@ -208,7 +220,12 @@ class _FileDetailState extends State<FileDetail> {
             curveType: CurveType.flat,
             bevel: 20,
             child: Row(
-              children: [Text("创建时间："), Text(DateTime.fromMillisecondsSinceEpoch(widget.file['additional']['time']['ctime'] * 1000).format("Y-m-d H:i:s"))],
+              children: [
+                Text("创建时间："),
+                Text(DateTime.fromMillisecondsSinceEpoch(
+                        widget.file['additional']['time']['ctime'] * 1000)
+                    .format("Y-m-d H:i:s"))
+              ],
             ),
           ),
           NeuCard(
@@ -221,7 +238,12 @@ class _FileDetailState extends State<FileDetail> {
             curveType: CurveType.flat,
             bevel: 20,
             child: Row(
-              children: [Text("修改时间："), Text(DateTime.fromMillisecondsSinceEpoch(widget.file['additional']['time']['mtime'] * 1000).format("Y-m-d H:i:s"))],
+              children: [
+                Text("修改时间："),
+                Text(DateTime.fromMillisecondsSinceEpoch(
+                        widget.file['additional']['time']['mtime'] * 1000)
+                    .format("Y-m-d H:i:s"))
+              ],
             ),
           ),
         ],

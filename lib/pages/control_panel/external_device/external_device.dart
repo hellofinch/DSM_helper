@@ -13,7 +13,8 @@ class ExternalDevice extends StatefulWidget {
   _ExternalDeviceState createState() => _ExternalDeviceState();
 }
 
-class _ExternalDeviceState extends State<ExternalDevice> with SingleTickerProviderStateMixin {
+class _ExternalDeviceState extends State<ExternalDevice>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   List esatas = [];
   List usbs = [];
@@ -111,7 +112,9 @@ class _ExternalDeviceState extends State<ExternalDevice> with SingleTickerProvid
                   // progressColor: Colors.lightBlueAccent,
                   animation: true,
                   linearGradient: LinearGradient(
-                    colors: partition['used_size_mb'] / partition['total_size_mb'] <= 0.9
+                    colors: partition['used_size_mb'] /
+                                partition['total_size_mb'] <=
+                            0.9
                         ? [
                             Colors.blue,
                             Colors.blueAccent,
@@ -125,10 +128,17 @@ class _ExternalDeviceState extends State<ExternalDevice> with SingleTickerProvid
                   circularStrokeCap: CircularStrokeCap.round,
                   lineWidth: 12,
                   backgroundColor: Colors.black12,
-                  percent: partition['used_size_mb'] / partition['total_size_mb'],
+                  percent:
+                      partition['used_size_mb'] / partition['total_size_mb'],
                   center: Text(
                     "${(partition['used_size_mb'] / partition['total_size_mb'] * 100).toStringAsFixed(0)}%",
-                    style: TextStyle(color: partition['used_size_mb'] / partition['total_size_mb'] <= 0.9 ? Colors.blue : Colors.red, fontSize: 22),
+                    style: TextStyle(
+                        color: partition['used_size_mb'] /
+                                    partition['total_size_mb'] <=
+                                0.9
+                            ? Colors.blue
+                            : Colors.red,
+                        fontSize: 22),
                   ),
                 ),
               ),
@@ -158,15 +168,18 @@ class _ExternalDeviceState extends State<ExternalDevice> with SingleTickerProvid
                     SizedBox(
                       height: 5,
                     ),
-                    Text("已用：${Util.formatSize(partition['used_size_mb'] * 1024 * 1024)}"),
+                    Text(
+                        "已用：${Util.formatSize(partition['used_size_mb'] * 1024 * 1024)}"),
                     SizedBox(
                       height: 5,
                     ),
-                    Text("可用：${Util.formatSize(partition['total_size_mb'] * 1024 * 1024 - partition['used_size_mb'] * 1024 * 1024)}"),
+                    Text(
+                        "可用：${Util.formatSize(partition['total_size_mb'] * 1024 * 1024 - partition['used_size_mb'] * 1024 * 1024)}"),
                     SizedBox(
                       height: 5,
                     ),
-                    Text("容量：${Util.formatSize(partition['total_size_mb'] * 1024 * 1024)}"),
+                    Text(
+                        "容量：${Util.formatSize(partition['total_size_mb'] * 1024 * 1024)}"),
                   ],
                 ),
               )
@@ -272,11 +285,14 @@ class _ExternalDeviceState extends State<ExternalDevice> with SingleTickerProvid
               isScrollable: false,
               controller: _tabController,
               indicatorSize: TabBarIndicatorSize.label,
-              labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+              labelColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               unselectedLabelColor: Colors.grey,
               indicator: BubbleTabIndicator(
                 indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                shadowColor: Util.getAdjustColor(
+                    Theme.of(context).scaffoldBackgroundColor, -20),
               ),
               tabs: [
                 Padding(
@@ -324,7 +340,8 @@ class _ExternalDeviceState extends State<ExternalDevice> with SingleTickerProvid
                         : Center(
                             child: Text(
                               "暂无外接设备",
-                              style: TextStyle(color: AppTheme.of(context).placeholderColor),
+                              style: TextStyle(
+                                  color: AppTheme.of(context).placeholderColor),
                             ),
                           ),
                 Center(

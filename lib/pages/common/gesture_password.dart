@@ -15,7 +15,8 @@ class GesturePasswordPage extends StatefulWidget {
 }
 
 class _GesturePasswordPageState extends State<GesturePasswordPage> {
-  GlobalKey<MiniGesturePasswordState> miniGesturePassword = new GlobalKey<MiniGesturePasswordState>();
+  GlobalKey<MiniGesturePasswordState> miniGesturePassword =
+      new GlobalKey<MiniGesturePasswordState>();
   int step = 1;
   String newPassword = "";
 
@@ -44,7 +45,10 @@ class _GesturePasswordPageState extends State<GesturePasswordPage> {
               child: GesturePassword(
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: MediaQuery.of(context).size.width * 0.9,
-                attribute: ItemAttribute(normalColor: Colors.grey, selectedColor: Colors.blue, lineStrokeWidth: 4),
+                attribute: ItemAttribute(
+                    normalColor: Colors.grey,
+                    selectedColor: Colors.blue,
+                    lineStrokeWidth: 4),
                 successCallback: (s) {
                   if (step == 1) {
                     Util.vibrate(FeedbackType.light);

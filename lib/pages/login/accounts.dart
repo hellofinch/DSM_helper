@@ -50,21 +50,33 @@ class _AccountsState extends State<Accounts> {
     servers.forEach((server) {
       server['loading'] = server['loading'] ?? true;
       server['is_login'] = server['is_login'] ?? false;
-      server['base_url'] = server['base_url'] ?? "${server['https'] ? "https" : "http"}://${server['host']}:${server['port']}/";
+      server['base_url'] = server['base_url'] ??
+          "${server['https'] ? "https" : "http"}://${server['host']}:${server['port']}/";
       if (server['is_login']) {
         serverInfo(server);
       } else {
         //仅首次重新登录
         if (server['loading']) {
           String host = server['base_url'];
-          Api.shareList(sid: server['sid'], checkSsl: server['check_ssl'], cookie: server['smid'], host: host).then((checkLogin) async {
+          Api.shareList(
+                  sid: server['sid'],
+                  checkSsl: server['check_ssl'],
+                  cookie: server['smid'],
+                  host: host)
+              .then((checkLogin) async {
             if (checkLogin['success']) {
               server['is_login'] = true;
               //获取系统信息
               serverInfo(server);
             } else {
               //登录失败，尝试重新登录
-              var res = await Api.login(host: host, account: server['account'], password: server['password'], otpCode: "", rememberDevice: false, cookie: server['smid']);
+              var res = await Api.login(
+                  host: host,
+                  account: server['account'],
+                  password: server['password'],
+                  otpCode: "",
+                  rememberDevice: false,
+                  cookie: server['smid']);
               if (res['success']) {
                 setState(() {
                   server['is_login'] = true;
@@ -107,13 +119,18 @@ class _AccountsState extends State<Accounts> {
   }
 
   serverInfo(server) async {
-    var res = await Api.utilization(sid: server['sid'], checkSsl: server['check_ssl'], cookie: server['smid'], host: "${server['base_url']}");
+    var res = await Api.utilization(
+        sid: server['sid'],
+        checkSsl: server['check_ssl'],
+        cookie: server['smid'],
+        host: "${server['base_url']}");
     if (res['success']) {
       if (!mounted) {
         return;
       }
       setState(() {
-        server['cpu'] = (res['data']['cpu']['user_load'] + res['data']['cpu']['system_load']);
+        server['cpu'] = (res['data']['cpu']['user_load'] +
+            res['data']['cpu']['system_load']);
         server['ram'] = res['data']['memory']['real_usage'];
         if (res['data']['network'].length > 0) {
           server['rx'] = res['data']['network'][0]['rx'];
@@ -160,7 +177,8 @@ class _AccountsState extends State<Accounts> {
           Util.setStorage("port", server['port']);
           Util.setStorage("account", server['account']);
           Util.setStorage("note", server['note'] ?? '');
-          Util.setStorage("remember_password", server['remember_password'] ? "1" : "0");
+          Util.setStorage(
+              "remember_password", server['remember_password'] ? "1" : "0");
           if (server['remember_password']) {
             Util.setStorage("password", server['password']);
           } else {
@@ -171,7 +189,8 @@ class _AccountsState extends State<Accounts> {
           Util.setStorage("sid", server['sid']);
           Util.sid = server['sid'];
           Util.cookie = server['cookie'];
-          Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil("/home", (route) => false);
         } else {
           server['action'] = "login";
           Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
@@ -202,7 +221,8 @@ class _AccountsState extends State<Accounts> {
                             children: [
                               Row(
                                 children: [
-                                  if (server['note'] != null && server['note'] != "") ...[
+                                  if (server['note'] != null &&
+                                      server['note'] != "") ...[
                                     Label("${server['note']}", Colors.blue),
                                     SizedBox(
                                       width: 5,
@@ -234,7 +254,10 @@ class _AccountsState extends State<Accounts> {
                             ],
                           ),
                         ),
-                        if (server['loading']) CupertinoActivityIndicator() else if (!server['is_login']) Label("失效", Colors.red),
+                        if (server['loading'])
+                          CupertinoActivityIndicator()
+                        else if (!server['is_login'])
+                          Label("失效", Colors.red),
                         SizedBox(
                           width: 10,
                         ),
@@ -242,7 +265,8 @@ class _AccountsState extends State<Accounts> {
                           onPressed: () {
                             print(server);
                             server['action'] = "edit";
-                            Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                            Navigator.of(context)
+                                .push(CupertinoPageRoute(builder: (context) {
                               return Login(server: server);
                             }));
                           },
@@ -251,7 +275,8 @@ class _AccountsState extends State<Accounts> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           bevel: 20,
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           child: Image.asset(
                             "assets/icons/edit.png",
                             width: 20,
@@ -274,7 +299,8 @@ class _AccountsState extends State<Accounts> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           bevel: 20,
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
                           child: Image.asset(
                             "assets/icons/delete.png",
                             width: 20,
@@ -291,7 +317,8 @@ class _AccountsState extends State<Accounts> {
                                 curveType: CurveType.flat,
                                 margin: EdgeInsets.only(top: 10, right: 10),
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(60),
                                   // color: Colors.red,
                                 ),
@@ -321,7 +348,11 @@ class _AccountsState extends State<Accounts> {
                                       ? CupertinoActivityIndicator()
                                       : Text(
                                           "${server['cpu']}%",
-                                          style: TextStyle(color: server['cpu'] <= 90 ? Colors.blue : Colors.red, fontSize: 16),
+                                          style: TextStyle(
+                                              color: server['cpu'] <= 90
+                                                  ? Colors.blue
+                                                  : Colors.red,
+                                              fontSize: 16),
                                         ),
                                 ),
                               ),
@@ -337,7 +368,8 @@ class _AccountsState extends State<Accounts> {
                                 curveType: CurveType.flat,
                                 margin: EdgeInsets.only(top: 10, right: 10),
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(60),
                                   // color: Colors.red,
                                 ),
@@ -368,7 +400,11 @@ class _AccountsState extends State<Accounts> {
                                       ? CupertinoActivityIndicator()
                                       : Text(
                                           "${server['ram']}%",
-                                          style: TextStyle(color: server['ram'] <= 90 ? Colors.blue : Colors.red, fontSize: 16),
+                                          style: TextStyle(
+                                              color: server['ram'] <= 90
+                                                  ? Colors.blue
+                                                  : Colors.red,
+                                              fontSize: 16),
                                         ),
                                 ),
                               ),
@@ -387,7 +423,8 @@ class _AccountsState extends State<Accounts> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.upload_sharp,
@@ -396,7 +433,9 @@ class _AccountsState extends State<Accounts> {
                                           ),
                                           Text(
                                             "${server['loading'] ? "-" : "${Util.formatSize(server['tx'], fixed: 0)}/S"}",
-                                            style: TextStyle(color: Colors.blue, fontSize: 12),
+                                            style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 12),
                                           ),
                                         ],
                                       ),
@@ -404,7 +443,8 @@ class _AccountsState extends State<Accounts> {
                                         height: 10,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.download_sharp,
@@ -413,7 +453,9 @@ class _AccountsState extends State<Accounts> {
                                           ),
                                           Text(
                                             "${server['loading'] ? "-" : "${Util.formatSize(server['rx'], fixed: 0)}/S"}",
-                                            style: TextStyle(color: Colors.green, fontSize: 12),
+                                            style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 12),
                                           ),
                                         ],
                                       )
@@ -434,14 +476,16 @@ class _AccountsState extends State<Accounts> {
                                     children: [
                                       Text(
                                         "R:${server['loading'] ? "-" : "${Util.formatSize(server['read'], fixed: 0)}/S"}",
-                                        style: TextStyle(color: Colors.blue, fontSize: 12),
+                                        style: TextStyle(
+                                            color: Colors.blue, fontSize: 12),
                                       ),
                                       SizedBox(
                                         height: 10,
                                       ),
                                       Text(
                                         "W:${server['loading'] ? "-" : "${Util.formatSize(server['write'], fixed: 0)}/S"}",
-                                        style: TextStyle(color: Colors.green, fontSize: 12),
+                                        style: TextStyle(
+                                            color: Colors.green, fontSize: 12),
                                       )
                                     ],
                                   ),
@@ -490,7 +534,9 @@ class _AccountsState extends State<Accounts> {
                 curveType: visible ? CurveType.flat : CurveType.concave,
                 padding: EdgeInsets.all(10),
                 bevel: 5,
-                child: Icon(visible ? CupertinoIcons.eye_slash_fill : CupertinoIcons.eye_fill),
+                child: Icon(visible
+                    ? CupertinoIcons.eye_slash_fill
+                    : CupertinoIcons.eye_fill),
               ),
             ),
           ),
@@ -504,7 +550,8 @@ class _AccountsState extends State<Accounts> {
               padding: EdgeInsets.all(10),
               bevel: 5,
               onPressed: () {
-                Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                Navigator.of(context)
+                    .push(CupertinoPageRoute(builder: (context) {
                   return Login(
                     type: "add",
                   );

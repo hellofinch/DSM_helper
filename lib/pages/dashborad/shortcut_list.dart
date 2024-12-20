@@ -39,7 +39,10 @@ class ShortcutList extends StatelessWidget {
   final List disks;
   final Map appNotify;
   final List validAppViewOrder;
-  const ShortcutList(this.shortcutItems, this.system, this.volumes, this.disks, this.appNotify, this.context, {this.validAppViewOrder, Key key}) : super(key: key);
+  const ShortcutList(this.shortcutItems, this.system, this.volumes, this.disks,
+      this.appNotify, this.context,
+      {this.validAppViewOrder, Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext ctx) {
@@ -74,18 +77,29 @@ class ShortcutList extends StatelessWidget {
       case "SYNO.SDS.PkgManApp.Instance":
         icon = "assets/applications/${Util.version}/package_center.png";
         name = "套件中心";
-        page = Packages(system != null ? system['firmware_ver'] : 'DSM ${Util.version}.0-10049');
+        page = Packages(system != null
+            ? system['firmware_ver']
+            : 'DSM ${Util.version}.0-10049');
         routerName = "packages";
-        if (appNotify != null && appNotify['SYNO.SDS.PkgManApp.Instance'] != null) {
+        if (appNotify != null &&
+            appNotify['SYNO.SDS.PkgManApp.Instance'] != null) {
           unread = appNotify['SYNO.SDS.PkgManApp.Instance']['unread'];
         }
         break;
       case "SYNO.SDS.AdminCenter.Application":
         icon = "assets/applications/${Util.version}/control_panel.png";
         name = "控制面板";
-        page = ControlPanel(system, volumes, disks, appNotify != null && appNotify['SYNO.SDS.AdminCenter.Application'] != null ? appNotify['SYNO.SDS.AdminCenter.Application']['fn'] : null);
+        page = ControlPanel(
+            system,
+            volumes,
+            disks,
+            appNotify != null &&
+                    appNotify['SYNO.SDS.AdminCenter.Application'] != null
+                ? appNotify['SYNO.SDS.AdminCenter.Application']['fn']
+                : null);
         routerName = "control_panel";
-        if (appNotify != null && appNotify['SYNO.SDS.AdminCenter.Application'] != null) {
+        if (appNotify != null &&
+            appNotify['SYNO.SDS.AdminCenter.Application'] != null) {
           unread = appNotify['SYNO.SDS.AdminCenter.Application']['unread'];
         }
         break;
@@ -96,7 +110,8 @@ class ShortcutList extends StatelessWidget {
         routerName = "storage_manager";
         break;
       case "SYNO.SDS.Docker.Application":
-        if (validAppViewOrder.contains("SYNO.SDS.ContainerManager.Application")) {
+        if (validAppViewOrder
+            .contains("SYNO.SDS.ContainerManager.Application")) {
           icon = "assets/applications/container_manager.png";
           name = "Container Manager";
           page = Docker(
@@ -111,7 +126,8 @@ class ShortcutList extends StatelessWidget {
         routerName = "docker";
         break;
       case "SYNO.SDS.Docker.ContainerDetail.Instance":
-        if (validAppViewOrder.contains("SYNO.SDS.ContainerManager.Application")) {
+        if (validAppViewOrder
+            .contains("SYNO.SDS.ContainerManager.Application")) {
           icon = "assets/applications/container_manager.png";
         } else {
           icon = "assets/applications/docker.png";
@@ -236,7 +252,9 @@ class ShortcutList extends StatelessWidget {
                         color: Colors.red,
                         shape: BoxShape.circle,
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.5), offset: Offset(1, 1)),
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              offset: Offset(1, 1)),
                         ],
                       ),
                     ),

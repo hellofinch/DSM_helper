@@ -22,7 +22,10 @@ class ApplicationList extends StatelessWidget {
   final List volumes;
   final List disks;
   final Map appNotify;
-  const ApplicationList(this.applications, this.system, this.volumes, this.disks, this.appNotify, {Key key}) : super(key: key);
+  const ApplicationList(
+      this.applications, this.system, this.volumes, this.disks, this.appNotify,
+      {Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +58,14 @@ class ApplicationList extends StatelessWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(CupertinoPageRoute(
                     builder: (context) {
-                      return ControlPanel(system, volumes, disks, appNotify['SYNO.SDS.AdminCenter.Application'] == null ? null : appNotify['SYNO.SDS.AdminCenter.Application']['fn']);
+                      return ControlPanel(
+                          system,
+                          volumes,
+                          disks,
+                          appNotify['SYNO.SDS.AdminCenter.Application'] == null
+                              ? null
+                              : appNotify['SYNO.SDS.AdminCenter.Application']
+                                  ['fn']);
                     },
                     settings: RouteSettings(name: "control_panel")));
               },
@@ -87,11 +97,13 @@ class ApplicationList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (appNotify != null && appNotify['SYNO.SDS.AdminCenter.Application'] != null)
+                    if (appNotify != null &&
+                        appNotify['SYNO.SDS.AdminCenter.Application'] != null)
                       Positioned(
                         right: 30,
                         child: Badge(
-                          appNotify['SYNO.SDS.AdminCenter.Application']['unread'],
+                          appNotify['SYNO.SDS.AdminCenter.Application']
+                              ['unread'],
                           size: 20,
                         ),
                       ),
@@ -140,7 +152,8 @@ class ApplicationList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (appNotify != null && appNotify['SYNO.SDS.PkgManApp.Instance'] != null)
+                    if (appNotify != null &&
+                        appNotify['SYNO.SDS.PkgManApp.Instance'] != null)
                       Positioned(
                         right: 30,
                         child: Badge(
@@ -309,7 +322,8 @@ class ApplicationList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (appNotify != null && appNotify['SYNO.SDS.SecurityScan.Instance'] != null)
+                    if (appNotify != null &&
+                        appNotify['SYNO.SDS.SecurityScan.Instance'] != null)
                       Positioned(
                         right: 30,
                         child: Badge(

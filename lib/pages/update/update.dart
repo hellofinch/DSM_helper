@@ -130,7 +130,8 @@ class _UpdateState extends State<Update> {
                       ),
                       Text(
                         "${widget.data['buildUpdateDescription'] ?? "暂无更新日志"}",
-                        style: TextStyle(color: AppTheme.of(context).placeholderColor),
+                        style: TextStyle(
+                            color: AppTheme.of(context).placeholderColor),
                       ),
                     ],
                   ),
@@ -140,11 +141,15 @@ class _UpdateState extends State<Update> {
           ),
           GestureDetector(
             onTap: () {
-              launchUrlString(widget.data['downloadURL'], mode: LaunchMode.externalApplication);
+              launchUrlString(widget.data['downloadURL'],
+                  mode: LaunchMode.externalApplication);
             },
             child: Text(
               "使用浏览器下载",
-              style: TextStyle(color: Colors.grey, decoration: TextDecoration.underline, fontSize: 14),
+              style: TextStyle(
+                  color: Colors.grey,
+                  decoration: TextDecoration.underline,
+                  fontSize: 14),
             ),
           ),
           SizedBox(
@@ -189,7 +194,8 @@ class _UpdateState extends State<Update> {
                     size: 64,
                     borderRadius: BorderRadius.circular(20),
                     displayText: '%',
-                    displayTextStyle: TextStyle(fontSize: 18, color: Colors.white),
+                    displayTextStyle:
+                        TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
               ),

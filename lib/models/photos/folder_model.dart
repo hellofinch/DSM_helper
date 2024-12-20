@@ -27,7 +27,8 @@ class FolderModel {
     this.sortBy,
     this.sortDirection,
   });
-  static Future<FolderModel> fetch({List<String> additional = const [], bool isTeam = false}) async {
+  static Future<FolderModel> fetch(
+      {List<String> additional = const [], bool isTeam = false}) async {
     var res = await Util.post("entry.cgi", data: {
       "api": 'SYNO.Foto${isTeam ? 'Team' : ''}.Browse.Folder',
       "method": 'get',
@@ -42,7 +43,8 @@ class FolderModel {
     }
   }
 
-  Future<List<FolderModel>> fetchFolders({List<String> additional = const [], bool isTeam = false}) async {
+  Future<List<FolderModel>> fetchFolders(
+      {List<String> additional = const [], bool isTeam = false}) async {
     Map<String, dynamic> data = {
       "id": id,
       "api": 'SYNO.Foto${isTeam ? 'Team' : ''}.Browse.Folder',
@@ -68,7 +70,8 @@ class FolderModel {
     }
   }
 
-  Future<List<PhotoModel>> fetchPhotos({List<String> additional = const [], bool isTeam = false}) async {
+  Future<List<PhotoModel>> fetchPhotos(
+      {List<String> additional = const [], bool isTeam = false}) async {
     var res = await Util.post("entry.cgi", data: {
       "folder_id": id,
       "api": 'SYNO.Foto${isTeam ? 'Team' : ''}.Browse.Item',
@@ -94,7 +97,9 @@ class FolderModel {
   }
 
   FolderModel.fromJson(dynamic json) {
-    additional = json['additional'] != null ? FolderAdditional.fromJson(json['additional']) : null;
+    additional = json['additional'] != null
+        ? FolderAdditional.fromJson(json['additional'])
+        : null;
     id = json['id'];
     name = json['name'];
     ownerUserId = json['owner_user_id'];
@@ -179,7 +184,8 @@ class FolderAdditional {
       });
     }
     if (json['access_permission'] != null) {
-      accessPermission = AccessPermissionModel.fromJson(json['access_permission']);
+      accessPermission =
+          AccessPermissionModel.fromJson(json['access_permission']);
     }
   }
   SharingInfo sharingInfo;

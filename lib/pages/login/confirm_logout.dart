@@ -20,7 +20,9 @@ class _ConfirmLogoutState extends State<ConfirmLogout> {
         width: double.infinity,
         bevel: 5,
         curveType: CurveType.emboss,
-        decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+        decoration: NeumorphicDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
         child: SafeArea(
           top: false,
           child: Padding(
@@ -57,7 +59,8 @@ class _ConfirmLogoutState extends State<ConfirmLogout> {
                       curveType: forget ? CurveType.emboss : CurveType.flat,
                       bevel: 12,
                       height: 60,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
                           Text("取消记住本设备"),
@@ -85,7 +88,8 @@ class _ConfirmLogoutState extends State<ConfirmLogout> {
                           }
                           Util.removeStorage("sid");
                           // Util.removeStorage("smid");
-                          Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => false);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              "/login", (route) => false);
                         },
                         decoration: NeumorphicDecoration(
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -95,7 +99,8 @@ class _ConfirmLogoutState extends State<ConfirmLogout> {
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: Text(
                           "退出登录",
-                          style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                          style:
+                              TextStyle(fontSize: 18, color: Colors.redAccent),
                         ),
                       ),
                     ),

@@ -39,7 +39,8 @@ class _SshState extends State<Ssh> {
     setState(() {
       title = "${widget.username}@${widget.host}:${widget.port}";
     });
-    terminal.write('Connecting to ${widget.username}@${widget.host}:${widget.port}\r\n');
+    terminal.write(
+        'Connecting to ${widget.username}@${widget.host}:${widget.port}\r\n');
 
     final client = SSHClient(
       await SSHSocket.connect(widget.host, int.parse(widget.port)),
@@ -72,9 +73,15 @@ class _SshState extends State<Ssh> {
       session.write(utf8.encode(data) as Uint8List);
     };
 
-    session.stdout.cast<List<int>>().transform(Utf8Decoder()).listen(terminal.write);
+    session.stdout
+        .cast<List<int>>()
+        .transform(Utf8Decoder())
+        .listen(terminal.write);
 
-    session.stderr.cast<List<int>>().transform(Utf8Decoder()).listen(terminal.write);
+    session.stderr
+        .cast<List<int>>()
+        .transform(Utf8Decoder())
+        .listen(terminal.write);
   }
 
   @override

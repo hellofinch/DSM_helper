@@ -61,7 +61,8 @@ class DashedDecoration extends Decoration {
 
   @override
   bool debugAssertIsValid() {
-    assert(shape != BoxShape.circle || borderRadius == null); // Can't have a border radius if you're a circle.
+    assert(shape != BoxShape.circle ||
+        borderRadius == null); // Can't have a border radius if you're a circle.
     return super.debugAssertIsValid();
   }
 
@@ -159,7 +160,9 @@ class DashedDecoration extends Decoration {
         clipPath = Path()..addOval(rect);
         break;
       case BoxShape.rectangle:
-        if (borderRadius != null) clipPath = Path()..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
+        if (borderRadius != null)
+          clipPath = Path()
+            ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
         break;
     }
     return clipPath;
@@ -219,7 +222,8 @@ class DashedDecoration extends Decoration {
   ///  * [lerpFrom] and [lerpTo], which are used to implement [Decoration.lerp]
   ///    and which use [DashedDecoration.lerp] when interpolating two
   ///    [DashedDecoration]s or a [DashedDecoration] to or from null.
-  static DashedDecoration lerp(DashedDecoration a, DashedDecoration b, double t) {
+  static DashedDecoration lerp(
+      DashedDecoration a, DashedDecoration b, double t) {
     assert(t != null);
     if (a == null && b == null) return null;
     if (a == null) return b.scale(t);
@@ -231,7 +235,8 @@ class DashedDecoration extends Decoration {
       image: t < 0.5 ? a.image : b.image,
       // TODO(ianh): cross-fade the image
       border: BoxBorder.lerp(a.border, b.border, t),
-      borderRadius: BorderRadiusGeometry.lerp(a.borderRadius, b.borderRadius, t),
+      borderRadius:
+          BorderRadiusGeometry.lerp(a.borderRadius, b.borderRadius, t),
       boxShadow: BoxShadow.lerpList(a.boxShadow, b.boxShadow, t),
       gradient: Gradient.lerp(a.gradient, b.gradient, t),
       shape: t < 0.5 ? a.shape : b.shape,
@@ -242,7 +247,14 @@ class DashedDecoration extends Decoration {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is DashedDecoration && other.color == color && other.image == image && other.border == border && other.borderRadius == borderRadius && other.boxShadow == boxShadow && other.gradient == gradient && other.shape == shape;
+    return other is DashedDecoration &&
+        other.color == color &&
+        other.image == image &&
+        other.border == border &&
+        other.borderRadius == borderRadius &&
+        other.boxShadow == boxShadow &&
+        other.gradient == gradient &&
+        other.shape == shape;
   }
 
   @override
@@ -266,12 +278,19 @@ class DashedDecoration extends Decoration {
       ..emptyBodyDescription = '<no decorations specified>';
 
     properties.add(ColorProperty('color', color, defaultValue: null));
-    properties.add(DiagnosticsProperty<DecorationImage>('image', image, defaultValue: null));
-    properties.add(DiagnosticsProperty<BoxBorder>('border', border, defaultValue: null));
-    properties.add(DiagnosticsProperty<BorderRadiusGeometry>('borderRadius', borderRadius, defaultValue: null));
-    properties.add(IterableProperty<BoxShadow>('boxShadow', boxShadow, defaultValue: null, style: DiagnosticsTreeStyle.whitespace));
-    properties.add(DiagnosticsProperty<Gradient>('gradient', gradient, defaultValue: null));
-    properties.add(EnumProperty<BoxShape>('shape', shape, defaultValue: BoxShape.rectangle));
+    properties.add(DiagnosticsProperty<DecorationImage>('image', image,
+        defaultValue: null));
+    properties.add(
+        DiagnosticsProperty<BoxBorder>('border', border, defaultValue: null));
+    properties.add(DiagnosticsProperty<BorderRadiusGeometry>(
+        'borderRadius', borderRadius,
+        defaultValue: null));
+    properties.add(IterableProperty<BoxShadow>('boxShadow', boxShadow,
+        defaultValue: null, style: DiagnosticsTreeStyle.whitespace));
+    properties.add(DiagnosticsProperty<Gradient>('gradient', gradient,
+        defaultValue: null));
+    properties.add(EnumProperty<BoxShape>('shape', shape,
+        defaultValue: BoxShape.rectangle));
   }
 
   @override
@@ -281,7 +300,8 @@ class DashedDecoration extends Decoration {
     switch (shape) {
       case BoxShape.rectangle:
         if (borderRadius != null) {
-          final RRect bounds = borderRadius.resolve(textDirection).toRRect(Offset.zero & size);
+          final RRect bounds =
+              borderRadius.resolve(textDirection).toRRect(Offset.zero & size);
           return bounds.contains(position);
         }
         return true;
@@ -315,14 +335,19 @@ class _BoxDecorationPainter extends BoxPainter {
 
   Paint _getBackgroundPaint(Rect rect, TextDirection textDirection) {
     assert(rect != null);
-    assert(_decoration.gradient != null || _rectForCachedBackgroundPaint == null);
+    assert(
+        _decoration.gradient != null || _rectForCachedBackgroundPaint == null);
 
-    if (_cachedBackgroundPaint == null || (_decoration.gradient != null && _rectForCachedBackgroundPaint != rect)) {
+    if (_cachedBackgroundPaint == null ||
+        (_decoration.gradient != null &&
+            _rectForCachedBackgroundPaint != rect)) {
       final Paint paint = Paint();
-      if (_decoration.backgroundBlendMode != null) paint.blendMode = _decoration.backgroundBlendMode;
+      if (_decoration.backgroundBlendMode != null)
+        paint.blendMode = _decoration.backgroundBlendMode;
       if (_decoration.color != null) paint.color = _decoration.color;
       if (_decoration.gradient != null) {
-        paint.shader = _decoration.gradient.createShader(rect, textDirection: textDirection);
+        paint.shader = _decoration.gradient
+            .createShader(rect, textDirection: textDirection);
         _rectForCachedBackgroundPaint = rect;
       }
       _cachedBackgroundPaint = paint;
@@ -331,7 +356,8 @@ class _BoxDecorationPainter extends BoxPainter {
     return _cachedBackgroundPaint;
   }
 
-  void _paintBox(Canvas canvas, Rect rect, Paint paint, TextDirection textDirection) {
+  void _paintBox(
+      Canvas canvas, Rect rect, Paint paint, TextDirection textDirection) {
     switch (_decoration.shape) {
       case BoxShape.circle:
         assert(_decoration.borderRadius == null);
@@ -343,7 +369,9 @@ class _BoxDecorationPainter extends BoxPainter {
         if (_decoration.borderRadius == null) {
           canvas.drawRect(rect, paint);
         } else {
-          canvas.drawRRect(_decoration.borderRadius.resolve(textDirection).toRRect(rect), paint);
+          canvas.drawRRect(
+              _decoration.borderRadius.resolve(textDirection).toRRect(rect),
+              paint);
         }
         break;
     }
@@ -353,18 +381,23 @@ class _BoxDecorationPainter extends BoxPainter {
     if (_decoration.boxShadow == null) return;
     for (final BoxShadow boxShadow in _decoration.boxShadow) {
       final Paint paint = boxShadow.toPaint();
-      final Rect bounds = rect.shift(boxShadow.offset).inflate(boxShadow.spreadRadius);
+      final Rect bounds =
+          rect.shift(boxShadow.offset).inflate(boxShadow.spreadRadius);
       _paintBox(canvas, bounds, paint, textDirection);
     }
   }
 
-  void _paintBackgroundColor(Canvas canvas, Rect rect, TextDirection textDirection) {
-    if (_decoration.color != null || _decoration.gradient != null) _paintBox(canvas, rect, _getBackgroundPaint(rect, textDirection), textDirection);
+  void _paintBackgroundColor(
+      Canvas canvas, Rect rect, TextDirection textDirection) {
+    if (_decoration.color != null || _decoration.gradient != null)
+      _paintBox(canvas, rect, _getBackgroundPaint(rect, textDirection),
+          textDirection);
   }
 
   DecorationImagePainter _imagePainter;
 
-  void _paintBackgroundImage(Canvas canvas, Rect rect, ImageConfiguration configuration) {
+  void _paintBackgroundImage(
+      Canvas canvas, Rect rect, ImageConfiguration configuration) {
     if (_decoration.image == null) return;
     _imagePainter ??= _decoration.image.createPainter(onChanged);
     Path clipPath;
@@ -373,7 +406,11 @@ class _BoxDecorationPainter extends BoxPainter {
         clipPath = Path()..addOval(rect);
         break;
       case BoxShape.rectangle:
-        if (_decoration.borderRadius != null) clipPath = Path()..addRRect(_decoration.borderRadius.resolve(configuration.textDirection).toRRect(rect));
+        if (_decoration.borderRadius != null)
+          clipPath = Path()
+            ..addRRect(_decoration.borderRadius
+                .resolve(configuration.textDirection)
+                .toRRect(rect));
         break;
     }
     _imagePainter.paint(canvas, rect, clipPath, configuration);
@@ -454,12 +491,18 @@ class _BoxDecorationPainter extends BoxPainter {
 
     num radians = math.atan(size.height / size.width);
 
-    num dx = math.cos(radians) * gap < 0 ? math.cos(radians) * gap * -1 : math.cos(radians) * gap;
+    num dx = math.cos(radians) * gap < 0
+        ? math.cos(radians) * gap * -1
+        : math.cos(radians) * gap;
 
-    num dy = math.sin(radians) * gap < 0 ? math.sin(radians) * gap * -1 : math.sin(radians) * gap;
+    num dy = math.sin(radians) * gap < 0
+        ? math.sin(radians) * gap * -1
+        : math.sin(radians) * gap;
 
     while (currentPoint.x <= b.x && currentPoint.y <= b.y) {
-      shouldDraw ? path.lineTo(currentPoint.x, currentPoint.y) : path.moveTo(currentPoint.x, currentPoint.y);
+      shouldDraw
+          ? path.lineTo(currentPoint.x, currentPoint.y)
+          : path.moveTo(currentPoint.x, currentPoint.y);
       shouldDraw = !shouldDraw;
       currentPoint = math.Point(
         currentPoint.x + dx,

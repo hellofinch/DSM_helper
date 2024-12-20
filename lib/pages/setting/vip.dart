@@ -33,7 +33,9 @@ class _VipState extends State<Vip> {
   Timer timer;
   @override
   void initState() {
-    weChatResponseEventHandler.distinct((a, b) => a == b).listen(wechatListener);
+    weChatResponseEventHandler
+        .distinct((a, b) => a == b)
+        .listen(wechatListener);
     initData();
     getActivity();
 
@@ -63,7 +65,8 @@ class _VipState extends State<Vip> {
   checkPayment() async {
     var hide = showWeuiLoadingToast(context: context, backButtonClose: true);
     timer = Timer.periodic(Duration(seconds: 1), (_) async {
-      var res = await Util.post("${Util.appUrl}/payment/check", data: {"out_trade_no": outTradeNo});
+      var res = await Util.post("${Util.appUrl}/payment/check",
+          data: {"out_trade_no": outTradeNo});
       if (res['code'] == 1) {
         Util.toast("支付成功");
         timer.cancel();
@@ -96,7 +99,8 @@ class _VipState extends State<Vip> {
     }
     userToken = await Util.getStorage("user_token");
     if (userToken.isNotBlank) {
-      var res = await Util.post("${Util.appUrl}/vip/info", data: {"token": userToken});
+      var res = await Util.post("${Util.appUrl}/vip/info",
+          data: {"token": userToken});
       if (res['code'] == 1) {
         isLogin = true;
         if (res['data']['is_forever'] == 1) {
@@ -104,7 +108,8 @@ class _VipState extends State<Vip> {
         }
         // isForever = Util.vipForever = true;
         if (res['data']['vip_expire_time'] != null) {
-          Util.vipExpireTime = vipExpireTime = DateTime.parse(res['data']['vip_expire_time']);
+          Util.vipExpireTime =
+              vipExpireTime = DateTime.parse(res['data']['vip_expire_time']);
           if (noAdTime == null) {
             if (vipExpireTime.isAfter(DateTime.now())) {
               noAdTime = vipExpireTime;
@@ -123,7 +128,8 @@ class _VipState extends State<Vip> {
   login(String code) async {
     var hide = showWeuiLoadingToast(context: context);
     try {
-      var res = await Util.post("${Util.appUrl}/login/app", data: {"code": code});
+      var res =
+          await Util.post("${Util.appUrl}/login/app", data: {"code": code});
       if (res['code'] == 1) {
         Util.setStorage("user_openid", res['data']['openid']);
         Util.setStorage("user_token", res['data']['token']);
@@ -197,7 +203,8 @@ class _VipState extends State<Vip> {
                     children: [
                       Text(
                         "关闭3天广告",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 16,
@@ -209,7 +216,8 @@ class _VipState extends State<Vip> {
                         ),
                         bevel: 20,
                         curveType: CurveType.flat,
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: Text("通过观看视频广告，可关闭3天开屏广告"),
                       ),
                       SizedBox(
@@ -221,7 +229,8 @@ class _VipState extends State<Vip> {
                             child: NeuButton(
                               onPressed: playVideo,
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               bevel: 20,
@@ -241,7 +250,8 @@ class _VipState extends State<Vip> {
                                 Navigator.of(context).pop();
                               },
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               bevel: 20,
@@ -293,14 +303,16 @@ class _VipState extends State<Vip> {
                       children: [
                         Text(
                           "兑换码",
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(
                           height: 16,
                         ),
                         Text(
                           '可关注群晖助手公众号，在聊天窗口回复"10006"使用积分获取兑换码',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.normal),
                         ),
                         SizedBox(
                           height: 16,
@@ -312,7 +324,8 @@ class _VipState extends State<Vip> {
                           ),
                           bevel: 20,
                           curveType: CurveType.flat,
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           child: TextField(
                             onChanged: (v) => code = v,
                             decoration: InputDecoration(
@@ -334,7 +347,12 @@ class _VipState extends State<Vip> {
                                     Util.toast("请输入兑换码");
                                     return;
                                   }
-                                  var res = await Util.post("${Util.appUrl}/vip/exchange", data: {"token": userToken, "code": code.trim()});
+                                  var res = await Util.post(
+                                      "${Util.appUrl}/vip/exchange",
+                                      data: {
+                                        "token": userToken,
+                                        "code": code.trim()
+                                      });
                                   if (res['code'] == 0) {
                                     Util.toast(res['msg']);
                                   } else {
@@ -344,7 +362,8 @@ class _VipState extends State<Vip> {
                                   }
                                 },
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 bevel: 20,
@@ -364,7 +383,8 @@ class _VipState extends State<Vip> {
                                   Navigator.of(context).pop();
                                 },
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 bevel: 20,
@@ -417,14 +437,16 @@ class _VipState extends State<Vip> {
                     children: [
                       Text(
                         "温馨提示",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 16,
                       ),
                       Text(
                         alert ? "为了防止APP卸载后开通记录丢失，此功能需登录账号后使用" : "请选择登录方式",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
                       ),
                       SizedBox(
                         height: 16,
@@ -438,7 +460,8 @@ class _VipState extends State<Vip> {
                                 Navigator.of(context).pop();
                               },
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               bevel: 20,
@@ -456,7 +479,8 @@ class _VipState extends State<Vip> {
                             child: NeuButton(
                               onPressed: () async {
                                 Navigator.of(context).pop();
-                                Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                                Navigator.of(context).push(
+                                    CupertinoPageRoute(builder: (context) {
                                   return VipLogin();
                                 })).then((res) {
                                   if (res != null && res) {
@@ -465,7 +489,8 @@ class _VipState extends State<Vip> {
                                 });
                               },
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               bevel: 20,
@@ -485,7 +510,8 @@ class _VipState extends State<Vip> {
                                 Navigator.of(context).pop();
                               },
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               bevel: 20,
@@ -536,11 +562,19 @@ class _VipState extends State<Vip> {
   }
 
   payOrder(String type) async {
-    var res = await Util.post("${Util.appUrl}/payment/wechat", data: {"token": userToken, "type": type});
+    var res = await Util.post("${Util.appUrl}/payment/wechat",
+        data: {"token": userToken, "type": type});
     if (res['code'] == 1) {
       var data = res['data'];
       outTradeNo = data['out_trade_no'];
-      payWithWeChat(appId: data['appid'], partnerId: data['partnerid'], prepayId: data['prepayid'], packageValue: data['package'], nonceStr: data['noncestr'], timeStamp: int.parse(data['timestamp']), sign: data['sign']);
+      payWithWeChat(
+          appId: data['appid'],
+          partnerId: data['partnerid'],
+          prepayId: data['prepayid'],
+          packageValue: data['package'],
+          nonceStr: data['noncestr'],
+          timeStamp: int.parse(data['timestamp']),
+          sign: data['sign']);
     } else {
       Util.toast(res['msg']);
     }
@@ -566,7 +600,8 @@ class _VipState extends State<Vip> {
                 if (!isLogin) {
                   loginDialog(alert: false);
                 } else {
-                  Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                  Navigator.of(context)
+                      .push(CupertinoPageRoute(builder: (context) {
                     return VipRecord();
                   }));
                 }
@@ -588,7 +623,8 @@ class _VipState extends State<Vip> {
               child: GestureDetector(
                 onTap: () {
                   if (activity['url'] != null && activity['url'] != '') {
-                    Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                    Navigator.of(context)
+                        .push(CupertinoPageRoute(builder: (context) {
                       return Browser(
                         url: activity['url'],
                       );
@@ -623,7 +659,9 @@ class _VipState extends State<Vip> {
                       TextSpan(
                         children: [
                           TextSpan(text: "关闭至"),
-                          TextSpan(text: "${noAdTime.format("Y-m-d H:i:s")}", style: TextStyle(color: Colors.red)),
+                          TextSpan(
+                              text: "${noAdTime.format("Y-m-d H:i:s")}",
+                              style: TextStyle(color: Colors.red)),
                         ],
                       ),
                     ),
@@ -639,12 +677,14 @@ class _VipState extends State<Vip> {
               "您已开通永久免广告特权，为给您带来更清爽的体验，已为您隐藏设置页面的关闭广告入口，您可以点击设置页面右上角齿轮找到关闭广告页面。",
               style: TextStyle(color: Colors.red),
             )
-          else if (vipExpireTime != null && vipExpireTime.difference(DateTime.now()).inDays > 7)
+          else if (vipExpireTime != null &&
+              vipExpireTime.difference(DateTime.now()).inDays > 7)
             Text(
               "您的免广告剩余时长大于7天，为给您带来更清爽的体验，已为您隐藏设置页面的关闭广告入口，您可以点击设置页面右上角齿轮找到关闭广告页面。",
               style: TextStyle(color: Colors.red),
             ),
-          if (activity != null && activity['description'] != null) Text("${activity['description']}"),
+          if (activity != null && activity['description'] != null)
+            Text("${activity['description']}"),
           NoAdButton(
             "关闭3天",
             price: "观看广告",
@@ -689,7 +729,8 @@ class _VipState extends State<Vip> {
 }
 
 class NoAdButton extends StatelessWidget {
-  const NoAdButton(this.title, {this.price, this.onPressed, Key key}) : super(key: key);
+  const NoAdButton(this.title, {this.price, this.onPressed, Key key})
+      : super(key: key);
   final String title;
   final String price;
   final Function() onPressed;

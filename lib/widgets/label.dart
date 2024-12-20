@@ -24,7 +24,8 @@ class Label extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       child: Text(
         name,
-        style: TextStyle(color: fill ? Colors.white : color, fontSize: fontSize ?? 12),
+        style: TextStyle(
+            color: fill ? Colors.white : color, fontSize: fontSize ?? 12),
       ),
     );
   }

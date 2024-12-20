@@ -17,7 +17,8 @@ class SystemInfo extends StatefulWidget {
   _SystemInfoState createState() => _SystemInfoState();
 }
 
-class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateMixin {
+class _SystemInfoState extends State<SystemInfo>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   List usbDev = [];
   List nifs;
@@ -27,7 +28,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
   bool loadingDisks = false;
   @override
   void initState() {
-    _tabController = TabController(initialIndex: widget.index, length: 6, vsync: this);
+    _tabController =
+        TabController(initialIndex: widget.index, length: 6, vsync: this);
     if (widget.system != null) {
       setState(() {
         usbDev = widget.system['usb_dev'];
@@ -215,7 +217,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
   }
 
   Widget _buildVolumeItem(volume) {
-    double percent = int.parse(volume['size']['used']) / int.parse(volume['size']['total']);
+    double percent =
+        int.parse(volume['size']['used']) / int.parse(volume['size']['total']);
     return NeuCard(
       decoration: NeumorphicDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -259,7 +262,9 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
               percent: percent,
               center: Text(
                 "${(percent * 100).toStringAsFixed(0)}%",
-                style: TextStyle(color: percent <= 0.9 ? Colors.blue : Colors.red, fontSize: 22),
+                style: TextStyle(
+                    color: percent <= 0.9 ? Colors.blue : Colors.red,
+                    fontSize: 22),
               ),
             ),
           ),
@@ -311,7 +316,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                 SizedBox(
                   height: 5,
                 ),
-                Text("${Util.formatSize(int.parse(volume['size']['used']))} / ${Util.formatSize(int.parse(volume['size']['total']))}"),
+                Text(
+                    "${Util.formatSize(int.parse(volume['size']['used']))} / ${Util.formatSize(int.parse(volume['size']['total']))}"),
               ],
             ),
           )
@@ -362,8 +368,12 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                       width: 5,
                     ),
                     Label(
-                      disk['overview_status'] == "normal" ? "正常" : disk['overview_status'],
-                      disk['overview_status'] == "normal" ? Colors.green : Colors.red,
+                      disk['overview_status'] == "normal"
+                          ? "正常"
+                          : disk['overview_status'],
+                      disk['overview_status'] == "normal"
+                          ? Colors.green
+                          : Colors.red,
                       fill: true,
                     ),
                   ],
@@ -413,11 +423,14 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
               isScrollable: true,
               controller: _tabController,
               indicatorSize: TabBarIndicatorSize.label,
-              labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+              labelColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               unselectedLabelColor: Colors.grey,
               indicator: BubbleTabIndicator(
                 indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                shadowColor: Util.getAdjustColor(
+                    Theme.of(context).scaffoldBackgroundColor, -20),
               ),
               tabs: [
                 Padding(
@@ -469,7 +482,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                             padding: EdgeInsets.only(top: 20, left: 20),
                             child: Text(
                               "基本信息",
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
                           NeuCard(
@@ -478,7 +492,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -505,7 +520,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -532,7 +548,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -559,7 +576,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -586,7 +604,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -613,7 +632,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -640,7 +660,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -667,7 +688,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -691,11 +713,13 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                           if (widget.system['sys_temp'] != null)
                             NeuCard(
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                              margin:
+                                  EdgeInsets.only(top: 20, left: 20, right: 20),
                               bevel: 10,
                               curveType: CurveType.flat,
                               child: Row(
@@ -710,7 +734,17 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                                     flex: 2,
                                     child: Text(
                                       "${widget.system['sys_temp']}℃ ${widget.system['temperature_warning'] == null ? (widget.system['sys_temp'] > 80 ? "警告" : "正常") : (widget.system['temperature_warning'] ? "警告" : "正常")}",
-                                      style: TextStyle(color: widget.system['temperature_warning'] == null ? (widget.system['sys_temp'] > 80 ? Colors.red : Colors.green) : (widget.system['temperature_warning'] ? Colors.red : Colors.green)),
+                                      style: TextStyle(
+                                          color: widget.system[
+                                                      'temperature_warning'] ==
+                                                  null
+                                              ? (widget.system['sys_temp'] > 80
+                                                  ? Colors.red
+                                                  : Colors.green)
+                                              : (widget.system[
+                                                      'temperature_warning']
+                                                  ? Colors.red
+                                                  : Colors.green)),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -738,7 +772,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                             padding: EdgeInsets.only(top: 20, left: 20),
                             child: Text(
                               "时间信息",
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ),
                           NeuCard(
@@ -747,7 +782,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -774,7 +810,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Row(
@@ -818,7 +855,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               padding: EdgeInsets.only(top: 20, left: 20),
                               child: Text(
                                 "外接设备",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600),
                               ),
                             ),
                             ...usbDev.map(_buildDevItem).toList(),
@@ -841,7 +879,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Column(
@@ -851,16 +890,20 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                                   padding: EdgeInsets.only(top: 20, left: 20),
                                   child: Text(
                                     "基本信息",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 NeuCard(
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   padding: EdgeInsets.all(10),
-                                  margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                                  margin: EdgeInsets.only(
+                                      top: 20, left: 20, right: 20),
                                   bevel: 10,
                                   curveType: CurveType.flat,
                                   child: Row(
@@ -883,11 +926,13 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                                 ),
                                 NeuCard(
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   padding: EdgeInsets.all(10),
-                                  margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                                  margin: EdgeInsets.only(
+                                      top: 20, left: 20, right: 20),
                                   bevel: 10,
                                   curveType: CurveType.flat,
                                   child: Row(
@@ -911,11 +956,13 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                                 ),
                                 NeuCard(
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   padding: EdgeInsets.all(10),
-                                  margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                                  margin: EdgeInsets.only(
+                                      top: 20, left: 20, right: 20),
                                   bevel: 10,
                                   curveType: CurveType.flat,
                                   child: Row(
@@ -939,11 +986,13 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                                 ),
                                 NeuCard(
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   padding: EdgeInsets.all(10),
-                                  margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                                  margin: EdgeInsets.only(
+                                      top: 20, left: 20, right: 20),
                                   bevel: 10,
                                   curveType: CurveType.flat,
                                   child: Row(
@@ -992,7 +1041,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                     : ListView(
                         children: [
                           NeuCard(
-                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
                             curveType: CurveType.flat,
                             bevel: 20,
                             decoration: NeumorphicDecoration(
@@ -1006,7 +1056,9 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                                   padding: EdgeInsets.only(left: 20, top: 20),
                                   child: Text(
                                     "存储空间",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 ...volumes.map(_buildVolumeItem).toList(),
@@ -1017,7 +1069,8 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                             ),
                           ),
                           NeuCard(
-                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
                             curveType: CurveType.flat,
                             bevel: 20,
                             decoration: NeumorphicDecoration(
@@ -1031,7 +1084,9 @@ class _SystemInfoState extends State<SystemInfo> with SingleTickerProviderStateM
                                   padding: EdgeInsets.only(left: 20, top: 20),
                                   child: Text(
                                     "硬盘",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 ...disks.map(_buildDiskItem).toList(),

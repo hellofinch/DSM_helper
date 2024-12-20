@@ -31,7 +31,8 @@ class _SelectLocalFolderState extends State<SelectLocalFolder> {
     if (paths.length == 1) {
       directory = Directory("/storage/emulated/0/");
     } else {
-      directory = Directory("/storage/emulated/0/" + paths.join("/").substring(1));
+      directory =
+          Directory("/storage/emulated/0/" + paths.join("/").substring(1));
     }
     files = [];
     await directory.list().forEach((element) {
@@ -56,7 +57,8 @@ class _SelectLocalFolderState extends State<SelectLocalFolder> {
     setPaths(path);
     await getData();
     double offset = _scrollController.position.maxScrollExtent;
-    _scrollController.animateTo(offset, duration: Duration(milliseconds: 200), curve: Curves.ease);
+    _scrollController.animateTo(offset,
+        duration: Duration(milliseconds: 200), curve: Curves.ease);
   }
 
   setPaths(String path) {
@@ -257,7 +259,10 @@ class _SelectLocalFolderState extends State<SelectLocalFolder> {
                               Navigator.of(context).pop(selectedFiles);
                             } else {
                               if (paths.length > 1) {
-                                Navigator.of(context).pop([Directory("/storage/emulated/0" + paths.join("/"))]);
+                                Navigator.of(context).pop([
+                                  Directory(
+                                      "/storage/emulated/0" + paths.join("/"))
+                                ]);
                               }
                               // Navigator.of(context).pop(["/storage/emulated/0" + paths.join("/").substring(1)]);
                             }
@@ -267,7 +272,8 @@ class _SelectLocalFolderState extends State<SelectLocalFolder> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           bevel: 5,
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           child: Text(
                             "完成",
                             style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -282,7 +288,8 @@ class _SelectLocalFolderState extends State<SelectLocalFolder> {
                 ),
                 Expanded(
                   child: ListView(
-                    padding: EdgeInsets.only(bottom: selectedFiles.length > 0 ? 140 : 20),
+                    padding: EdgeInsets.only(
+                        bottom: selectedFiles.length > 0 ? 140 : 20),
                     children: files.map(_buildFileItem).toList(),
                   ),
                 ),

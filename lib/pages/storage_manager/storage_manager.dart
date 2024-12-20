@@ -14,7 +14,8 @@ class StorageManager extends StatefulWidget {
   _StorageManagerState createState() => _StorageManagerState();
 }
 
-class _StorageManagerState extends State<StorageManager> with SingleTickerProviderStateMixin {
+class _StorageManagerState extends State<StorageManager>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   bool loading = true;
   List ssdCaches = [];
@@ -57,7 +58,9 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
   }
 
   Widget _buildSSDCacheItem(volume) {
-    double percent = int.parse(volume['size']['used'] ?? volume['size']['reusable']) / int.parse(volume['size']['total']);
+    double percent =
+        int.parse(volume['size']['used'] ?? volume['size']['reusable']) /
+            int.parse(volume['size']['total']);
     return NeuCard(
       decoration: NeumorphicDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -101,7 +104,9 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
               percent: percent,
               center: Text(
                 "${(percent * 100).toStringAsFixed(0)}%",
-                style: TextStyle(color: percent <= 0.9 ? Colors.blue : Colors.red, fontSize: 22),
+                style: TextStyle(
+                    color: percent <= 0.9 ? Colors.blue : Colors.red,
+                    fontSize: 22),
               ),
             ),
           ),
@@ -131,15 +136,18 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                 SizedBox(
                   height: 5,
                 ),
-                Text("已用：${Util.formatSize(int.parse(volume['size']['used'] ?? volume['size']['reusable']))}"),
+                Text(
+                    "已用：${Util.formatSize(int.parse(volume['size']['used'] ?? volume['size']['reusable']))}"),
                 SizedBox(
                   height: 5,
                 ),
-                Text("可用：${Util.formatSize(int.parse(volume['size']['total']) - int.parse(volume['size']['used'] ?? volume['size']['reusable']))}"),
+                Text(
+                    "可用：${Util.formatSize(int.parse(volume['size']['total']) - int.parse(volume['size']['used'] ?? volume['size']['reusable']))}"),
                 SizedBox(
                   height: 5,
                 ),
-                Text("容量：${Util.formatSize(int.parse(volume['size']['total']))}"),
+                Text(
+                    "容量：${Util.formatSize(int.parse(volume['size']['total']))}"),
               ],
             ),
           )
@@ -175,7 +183,9 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
               // progressColor: Colors.lightBlueAccent,
               animation: true,
               linearGradient: LinearGradient(
-                colors: int.parse(volume['size']['used']) / int.parse(volume['size']['total']) <= 0.9
+                colors: int.parse(volume['size']['used']) /
+                            int.parse(volume['size']['total']) <=
+                        0.9
                     ? [
                         Colors.blue,
                         Colors.blueAccent,
@@ -189,10 +199,17 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
               circularStrokeCap: CircularStrokeCap.round,
               lineWidth: 12,
               backgroundColor: Colors.black12,
-              percent: int.parse(volume['size']['used']) / int.parse(volume['size']['total']),
+              percent: int.parse(volume['size']['used']) /
+                  int.parse(volume['size']['total']),
               center: Text(
                 "${(int.parse(volume['size']['used']) / int.parse(volume['size']['total']) * 100).toStringAsFixed(0)}%",
-                style: TextStyle(color: int.parse(volume['size']['used']) / int.parse(volume['size']['total']) <= 0.9 ? Colors.blue : Colors.red, fontSize: 22),
+                style: TextStyle(
+                    color: int.parse(volume['size']['used']) /
+                                int.parse(volume['size']['total']) <=
+                            0.9
+                        ? Colors.blue
+                        : Colors.red,
+                    fontSize: 22),
               ),
             ),
           ),
@@ -248,15 +265,18 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                 SizedBox(
                   height: 5,
                 ),
-                Text("已用：${Util.formatSize(int.parse(volume['size']['used']))}"),
+                Text(
+                    "已用：${Util.formatSize(int.parse(volume['size']['used']))}"),
                 SizedBox(
                   height: 5,
                 ),
-                Text("可用：${Util.formatSize(int.parse(volume['size']['total']) - int.parse(volume['size']['used']))}"),
+                Text(
+                    "可用：${Util.formatSize(int.parse(volume['size']['total']) - int.parse(volume['size']['used']))}"),
                 SizedBox(
                   height: 5,
                 ),
-                Text("全部：${Util.formatSize(int.parse(volume['size']['total']))}"),
+                Text(
+                    "全部：${Util.formatSize(int.parse(volume['size']['total']))}"),
               ],
             ),
           )
@@ -296,7 +316,9 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                   ),
                   bevel: 8,
                   child: Image.asset(
-                    disk['isSsd'] ? "assets/icons/ssd.png" : "assets/icons/hdd.png",
+                    disk['isSsd']
+                        ? "assets/icons/ssd.png"
+                        : "assets/icons/hdd.png",
                     width: 40,
                   ),
                 ),
@@ -317,8 +339,12 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                             width: 5,
                           ),
                           Label(
-                            disk['overview_status'] == "normal" ? "正常" : disk['overview_status'],
-                            disk['overview_status'] == "normal" ? Colors.green : Colors.red,
+                            disk['overview_status'] == "normal"
+                                ? "正常"
+                                : disk['overview_status'],
+                            disk['overview_status'] == "normal"
+                                ? Colors.green
+                                : Colors.red,
                             fill: true,
                           ),
                           SizedBox(
@@ -389,10 +415,24 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                         ),
-                        if (storagePools != null && storagePools.where((pool) => pool['id'] == disk['used_by']).toList().length > 0)
-                          Text("存储池 ${storagePools.where((pool) => pool['id'] == disk['used_by']).toList()[0]['num_id']}")
-                        else if (ssdCaches != null && ssdCaches.where((ssd) => ssd['id'] == disk['used_by']).toList().length > 0)
-                          Text("${ssdCaches.where((ssd) => ssd['id'] == disk['used_by']).toList()[0]['id'].toString().replaceFirst("ssd_", "SSD 缓存 ")}")
+                        if (storagePools != null &&
+                            storagePools
+                                    .where(
+                                        (pool) => pool['id'] == disk['used_by'])
+                                    .toList()
+                                    .length >
+                                0)
+                          Text(
+                              "存储池 ${storagePools.where((pool) => pool['id'] == disk['used_by']).toList()[0]['num_id']}")
+                        else if (ssdCaches != null &&
+                            ssdCaches
+                                    .where(
+                                        (ssd) => ssd['id'] == disk['used_by'])
+                                    .toList()
+                                    .length >
+                                0)
+                          Text(
+                              "${ssdCaches.where((ssd) => ssd['id'] == disk['used_by']).toList()[0]['id'].toString().replaceFirst("ssd_", "SSD 缓存 ")}")
                         else
                           Text("-"),
                       ],
@@ -411,7 +451,10 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                         ),
                         Text(
                           "${disk['status'] == "normal" ? "正常" : disk['status'] == "not_use" ? "未初始化" : disk['status'] == "sys_partition_normal" ? "已初始化" : "${disk['status']}"}",
-                          style: TextStyle(color: disk['status'] == "normal" ? Colors.green : Colors.red),
+                          style: TextStyle(
+                              color: disk['status'] == "normal"
+                                  ? Colors.green
+                                  : Colors.red),
                         ),
                       ],
                     ),
@@ -429,7 +472,10 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                         ),
                         Text(
                           "${disk['smart_status'] == "normal" ? "正常" : disk['smart_status']}",
-                          style: TextStyle(color: disk['smart_status'] == "normal" ? Colors.green : Colors.red),
+                          style: TextStyle(
+                              color: disk['smart_status'] == "normal"
+                                  ? Colors.green
+                                  : Colors.red),
                         ),
                       ],
                     ),
@@ -446,7 +492,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                           ),
-                          Text("${disk['remain_life'] == -1 ? "-" : disk['remain_life']}"),
+                          Text(
+                              "${disk['remain_life'] == -1 ? "-" : disk['remain_life']}"),
                         ],
                       ),
                       SizedBox(
@@ -480,7 +527,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                           ),
-                          Text("${disk['temp'] > -1 ? "${disk['temp']} ℃" : "-"}"),
+                          Text(
+                              "${disk['temp'] > -1 ? "${disk['temp']} ℃" : "-"}"),
                         ],
                       ),
                       SizedBox(
@@ -589,7 +637,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                                 fill: true,
                               ),
                 Spacer(),
-                Text("${Util.formatSize(int.parse(pool['size']['used']))} / ${Util.formatSize(int.parse(pool['size']['total']))}"),
+                Text(
+                    "${Util.formatSize(int.parse(pool['size']['used']))} / ${Util.formatSize(int.parse(pool['size']['total']))}"),
               ],
             ),
             Row(
@@ -597,12 +646,14 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                 Text(
                   pool['device_type'] == "basic"
                       ? "Basic"
-                      : pool['device_type'] == "shr_without_disk_protect" || pool['device_type'] == "shr"
+                      : pool['device_type'] == "shr_without_disk_protect" ||
+                              pool['device_type'] == "shr"
                           ? "Synology Hybrid RAID (SHR) "
                           : pool['device_type'],
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
-                if (pool['device_type'] == "basic" || pool['device_type'] == "shr_without_disk_protect")
+                if (pool['device_type'] == "basic" ||
+                    pool['device_type'] == "shr_without_disk_protect")
                   Text(
                     "（无数据保护）",
                     style: TextStyle(fontSize: 12, color: Colors.red),
@@ -636,7 +687,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
-                Text("${Util.formatSize(int.parse(pool['size']['total']) - int.parse(pool['size']['used']))}"),
+                Text(
+                    "${Util.formatSize(int.parse(pool['size']['total']) - int.parse(pool['size']['used']))}"),
               ],
             ),
             SizedBox(
@@ -658,7 +710,10 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                       "硬盘信息",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    ...disks.where((e) => pool['disks'].contains(e['id'])).map(_buildDiskItem).toList(),
+                    ...disks
+                        .where((e) => pool['disks'].contains(e['id']))
+                        .map(_buildDiskItem)
+                        .toList(),
                   ],
                 ),
               ),
@@ -687,7 +742,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                     ),
                     Row(
                       children: [
-                        Text("${pool['spares'] == null || pool['spares'].length == 0 ? "系统中无备援配置" : "暂不支持显示，共${pool['spares'].length}块"}"),
+                        Text(
+                            "${pool['spares'] == null || pool['spares'].length == 0 ? "系统中无备援配置" : "暂不支持显示，共${pool['spares'].length}块"}"),
                       ],
                     )
                   ],
@@ -714,7 +770,10 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
-                  ...volumes.where((e) => e['pool_path'] == pool['id']).map(_buildVolumeItem).toList(),
+                  ...volumes
+                      .where((e) => e['pool_path'] == pool['id'])
+                      .map(_buildVolumeItem)
+                      .toList(),
                   SizedBox(
                     height: 20,
                   ),
@@ -784,12 +843,14 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                 Text(
                   pool['device_type'] == "basic"
                       ? "Basic"
-                      : pool['device_type'] == "shr_without_disk_protect" || pool['device_type'] == "shr"
+                      : pool['device_type'] == "shr_without_disk_protect" ||
+                              pool['device_type'] == "shr"
                           ? "Synology Hybrid RAID (SHR) "
                           : pool['device_type'],
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
-                if (pool['device_type'] == "basic" || pool['device_type'] == "shr_without_disk_protect")
+                if (pool['device_type'] == "basic" ||
+                    pool['device_type'] == "shr_without_disk_protect")
                   Text(
                     "（无数据保护）",
                     style: TextStyle(fontSize: 12, color: Colors.red),
@@ -839,35 +900,44 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                     isScrollable: true,
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
-                    labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                    labelColor: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
                     unselectedLabelColor: Colors.grey,
                     indicator: BubbleTabIndicator(
                       indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                      shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                      shadowColor: Util.getAdjustColor(
+                          Theme.of(context).scaffoldBackgroundColor, -20),
                     ),
                     tabs: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("系统概况"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("存储空间"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("存储池"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("HDD/SSD"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("Hot Spare"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("SSD 缓存"),
                       ),
                     ],
@@ -880,7 +950,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                       ListView(
                         children: [
                           NeuCard(
-                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
                             curveType: CurveType.flat,
                             bevel: 20,
                             decoration: NeumorphicDecoration(
@@ -897,7 +968,9 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "存储空间状态",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 ...volumes.map(_buildVolumeItem).toList(),
@@ -908,7 +981,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                             ),
                           ),
                           NeuCard(
-                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
                             curveType: CurveType.flat,
                             bevel: 20,
                             decoration: NeumorphicDecoration(
@@ -925,10 +999,14 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "存储池",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                ...storagePools.reversed.map(_buildPoolItem).toList(),
+                                ...storagePools.reversed
+                                    .map(_buildPoolItem)
+                                    .toList(),
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -936,7 +1014,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                             ),
                           ),
                           NeuCard(
-                            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
                             curveType: CurveType.flat,
                             bevel: 20,
                             decoration: NeumorphicDecoration(
@@ -950,7 +1029,9 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                                 children: [
                                   Text(
                                     "硬盘信息",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -959,14 +1040,37 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                                     runSpacing: 5,
                                     spacing: 5,
                                     children: [
-                                      for (int i = 0; i < int.parse(env['bay_number']); i++)
+                                      for (int i = 0;
+                                          i < int.parse(env['bay_number']);
+                                          i++)
                                         Container(
                                           height: 20,
                                           width: 40,
                                           decoration: DashedDecoration(
-                                            color: disks.where((disk) => disk['num_id'] == i + 1).length > 0 ? Colors.blue : Colors.transparent,
-                                            dashedColor: disks.where((disk) => disk['num_id'] == i + 1).length > 0 ? Colors.blue : Colors.grey,
-                                            gap: disks.where((disk) => disk['num_id'] == i + 1).length > 0 ? 0.1 : 2,
+                                            color: disks
+                                                        .where((disk) =>
+                                                            disk['num_id'] ==
+                                                            i + 1)
+                                                        .length >
+                                                    0
+                                                ? Colors.blue
+                                                : Colors.transparent,
+                                            dashedColor: disks
+                                                        .where((disk) =>
+                                                            disk['num_id'] ==
+                                                            i + 1)
+                                                        .length >
+                                                    0
+                                                ? Colors.blue
+                                                : Colors.grey,
+                                            gap: disks
+                                                        .where((disk) =>
+                                                            disk['num_id'] ==
+                                                            i + 1)
+                                                        .length >
+                                                    0
+                                                ? 0.1
+                                                : 2,
                                           ),
                                         ),
                                     ],
@@ -980,7 +1084,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                       volumes != null && volumes.length > 0
                           ? ListView.separated(
                               itemBuilder: (context, i) {
-                                return _buildVolumeItem(volumes.reversed.toList()[i]);
+                                return _buildVolumeItem(
+                                    volumes.reversed.toList()[i]);
                               },
                               itemCount: volumes.length,
                               separatorBuilder: (context, i) {
@@ -996,7 +1101,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                           ? ListView.separated(
                               padding: EdgeInsets.all(20),
                               itemBuilder: (context, i) {
-                                return _buildPoolDetail(storagePools.reversed.toList()[i]);
+                                return _buildPoolDetail(
+                                    storagePools.reversed.toList()[i]);
                               },
                               itemCount: storagePools.length,
                               separatorBuilder: (context, i) {
@@ -1025,7 +1131,8 @@ class _StorageManagerState extends State<StorageManager> with SingleTickerProvid
                               child: Text("无HDD/SSD"),
                             ),
                       Center(
-                        child: Text("${hotSpares != null && hotSpares.length > 0 ? "暂不支持显示，共${hotSpares.length}个" : "无备援装置"}"),
+                        child: Text(
+                            "${hotSpares != null && hotSpares.length > 0 ? "暂不支持显示，共${hotSpares.length}个" : "无备援装置"}"),
                       ),
                       ssdCaches != null && ssdCaches.length > 0
                           ? ListView.separated(

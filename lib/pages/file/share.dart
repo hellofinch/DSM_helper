@@ -39,7 +39,8 @@ class _ShareState extends State<Share> {
       setState(() {
         loading = false;
         link = widget.link;
-        times = link['expire_times'] == 0 ? "" : link['expire_times'].toString();
+        times =
+            link['expire_times'] == 0 ? "" : link['expire_times'].toString();
         if (link['date_expired'] != "") {
           endTime = DateTime.parse(link['date_expired']);
         }
@@ -47,15 +48,21 @@ class _ShareState extends State<Share> {
           startTime = DateTime.parse(link['date_available']);
         }
         String endTimeStr = endTime == null ? "" : endTime.format("Y-m-d H:i");
-        String startTimeStr = startTime == null ? "" : startTime.format("Y-m-d H:i");
-        timesController = TextEditingController.fromValue(TextEditingValue(text: times));
-        endTimeController = TextEditingController.fromValue(TextEditingValue(text: endTimeStr));
-        startTimeController = TextEditingController.fromValue(TextEditingValue(text: startTimeStr));
+        String startTimeStr =
+            startTime == null ? "" : startTime.format("Y-m-d H:i");
+        timesController =
+            TextEditingController.fromValue(TextEditingValue(text: times));
+        endTimeController =
+            TextEditingController.fromValue(TextEditingValue(text: endTimeStr));
+        startTimeController = TextEditingController.fromValue(
+            TextEditingValue(text: startTimeStr));
         if (link['enable_upload']) {
           requestName = link['request_name'];
-          requestNameController = TextEditingController.fromValue(TextEditingValue(text: requestName));
+          requestNameController = TextEditingController.fromValue(
+              TextEditingValue(text: requestName));
           requestInfo = link['request_info'];
-          requestInfoController = TextEditingController.fromValue(TextEditingValue(text: requestInfo));
+          requestInfoController = TextEditingController.fromValue(
+              TextEditingValue(text: requestInfo));
         }
       });
     }
@@ -76,12 +83,17 @@ class _ShareState extends State<Share> {
       requestName = await Util.getStorage("account");
       requestInfo = "嗨，我的朋友！请将文件上传到此处。";
     }
-    var res = await Api.createShare(widget.paths, fileRequest: widget.fileRequest, requestName: requestName, requestInfo: requestInfo);
+    var res = await Api.createShare(widget.paths,
+        fileRequest: widget.fileRequest,
+        requestName: requestName,
+        requestInfo: requestInfo);
     if (res['success']) {
       setState(() {
         loading = false;
         link = res['data']['links'][0];
-        times = res['data']['links'][0]['expire_times'] == 0 ? "" : res['data']['links'][0]['expire_times'].toString();
+        times = res['data']['links'][0]['expire_times'] == 0
+            ? ""
+            : res['data']['links'][0]['expire_times'].toString();
         if (link['date_expired'] != "") {
           endTime = DateTime.parse(link['date_expired']);
         }
@@ -90,14 +102,19 @@ class _ShareState extends State<Share> {
         }
         String endTimeStr = endTime?.format("Y-m-d H:i") ?? "";
         String startTimeStr = startTime?.format("Y-m-d H:i") ?? "";
-        timesController = TextEditingController.fromValue(TextEditingValue(text: times));
-        endTimeController = TextEditingController.fromValue(TextEditingValue(text: endTimeStr));
-        startTimeController = TextEditingController.fromValue(TextEditingValue(text: startTimeStr));
+        timesController =
+            TextEditingController.fromValue(TextEditingValue(text: times));
+        endTimeController =
+            TextEditingController.fromValue(TextEditingValue(text: endTimeStr));
+        startTimeController = TextEditingController.fromValue(
+            TextEditingValue(text: startTimeStr));
         if (link['enable_upload']) {
           requestName = link['request_name'];
-          requestNameController = TextEditingController.fromValue(TextEditingValue(text: requestName));
+          requestNameController = TextEditingController.fromValue(
+              TextEditingValue(text: requestName));
           requestInfo = link['request_info'];
-          requestInfoController = TextEditingController.fromValue(TextEditingValue(text: requestInfo));
+          requestInfoController = TextEditingController.fromValue(
+              TextEditingValue(text: requestInfo));
         }
       });
     }
@@ -376,7 +393,11 @@ class _ShareState extends State<Share> {
                               List<String> url = [];
                               id.add(link['id']);
                               url.add(link['url']);
-                              var res = await Api.editShare(link['path'], id, url, endTime, startTime, times, fileRequest: link['enable_upload'], requestName: requestName, requestInfo: requestInfo);
+                              var res = await Api.editShare(link['path'], id,
+                                  url, endTime, startTime, times,
+                                  fileRequest: link['enable_upload'],
+                                  requestName: requestName,
+                                  requestInfo: requestInfo);
                               if (res['success']) {
                                 Util.toast("保存成功");
                               }
@@ -404,7 +425,11 @@ class _ShareState extends State<Share> {
                                       padding: EdgeInsets.all(22),
                                       bevel: 5,
                                       curveType: CurveType.emboss,
-                                      decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                                      decoration: NeumorphicDecoration(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(22))),
                                       child: SafeArea(
                                         top: false,
                                         child: Column(
@@ -412,14 +437,18 @@ class _ShareState extends State<Share> {
                                           children: <Widget>[
                                             Text(
                                               "确认取消",
-                                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500),
                                             ),
                                             SizedBox(
                                               height: 12,
                                             ),
                                             Text(
                                               "确认要取消此共享链接？",
-                                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w400),
                                             ),
                                             SizedBox(
                                               height: 22,
@@ -429,18 +458,28 @@ class _ShareState extends State<Share> {
                                                 Expanded(
                                                   child: NeuButton(
                                                     onPressed: () async {
-                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                       deleteShare();
                                                     },
-                                                    decoration: NeumorphicDecoration(
-                                                      color: Theme.of(context).scaffoldBackgroundColor,
-                                                      borderRadius: BorderRadius.circular(25),
+                                                    decoration:
+                                                        NeumorphicDecoration(
+                                                      color: Theme.of(context)
+                                                          .scaffoldBackgroundColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
                                                     ),
                                                     bevel: 5,
-                                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10),
                                                     child: Text(
                                                       "取消共享",
-                                                      style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          color:
+                                                              Colors.redAccent),
                                                     ),
                                                   ),
                                                 ),
@@ -450,17 +489,25 @@ class _ShareState extends State<Share> {
                                                 Expanded(
                                                   child: NeuButton(
                                                     onPressed: () async {
-                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
-                                                    decoration: NeumorphicDecoration(
-                                                      color: Theme.of(context).scaffoldBackgroundColor,
-                                                      borderRadius: BorderRadius.circular(25),
+                                                    decoration:
+                                                        NeumorphicDecoration(
+                                                      color: Theme.of(context)
+                                                          .scaffoldBackgroundColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
                                                     ),
                                                     bevel: 5,
-                                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10),
                                                     child: Text(
                                                       "取消",
-                                                      style: TextStyle(fontSize: 18),
+                                                      style: TextStyle(
+                                                          fontSize: 18),
                                                     ),
                                                   ),
                                                 ),

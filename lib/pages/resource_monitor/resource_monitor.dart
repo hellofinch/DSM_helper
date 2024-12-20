@@ -13,7 +13,8 @@ class ResourceMonitor extends StatefulWidget {
   _ResourceMonitorState createState() => _ResourceMonitorState();
 }
 
-class _ResourceMonitorState extends State<ResourceMonitor> with SingleTickerProviderStateMixin {
+class _ResourceMonitorState extends State<ResourceMonitor>
+    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +60,8 @@ class _ResourceMonitorState extends State<ResourceMonitor> with SingleTickerProv
                     Expanded(
                       child: Text(
                         "性能",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
                     SizedBox(
@@ -106,7 +108,8 @@ class _ResourceMonitorState extends State<ResourceMonitor> with SingleTickerProv
                     Expanded(
                       child: Text(
                         "任务管理器",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
                     SizedBox(
@@ -153,7 +156,8 @@ class _ResourceMonitorState extends State<ResourceMonitor> with SingleTickerProv
                     Expanded(
                       child: Text(
                         "目前连接用户",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
                     SizedBox(

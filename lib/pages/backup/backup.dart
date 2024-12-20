@@ -30,7 +30,10 @@ class UploadItem {
   DateTime modifyTime;
 
   CancelToken cancelToken;
-  UploadItem(this.file, this.modifyTime, this.type, {this.fileSize = 0, this.uploadSize = 0, this.status = UploadStatus.wait}) {
+  UploadItem(this.file, this.modifyTime, this.type,
+      {this.fileSize = 0,
+      this.uploadSize = 0,
+      this.status = UploadStatus.wait}) {
     cancelToken = CancelToken();
   }
 
@@ -57,12 +60,15 @@ class _BackupState extends State<Backup> {
   getData() async {
     String last = await Util.getStorage("last_backup_time");
 
-    lastBackupTime = last.isNotBlank ? DateTime.fromMillisecondsSinceEpoch(int.parse(last)) : null;
+    lastBackupTime = last.isNotBlank
+        ? DateTime.fromMillisecondsSinceEpoch(int.parse(last))
+        : null;
     backupFolder = await Util.getStorage("backup_folder") ?? "";
     setState(() {});
     String backupAlbumStr = await Util.getStorage("backup_album");
     List backupAlbums = [];
-    if (await PhotoManager.requestPermissionExtend() == PermissionState.authorized) {
+    if (await PhotoManager.requestPermissionExtend() ==
+        PermissionState.authorized) {
       if (backupAlbumStr.isNotBlank) {
         backupAlbums = json.decode(backupAlbumStr);
 
@@ -122,7 +128,8 @@ class _BackupState extends State<Backup> {
       // path.filterOption.copyWith(orders: [OrderOption(type: OrderOptionType.createDate, asc: true)]);
       // var length = await path.assetCountAsync;
       // if (length > 0) {
-      List<AssetEntity> assetList = await path.getAssetListRange(start: 0, end: 100000000);
+      List<AssetEntity> assetList =
+          await path.getAssetListRange(start: 0, end: 100000000);
       setState(() {
         uploads.addAll(assetList);
       });
@@ -171,7 +178,8 @@ class _BackupState extends State<Backup> {
               },
               child: Text(
                 "清理缓存",
-                style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1.color),
               ),
             ),
           ),
@@ -190,7 +198,9 @@ class _BackupState extends State<Backup> {
               child: Stack(
                 children: [
                   Container(
-                    width: (MediaQuery.of(context).size.width - 40) * (uploading.uploadSize / (uploading.fileSize == 0 ? 1 : uploading.fileSize)),
+                    width: (MediaQuery.of(context).size.width - 40) *
+                        (uploading.uploadSize /
+                            (uploading.fileSize == 0 ? 1 : uploading.fileSize)),
                     height: 70,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -198,7 +208,8 @@ class _BackupState extends State<Backup> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                     child: Row(
                       children: [
                         uploading.type == AssetType.image
@@ -228,7 +239,8 @@ class _BackupState extends State<Backup> {
                                 uploading.file.parent.path,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(fontSize: 12, color: Colors.grey),
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -367,7 +379,9 @@ class _BackupState extends State<Backup> {
                           style: TextStyle(fontSize: 18),
                         ),
                         Text(
-                          lastBackupTime != null ? lastBackupTime.format("Y-m-d H:i:s") : "从未备份过",
+                          lastBackupTime != null
+                              ? lastBackupTime.format("Y-m-d H:i:s")
+                              : "从未备份过",
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                         Text(
@@ -494,13 +508,18 @@ class _BackupState extends State<Backup> {
                     }
                     List<AssetEntity> tasks;
                     if (lastBackupTime != null && continueBackup) {
-                      tasks = uploads.where((element) => element.modifiedDateTime.millisecondsSinceEpoch > lastBackupTime.millisecondsSinceEpoch).toList();
+                      tasks = uploads
+                          .where((element) =>
+                              element.modifiedDateTime.millisecondsSinceEpoch >
+                              lastBackupTime.millisecondsSinceEpoch)
+                          .toList();
                     } else {
                       tasks = uploads;
                     }
                     //对待备份文件进行排序
                     tasks.sort((a, b) {
-                      return a.modifiedDateTime.isAtSameMomentAs(b.modifiedDateTime)
+                      return a.modifiedDateTime
+                              .isAtSameMomentAs(b.modifiedDateTime)
                           ? 0
                           : a.modifiedDateTime.isBefore(b.modifiedDateTime)
                               ? -1
@@ -515,7 +534,8 @@ class _BackupState extends State<Backup> {
                         Util.toast("备份任务已暂停");
                         break;
                       }
-                      uploading = UploadItem(await tasks[i].originFile, tasks[i].modifiedDateTime, tasks[i].type);
+                      uploading = UploadItem(await tasks[i].originFile,
+                          tasks[i].modifiedDateTime, tasks[i].type);
 
                       if (uploading.status != UploadStatus.wait) {
                         continue;
@@ -524,7 +544,10 @@ class _BackupState extends State<Backup> {
                       setState(() {
                         uploading.status = UploadStatus.running;
                       });
-                      var res = await Api.upload(backupFolder, uploading.file.path, uploading.cancelToken, (progress, total) {
+                      var res = await Api.upload(
+                          backupFolder,
+                          uploading.file.path,
+                          uploading.cancelToken, (progress, total) {
                         // print("$progress,$total");
                         setState(() {
                           uploading.uploadSize = progress;
@@ -537,7 +560,10 @@ class _BackupState extends State<Backup> {
                           uploading.file.deleteSync();
                         }
 
-                        Util.setStorage("last_backup_time", uploading.modifyTime.millisecondsSinceEpoch.toString());
+                        Util.setStorage(
+                            "last_backup_time",
+                            uploading.modifyTime.millisecondsSinceEpoch
+                                .toString());
                         setState(() {
                           lastBackupTime = uploading.modifyTime;
                           uploading.status = UploadStatus.complete;

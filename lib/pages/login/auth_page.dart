@@ -47,17 +47,20 @@ class _AuthPageState extends State<AuthPage> {
   getData() async {
     String pass = await Util.getStorage("gesture_password");
     password = pass ?? "";
-    String launchAuthBiometricsStr = await Util.getStorage("launch_auth_biometrics");
+    String launchAuthBiometricsStr =
+        await Util.getStorage("launch_auth_biometrics");
     if (launchAuthBiometricsStr == "1") {
       canCheckBiometrics = await auth.canCheckBiometrics;
       setState(() {});
       if (canCheckBiometrics) {
-        List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
+        List<BiometricType> availableBiometrics =
+            await auth.getAvailableBiometrics();
         if (Platform.isIOS) {
           setState(() {
             if (availableBiometrics.contains(BiometricType.face)) {
               biometricsType = BiometricType.face;
-            } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
+            } else if (availableBiometrics
+                .contains(BiometricType.fingerprint)) {
               biometricsType = BiometricType.fingerprint;
             } else if (availableBiometrics.contains(BiometricType.iris)) {
               biometricsType = BiometricType.iris;
@@ -78,7 +81,8 @@ class _AuthPageState extends State<AuthPage> {
             IOSAuthMessages(
               lockOut: "认证失败次数过多，请稍后再试",
               goToSettingsButton: "设置",
-              goToSettingsDescription: "系统未设置${biometricTypeName[biometricsType]}，点击设置按钮前往系统设置页面",
+              goToSettingsDescription:
+                  "系统未设置${biometricTypeName[biometricsType]}，点击设置按钮前往系统设置页面",
               cancelButton: "取消",
             ),
             AndroidAuthMessages(
@@ -124,7 +128,8 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<bool> onWillPop() {
     Util.vibrate(FeedbackType.light);
-    if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
+    if (lastPopTime == null ||
+        DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
       lastPopTime = DateTime.now();
       Util.toast('再按一次退出${Util.appName}');
     } else {
@@ -162,13 +167,17 @@ class _AuthPageState extends State<AuthPage> {
                 child: GesturePassword(
                   width: MediaQuery.of(context).size.width * 0.9,
                   height: MediaQuery.of(context).size.width * 0.9,
-                  attribute: ItemAttribute(normalColor: Colors.grey, selectedColor: Colors.blue, lineStrokeWidth: 4),
+                  attribute: ItemAttribute(
+                      normalColor: Colors.grey,
+                      selectedColor: Colors.blue,
+                      lineStrokeWidth: 4),
                   successCallback: (s) {
                     if (s == password) {
                       //密码验证通过
                       if (widget.launch) {
                         if (widget.launchAccountPage) {
-                          Navigator.of(context).pushReplacementNamed("/accounts");
+                          Navigator.of(context)
+                              .pushReplacementNamed("/accounts");
                         } else {
                           Navigator.of(context).pushReplacementNamed("/login");
                         }

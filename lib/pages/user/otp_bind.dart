@@ -90,7 +90,8 @@ class _OtpBindState extends State<OtpBind> {
                 var res = await Api.saveMail(email);
 
                 if (res['success']) {
-                  var qrcode = await Api.getQrCode("${widget.username}@${Util.hostname}");
+                  var qrcode = await Api.getQrCode(
+                      "${widget.username}@${Util.hostname}");
                   if (qrcode['success']) {
                     setState(() {
                       qrData = Base64Decoder().convert(qrcode['data']['img']);
@@ -117,7 +118,8 @@ class _OtpBindState extends State<OtpBind> {
                     ),
             ),
           ] else if (step == 1) ...[
-            Text("DSM 支持以下验证器应用程序： Google Authenticator, Authy等，打开验证器，扫描以下二维码，或者手动输入秘钥"),
+            Text(
+                "DSM 支持以下验证器应用程序： Google Authenticator, Authy等，打开验证器，扫描以下二维码，或者手动输入秘钥"),
             SizedBox(
               height: 20,
             ),
@@ -145,7 +147,8 @@ class _OtpBindState extends State<OtpBind> {
                     ),
                     NeuButton(
                       onPressed: () async {
-                        ClipboardData data = new ClipboardData(text: "${widget.username}@${Util.hostname}");
+                        ClipboardData data = new ClipboardData(
+                            text: "${widget.username}@${Util.hostname}");
                         Clipboard.setData(data);
                         Util.toast("已复制到剪贴板");
                       },
@@ -276,7 +279,8 @@ class _OtpBindState extends State<OtpBind> {
                     ),
             ),
           ] else if (step == 2) ...[
-            Text("两步骤验证设置完成。下次登录 DSM 时，将提示您输入验证器应用程序生成的验证代码。两步骤验证对于用某些移动应用程序进行登录有影响。为避免遇到任何难题，请确认您已安装任何需要登录 DSM 的移动应用程序的最新版本。"),
+            Text(
+                "两步骤验证设置完成。下次登录 DSM 时，将提示您输入验证器应用程序生成的验证代码。两步骤验证对于用某些移动应用程序进行登录有影响。为避免遇到任何难题，请确认您已安装任何需要登录 DSM 的移动应用程序的最新版本。"),
             Text("注意：您可在“帐户活动” &gt; “记住的设备”中管理最常用的设备。"),
             NeuButton(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

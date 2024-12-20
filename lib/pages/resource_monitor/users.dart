@@ -55,7 +55,8 @@ class _UsersState extends State<Users> {
                         child: Text(
                           "${user['who']}",
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       ),
                       Expanded(
@@ -125,7 +126,10 @@ class _UsersState extends State<Users> {
                         width: double.infinity,
                         bevel: 5,
                         curveType: CurveType.emboss,
-                        decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                        decoration: NeumorphicDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(22))),
                         child: SafeArea(
                           top: false,
                           child: Padding(
@@ -135,14 +139,20 @@ class _UsersState extends State<Users> {
                               children: <Widget>[
                                 Text(
                                   "终止连接",
-                                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 SizedBox(
                                   height: 12,
                                 ),
                                 Text(
                                   "确认要终止此连接？",
-                                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400),
                                 ),
                                 SizedBox(
                                   height: 22,
@@ -156,7 +166,10 @@ class _UsersState extends State<Users> {
                                           setState(() {
                                             user['running'] = true;
                                           });
-                                          var res = await Api.kickConnection({"who": user['who'], "from": user['from']});
+                                          var res = await Api.kickConnection({
+                                            "who": user['who'],
+                                            "from": user['from']
+                                          });
                                           setState(() {
                                             user['running'] = false;
                                           });
@@ -166,14 +179,19 @@ class _UsersState extends State<Users> {
                                           }
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "终止连接",
-                                          style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.redAccent),
                                         ),
                                       ),
                                     ),
@@ -186,11 +204,14 @@ class _UsersState extends State<Users> {
                                           Navigator.of(context).pop();
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "取消",
                                           style: TextStyle(fontSize: 18),

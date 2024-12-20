@@ -75,10 +75,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: task['type'] == "power_on" ? CurveType.emboss : CurveType.flat,
+                            curveType: task['type'] == "power_on"
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             child: Row(
                               children: [
                                 Text("开机"),
@@ -108,10 +111,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: task['type'] == "power_off" ? CurveType.emboss : CurveType.flat,
+                            curveType: task['type'] == "power_off"
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("关机"),
@@ -176,10 +182,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: weekdays.contains("0") ? CurveType.emboss : CurveType.flat,
+                            curveType: weekdays.contains("0")
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("日"),
@@ -217,10 +226,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: weekdays.contains("1") ? CurveType.emboss : CurveType.flat,
+                            curveType: weekdays.contains("1")
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("一"),
@@ -258,10 +270,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: weekdays.contains("2") ? CurveType.emboss : CurveType.flat,
+                            curveType: weekdays.contains("2")
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("二"),
@@ -299,10 +314,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: weekdays.contains("3") ? CurveType.emboss : CurveType.flat,
+                            curveType: weekdays.contains("3")
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("三"),
@@ -344,10 +362,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: weekdays.contains("4") ? CurveType.emboss : CurveType.flat,
+                            curveType: weekdays.contains("4")
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("四"),
@@ -385,10 +406,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: weekdays.contains("5") ? CurveType.emboss : CurveType.flat,
+                            curveType: weekdays.contains("5")
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("五"),
@@ -426,10 +450,13 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: weekdays.contains("6") ? CurveType.emboss : CurveType.flat,
+                            curveType: weekdays.contains("6")
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Row(
                               children: [
                                 Text("六"),
@@ -483,7 +510,8 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                           onTap: () {
                             DatePicker.showTimePicker(
                               context,
-                              currentTime: DateTime(2021, 01, 01, task['hour'], task['min']),
+                              currentTime: DateTime(
+                                  2021, 01, 01, task['hour'], task['min']),
                               showSecondsColumn: false,
                               onConfirm: (time) {
                                 setState(() {
@@ -499,13 +527,17 @@ class _AddPowerTaskState extends State<AddPowerTask> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            curveType: task['type'] == "power_on" ? CurveType.emboss : CurveType.flat,
+                            curveType: task['type'] == "power_on"
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             bevel: 12,
                             height: 50,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             child: Row(
                               children: [
-                                Text("${task['hour'].toString().padLeft(2, "0")}:${task['min'].toString().padLeft(2, "0")}"),
+                                Text(
+                                    "${task['hour'].toString().padLeft(2, "0")}:${task['min'].toString().padLeft(2, "0")}"),
                                 Spacer(),
                                 Icon(
                                   CupertinoIcons.right_chevron,

@@ -24,7 +24,14 @@ class _AlbumPageState extends State<AlbumPage> {
 
   getData() async {
     photos = await PhotoModel.fetch(
-      additional: ["thumbnail", "resolution", "orientation", "video_convert", "video_meta", "provider_user_id"],
+      additional: [
+        "thumbnail",
+        "resolution",
+        "orientation",
+        "video_convert",
+        "video_meta",
+        "provider_user_id"
+      ],
       albumId: widget.album.id,
     );
     setState(() {});
@@ -49,7 +56,15 @@ class _AlbumPageState extends State<AlbumPage> {
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   "${widget.album.name}",
-                  style: TextStyle(color: Theme.of(context).appBarTheme.titleTextStyle.color, shadows: [BoxShadow(color: Colors.white, offset: Offset(1, 1), blurRadius: 5, spreadRadius: 5)]),
+                  style: TextStyle(
+                      color: Theme.of(context).appBarTheme.titleTextStyle.color,
+                      shadows: [
+                        BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(1, 1),
+                            blurRadius: 5,
+                            spreadRadius: 5)
+                      ]),
                 ),
                 centerTitle: true,
                 background: Hero(
@@ -71,7 +86,8 @@ class _AlbumPageState extends State<AlbumPage> {
         },
         body: GridView.builder(
           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisSpacing: 2, crossAxisSpacing: 2),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4, mainAxisSpacing: 2, crossAxisSpacing: 2),
           itemBuilder: (context, i) {
             if (photos.length > 0) {
               return PhotoItemWidget(

@@ -71,8 +71,10 @@ class _MomentsState extends State<Moments> {
             timeline[i]['position']['start'] = 0;
             timeline[i]['position']['end'] = height;
           } else {
-            timeline[i]['position']['start'] = timeline[i - 1]['position']['end'];
-            timeline[i]['position']['end'] = timeline[i]['position']['start'] + height;
+            timeline[i]['position']['start'] =
+                timeline[i - 1]['position']['end'];
+            timeline[i]['position']['end'] =
+                timeline[i]['position']['start'] + height;
           }
         }
         setState(() {
@@ -150,7 +152,9 @@ class _MomentsState extends State<Moments> {
   getLineInfo(line) async {
     if (line['items'] == null) {
       line['items'] = [];
-      MomentsApi.photos(year: line['year'], month: line['month'], day: line['day']).then((res) {
+      MomentsApi.photos(
+              year: line['year'], month: line['month'], day: line['day'])
+          .then((res) {
         if (res['success'] && mounted) {
           setState(() {
             line['items'] = res['data']['list'];
@@ -175,7 +179,9 @@ class _MomentsState extends State<Moments> {
     Map timeLong;
     if (photo['type'] == "video") {
       if (photo['additional']['video_convert'].length > 0) {
-        duration = photo['additional']['video_convert'][0]['metadata']['duration'] ~/ 1000;
+        duration = photo['additional']['video_convert'][0]['metadata']
+                ['duration'] ~/
+            1000;
         timeLong = Util.timeLong(duration);
       } else {
         timeLong = {
@@ -185,7 +191,8 @@ class _MomentsState extends State<Moments> {
         };
       }
     }
-    String thumbUrl = '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
+    String thumbUrl =
+        '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(TransparentPageRoute(
@@ -260,8 +267,14 @@ class _MomentsState extends State<Moments> {
               Text(
                 "${line['year']}-${line['month'].toString().padLeft(2, "0")}-${line['day'].toString().padLeft(2, "0")}",
               ),
-              if (line['location'] != null && ((line['location']['first_level'] != null && line['location']['first_level'] != ""))) Text("   ${line['location']['first_level']}"),
-              if (line['location'] != null && ((line['location']['second_level'] != null && line['location']['second_level'].length > 0))) Text("${line['location']['second_level'].join(",")}"),
+              if (line['location'] != null &&
+                  ((line['location']['first_level'] != null &&
+                      line['location']['first_level'] != "")))
+                Text("   ${line['location']['first_level']}"),
+              if (line['location'] != null &&
+                  ((line['location']['second_level'] != null &&
+                      line['location']['second_level'].length > 0)))
+                Text("${line['location']['second_level'].join(",")}"),
             ],
           ),
         ),
@@ -285,7 +298,8 @@ class _MomentsState extends State<Moments> {
   }
 
   Widget _buildAlbumItem(album) {
-    String thumbUrl = '${Util.baseUrl}/webapi/entry.cgi?id=${album['additional']['thumbnail']['unit_id']}&cache_key="${album['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
+    String thumbUrl =
+        '${Util.baseUrl}/webapi/entry.cgi?id=${album['additional']['thumbnail']['unit_id']}&cache_key="${album['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
     String tag = "album-${album['additional']['thumbnail']['unit_id']}";
     return GestureDetector(
       onTap: () {
@@ -339,7 +353,8 @@ class _MomentsState extends State<Moments> {
     double itemWidth = (albumWidth - 2) / 2;
     if (index < photos.length) {
       Map photo = photos[index];
-      String thumbUrl = '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
+      String thumbUrl =
+          '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
       return Container(
         width: itemWidth,
         height: itemWidth,
@@ -415,7 +430,11 @@ class _MomentsState extends State<Moments> {
               : timeline.length > 0
                   ? DraggableScrollbar.semicircle(
                       labelTextBuilder: (position) {
-                        var line = timeline.where((element) => element['position']['start'] <= position && element['position']['end'] >= position).toList();
+                        var line = timeline
+                            .where((element) =>
+                                element['position']['start'] <= position &&
+                                element['position']['end'] >= position)
+                            .toList();
                         if (line.length > 0) {
                           return Container(
                             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -429,7 +448,8 @@ class _MomentsState extends State<Moments> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("${line[0]['day'].toString().padLeft(2, "0")}日"),
+                                    Text(
+                                        "${line[0]['day'].toString().padLeft(2, "0")}日"),
                                     Text("${line[0]['year']}"),
                                   ],
                                 )
@@ -440,7 +460,11 @@ class _MomentsState extends State<Moments> {
                           return null;
                         }
                       },
-                      labelConstraints: BoxConstraints(minHeight: 60, maxHeight: 60, minWidth: 140, maxWidth: 140),
+                      labelConstraints: BoxConstraints(
+                          minHeight: 60,
+                          maxHeight: 60,
+                          minWidth: 140,
+                          maxWidth: 140),
                       controller: _scrollController,
                       child: ListView.builder(
                         controller: _scrollController,
@@ -506,7 +530,8 @@ class _MomentsState extends State<Moments> {
                                         spacing: 2,
                                         children: [
                                           ...List.generate(4, (index) {
-                                            return _buildCategoryItem(geocoding, index);
+                                            return _buildCategoryItem(
+                                                geocoding, index);
                                           })
                                         ],
                                       ),
@@ -553,7 +578,8 @@ class _MomentsState extends State<Moments> {
                                         spacing: 2,
                                         children: [
                                           ...List.generate(4, (index) {
-                                            return _buildCategoryItem(general, index);
+                                            return _buildCategoryItem(
+                                                general, index);
                                           })
                                         ],
                                       ),
@@ -644,7 +670,8 @@ class _MomentsState extends State<Moments> {
                                       spacing: 2,
                                       children: [
                                         ...List.generate(4, (index) {
-                                          return _buildCategoryItem(videos, index);
+                                          return _buildCategoryItem(
+                                              videos, index);
                                         })
                                       ],
                                     ),
@@ -689,7 +716,8 @@ class _MomentsState extends State<Moments> {
                                       spacing: 2,
                                       children: [
                                         ...List.generate(4, (index) {
-                                          return _buildCategoryItem(recentlyAdd, index);
+                                          return _buildCategoryItem(
+                                              recentlyAdd, index);
                                         })
                                       ],
                                     ),

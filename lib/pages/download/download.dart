@@ -25,12 +25,27 @@ class DownloadInfo {
   String savedDir;
   int timeCreated;
 
-  DownloadInfo({@required this.taskId, @required this.status, @required this.progress, @required this.url, @required this.filename, @required this.savedDir, @required this.timeCreated});
+  DownloadInfo(
+      {@required this.taskId,
+      @required this.status,
+      @required this.progress,
+      @required this.url,
+      @required this.filename,
+      @required this.savedDir,
+      @required this.timeCreated});
   factory DownloadInfo.formTask(DownloadTask task) {
-    return DownloadInfo(taskId: task.taskId, status: task.status, progress: task.progress, url: task.url, filename: task.filename, savedDir: task.savedDir, timeCreated: task.timeCreated);
+    return DownloadInfo(
+        taskId: task.taskId,
+        status: task.status,
+        progress: task.progress,
+        url: task.url,
+        filename: task.filename,
+        savedDir: task.savedDir,
+        timeCreated: task.timeCreated);
   }
   @override
-  String toString() => "DownloadInfo(taskId: $taskId, status: $status, progress: $progress, url: $url, filename: $filename, savedDir: $savedDir, timeCreated: $timeCreated)";
+  String toString() =>
+      "DownloadInfo(taskId: $taskId, status: $status, progress: $progress, url: $url, filename: $filename, savedDir: $savedDir, timeCreated: $timeCreated)";
 }
 
 class Download extends StatefulWidget {
@@ -61,13 +76,17 @@ class DownloadState extends State<Download> {
     super.initState();
   }
 
-  static void downloadCallback(String id, DownloadTaskStatus status, int progress) {
-    debugPrint('Background Isolate Callback: task ($id) is in status ($status) and process ($progress)');
-    IsolateNameServer.lookupPortByName('downloader_send_port')?.send([id, status.value, progress]);
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    debugPrint(
+        'Background Isolate Callback: task ($id) is in status ($status) and process ($progress)');
+    IsolateNameServer.lookupPortByName('downloader_send_port')
+        ?.send([id, status.value, progress]);
   }
 
   void _bindBackgroundIsolate() {
-    bool isSuccess = IsolateNameServer.registerPortWithName(_receiverPort.sendPort, 'downloader_send_port');
+    bool isSuccess = IsolateNameServer.registerPortWithName(
+        _receiverPort.sendPort, 'downloader_send_port');
     if (!isSuccess) {
       _unbindBackgroundIsolate();
       _bindBackgroundIsolate();
@@ -109,7 +128,13 @@ class DownloadState extends State<Download> {
       loading = false;
     });
     // 如果存在下载中任务，每秒刷新一次
-    if (tasks.where((task) => task.status == DownloadTaskStatus.running || task.status == DownloadTaskStatus.enqueued || task.status == DownloadTaskStatus.undefined).length > 0) {
+    if (tasks
+            .where((task) =>
+                task.status == DownloadTaskStatus.running ||
+                task.status == DownloadTaskStatus.enqueued ||
+                task.status == DownloadTaskStatus.undefined)
+            .length >
+        0) {
       if (timer == null) {
         timer = Timer.periodic(Duration(seconds: 1), (timer) {
           getData();
@@ -228,7 +253,8 @@ class DownloadState extends State<Download> {
     FileTypeEnum fileType = Util.fileType(task.filename);
     // String path = file['path'];
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20, right: 20),
+      padding:
+          const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20, right: 20),
       child: NeuButton(
         onLongPress: () {
           Util.vibrate(FeedbackType.light);
@@ -254,7 +280,8 @@ class DownloadState extends State<Download> {
               List<String> images = [];
               int index = 0;
               for (int i = 0; i < tasks.length; i++) {
-                if (task.status == DownloadTaskStatus.complete && Util.fileType(task.filename) == FileTypeEnum.image) {
+                if (task.status == DownloadTaskStatus.complete &&
+                    Util.fileType(task.filename) == FileTypeEnum.image) {
                   images.add(tasks[i].savedDir + "/" + tasks[i].filename);
                   if (tasks[i] == task) {
                     index = images.length - 1;
@@ -317,7 +344,10 @@ class DownloadState extends State<Download> {
               tag: task.savedDir + "/" + task.filename,
               child: FileIcon(
                 fileType,
-                thumb: fileType == FileTypeEnum.image && task.status == DownloadTaskStatus.complete ? task.savedDir + "/" + task.filename : null,
+                thumb: fileType == FileTypeEnum.image &&
+                        task.status == DownloadTaskStatus.complete
+                    ? task.savedDir + "/" + task.filename
+                    : null,
                 network: false,
               ),
             ),
@@ -338,8 +368,11 @@ class DownloadState extends State<Download> {
                     height: 5,
                   ),
                   Text(
-                    DateTime.fromMillisecondsSinceEpoch(task.timeCreated).format("Y/m/d H:i:s"),
-                    style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.headline5.color),
+                    DateTime.fromMillisecondsSinceEpoch(task.timeCreated)
+                        .format("Y/m/d H:i:s"),
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).textTheme.headline5.color),
                   ),
                   SizedBox(
                     height: 5,
@@ -357,7 +390,9 @@ class DownloadState extends State<Download> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    curveType: selectedTasks.contains(task) ? CurveType.emboss : CurveType.flat,
+                    curveType: selectedTasks.contains(task)
+                        ? CurveType.emboss
+                        : CurveType.flat,
                     padding: EdgeInsets.all(5),
                     bevel: 5,
                     child: SizedBox(
@@ -383,7 +418,11 @@ class DownloadState extends State<Download> {
                               padding: EdgeInsets.all(22),
                               bevel: 5,
                               curveType: CurveType.emboss,
-                              decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                              decoration: NeumorphicDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(22))),
                               child: SafeArea(
                                 top: false,
                                 child: Column(
@@ -391,68 +430,90 @@ class DownloadState extends State<Download> {
                                   children: <Widget>[
                                     Text(
                                       "选择操作",
-                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                     SizedBox(
                                       height: 22,
                                     ),
-                                    if (task.status == DownloadTaskStatus.failed)
+                                    if (task.status ==
+                                        DownloadTaskStatus.failed)
                                       NeuButton(
                                         onPressed: () async {
                                           Navigator.of(context).pop();
-                                          await FlutterDownloader.retry(taskId: task.taskId);
+                                          await FlutterDownloader.retry(
+                                              taskId: task.taskId);
                                           await getData();
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "重试",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                    if (task.status == DownloadTaskStatus.running)
+                                    if (task.status ==
+                                        DownloadTaskStatus.running)
                                       NeuButton(
                                         onPressed: () async {
                                           Navigator.of(context).pop();
-                                          await FlutterDownloader.pause(taskId: task.taskId);
+                                          await FlutterDownloader.pause(
+                                              taskId: task.taskId);
                                           await getData();
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "暂停",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                    if (task.status == DownloadTaskStatus.paused)
+                                    if (task.status ==
+                                        DownloadTaskStatus.paused)
                                       NeuButton(
                                         onPressed: () async {
                                           Navigator.of(context).pop();
                                           debugPrint(task.taskId);
-                                          var res = await FlutterDownloader.resume(taskId: task.taskId);
+                                          var res =
+                                              await FlutterDownloader.resume(
+                                                  taskId: task.taskId);
                                           debugPrint(res);
                                           await getData();
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "继续下载",
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                    if ([DownloadTaskStatus.paused, DownloadTaskStatus.running, DownloadTaskStatus.failed].contains(task.status))
+                                    if ([
+                                      DownloadTaskStatus.paused,
+                                      DownloadTaskStatus.running,
+                                      DownloadTaskStatus.failed
+                                    ].contains(task.status))
                                       SizedBox(
                                         height: 16,
                                       ),
@@ -470,41 +531,73 @@ class DownloadState extends State<Download> {
                                                 padding: EdgeInsets.all(22),
                                                 bevel: 5,
                                                 curveType: CurveType.emboss,
-                                                decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                                                decoration: NeumorphicDecoration(
+                                                    color: Theme.of(context)
+                                                        .scaffoldBackgroundColor,
+                                                    borderRadius:
+                                                        BorderRadius.vertical(
+                                                            top:
+                                                                Radius.circular(
+                                                                    22))),
                                                 child: SafeArea(
                                                   top: false,
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: <Widget>[
                                                       Text(
                                                         "确认删除",
-                                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
                                                       ),
                                                       SizedBox(
                                                         height: 12,
                                                       ),
                                                       Text(
                                                         "确认要删除文件？",
-                                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
                                                       ),
                                                       SizedBox(
                                                         height: 22,
                                                       ),
                                                       NeuButton(
                                                         onPressed: () async {
-                                                          Navigator.of(context).pop();
-                                                          await FlutterDownloader.remove(taskId: task.taskId, shouldDeleteContent: true);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          await FlutterDownloader
+                                                              .remove(
+                                                                  taskId: task
+                                                                      .taskId,
+                                                                  shouldDeleteContent:
+                                                                      true);
                                                           await getData();
                                                         },
-                                                        decoration: NeumorphicDecoration(
-                                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                                          borderRadius: BorderRadius.circular(25),
+                                                        decoration:
+                                                            NeumorphicDecoration(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .scaffoldBackgroundColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(25),
                                                         ),
                                                         bevel: 5,
-                                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 10),
                                                         child: Text(
                                                           "同时删除已下载文件",
-                                                          style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              color: Colors
+                                                                  .redAccent),
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -514,20 +607,40 @@ class DownloadState extends State<Download> {
                                                         children: [
                                                           Expanded(
                                                             child: NeuButton(
-                                                              onPressed: () async {
-                                                                Navigator.of(context).pop();
-                                                                await FlutterDownloader.remove(taskId: task.taskId, shouldDeleteContent: false);
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                await FlutterDownloader.remove(
+                                                                    taskId: task
+                                                                        .taskId,
+                                                                    shouldDeleteContent:
+                                                                        false);
                                                                 await getData();
                                                               },
-                                                              decoration: NeumorphicDecoration(
-                                                                color: Theme.of(context).scaffoldBackgroundColor,
-                                                                borderRadius: BorderRadius.circular(25),
+                                                              decoration:
+                                                                  NeumorphicDecoration(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .scaffoldBackgroundColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            25),
                                                               ),
                                                               bevel: 5,
-                                                              padding: EdgeInsets.symmetric(vertical: 10),
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          10),
                                                               child: Text(
                                                                 "确认删除",
-                                                                style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .redAccent),
                                                               ),
                                                             ),
                                                           ),
@@ -536,18 +649,32 @@ class DownloadState extends State<Download> {
                                                           ),
                                                           Expanded(
                                                             child: NeuButton(
-                                                              onPressed: () async {
-                                                                Navigator.of(context).pop();
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
                                                               },
-                                                              decoration: NeumorphicDecoration(
-                                                                color: Theme.of(context).scaffoldBackgroundColor,
-                                                                borderRadius: BorderRadius.circular(25),
+                                                              decoration:
+                                                                  NeumorphicDecoration(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .scaffoldBackgroundColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            25),
                                                               ),
                                                               bevel: 5,
-                                                              padding: EdgeInsets.symmetric(vertical: 10),
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          10),
                                                               child: Text(
                                                                 "取消",
-                                                                style: TextStyle(fontSize: 18),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        18),
                                                               ),
                                                             ),
                                                           ),
@@ -565,14 +692,18 @@ class DownloadState extends State<Download> {
                                         );
                                       },
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(25),
                                       ),
                                       bevel: 5,
-                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
                                       child: Text(
                                         "删除",
-                                        style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.redAccent),
                                       ),
                                     ),
                                     SizedBox(
@@ -583,11 +714,13 @@ class DownloadState extends State<Download> {
                                         Navigator.of(context).pop();
                                       },
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(25),
                                       ),
                                       bevel: 5,
-                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
                                       child: Text(
                                         "取消",
                                         style: TextStyle(fontSize: 18),
@@ -604,7 +737,8 @@ class DownloadState extends State<Download> {
                         },
                       );
                     },
-                    padding: EdgeInsets.only(left: 5, right: 3, top: 4, bottom: 4),
+                    padding:
+                        EdgeInsets.only(left: 5, right: 3, top: 4, bottom: 4),
                     decoration: NeumorphicDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(20),
@@ -756,7 +890,11 @@ class DownloadState extends State<Download> {
                                         padding: EdgeInsets.all(22),
                                         bevel: 5,
                                         curveType: CurveType.emboss,
-                                        decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                                        decoration: NeumorphicDecoration(
+                                            color: Theme.of(context)
+                                                .scaffoldBackgroundColor,
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(22))),
                                         child: SafeArea(
                                           top: false,
                                           child: Column(
@@ -764,14 +902,20 @@ class DownloadState extends State<Download> {
                                             children: <Widget>[
                                               Text(
                                                 "确认删除",
-                                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
                                               SizedBox(
                                                 height: 12,
                                               ),
                                               Text(
                                                 "确认要删除${selectedTasks.length}个下载任务？",
-                                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
                                               SizedBox(
                                                 height: 22,
@@ -781,9 +925,16 @@ class DownloadState extends State<Download> {
                                                   Expanded(
                                                     child: NeuButton(
                                                       onPressed: () async {
-                                                        Navigator.of(context).pop();
-                                                        for (DownloadInfo task in selectedTasks) {
-                                                          await FlutterDownloader.remove(taskId: task.taskId, shouldDeleteContent: true);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        for (DownloadInfo task
+                                                            in selectedTasks) {
+                                                          await FlutterDownloader
+                                                              .remove(
+                                                                  taskId: task
+                                                                      .taskId,
+                                                                  shouldDeleteContent:
+                                                                      true);
                                                         }
                                                         getData();
                                                         setState(() {
@@ -791,15 +942,24 @@ class DownloadState extends State<Download> {
                                                           selectedTasks = [];
                                                         });
                                                       },
-                                                      decoration: NeumorphicDecoration(
-                                                        color: Theme.of(context).scaffoldBackgroundColor,
-                                                        borderRadius: BorderRadius.circular(25),
+                                                      decoration:
+                                                          NeumorphicDecoration(
+                                                        color: Theme.of(context)
+                                                            .scaffoldBackgroundColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25),
                                                       ),
                                                       bevel: 5,
-                                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10),
                                                       child: Text(
                                                         "确认删除",
-                                                        style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Colors
+                                                                .redAccent),
                                                       ),
                                                     ),
                                                   ),
@@ -809,17 +969,25 @@ class DownloadState extends State<Download> {
                                                   Expanded(
                                                     child: NeuButton(
                                                       onPressed: () async {
-                                                        Navigator.of(context).pop();
+                                                        Navigator.of(context)
+                                                            .pop();
                                                       },
-                                                      decoration: NeumorphicDecoration(
-                                                        color: Theme.of(context).scaffoldBackgroundColor,
-                                                        borderRadius: BorderRadius.circular(25),
+                                                      decoration:
+                                                          NeumorphicDecoration(
+                                                        color: Theme.of(context)
+                                                            .scaffoldBackgroundColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25),
                                                       ),
                                                       bevel: 5,
-                                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10),
                                                       child: Text(
                                                         "取消",
-                                                        style: TextStyle(fontSize: 18),
+                                                        style: TextStyle(
+                                                            fontSize: 18),
                                                       ),
                                                     ),
                                                   ),
@@ -861,7 +1029,8 @@ class DownloadState extends State<Download> {
                     children: [
                       Text(
                         "暂无下载任务",
-                        style: TextStyle(color: AppTheme.of(context).placeholderColor),
+                        style: TextStyle(
+                            color: AppTheme.of(context).placeholderColor),
                       ),
                       SizedBox(
                         height: 5,

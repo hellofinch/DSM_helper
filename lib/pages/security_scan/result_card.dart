@@ -85,7 +85,10 @@ class ResultCard extends StatelessWidget {
                     percent: data['progress'] / 100,
                     center: Text(
                       "${data['progress']}%",
-                      style: TextStyle(color: data['progress'] < 90 ? Colors.blue : Colors.red, fontSize: 8),
+                      style: TextStyle(
+                          color:
+                              data['progress'] < 90 ? Colors.blue : Colors.red,
+                          fontSize: 8),
                     ),
                   )
               ],

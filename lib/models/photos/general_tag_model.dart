@@ -10,7 +10,8 @@ class GeneralTagModel {
     this.itemCount,
     this.name,
   });
-  static Future<List<GeneralTagModel>> fetch({List<String> additional, int limit = 5000, bool isTeam = false}) async {
+  static Future<List<GeneralTagModel>> fetch(
+      {List<String> additional, int limit = 5000, bool isTeam = false}) async {
     var res = await Util.post("entry.cgi", data: {
       // "folder_id": id,
       "api": 'SYNO.Foto${isTeam ? 'Team' : ''}.Browse.GeneralTag',
@@ -34,7 +35,9 @@ class GeneralTagModel {
   }
 
   GeneralTagModel.fromJson(dynamic json) {
-    additional = json['additional'] != null ? PhotoAdditional.fromJson(json['additional']) : null;
+    additional = json['additional'] != null
+        ? PhotoAdditional.fromJson(json['additional'])
+        : null;
     id = json['id'];
     itemCount = json['item_count'];
     name = json['name'];

@@ -12,7 +12,9 @@ class FileModel {
   });
 
   FileModel.fromJson(dynamic json) {
-    additional = json['additional'] != null ? FileAdditional.fromJson(json['additional']) : null;
+    additional = json['additional'] != null
+        ? FileAdditional.fromJson(json['additional'])
+        : null;
     isdir = json['isdir'];
     name = json['name'];
     path = json['path'];

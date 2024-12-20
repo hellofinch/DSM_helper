@@ -27,7 +27,14 @@ class PhotoModel {
     this.type,
     this.additional,
   });
-  static Future<List<PhotoModel>> fetch({List<String> additional = const [], bool isTeam = false, int albumId, int geocodingId, String folderId, String type, int limit}) async {
+  static Future<List<PhotoModel>> fetch(
+      {List<String> additional = const [],
+      bool isTeam = false,
+      int albumId,
+      int geocodingId,
+      String folderId,
+      String type,
+      int limit}) async {
     Map<String, dynamic> data = {
       "api": 'SYNO.Foto${isTeam ? 'Team' : ''}.Browse.Item',
       "method": 'list',
@@ -64,7 +71,12 @@ class PhotoModel {
     }
   }
 
-  static Future<List<PhotoModel>> recentlyAdd({List<String> additional = const [], bool isTeam = false, String folderId, String type, int limit}) async {
+  static Future<List<PhotoModel>> recentlyAdd(
+      {List<String> additional = const [],
+      bool isTeam = false,
+      String folderId,
+      String type,
+      int limit}) async {
     Map<String, dynamic> data = {
       "api": 'SYNO.Foto${isTeam ? 'Team' : ''}.Browse.RecentlyAdded',
       "method": 'list',
@@ -98,7 +110,9 @@ class PhotoModel {
     ownerUserId = json['owner_user_id'];
     folderId = json['folder_id'];
     type = json['type'];
-    additional = json['additional'] != null ? PhotoAdditional.fromJson(json['additional']) : null;
+    additional = json['additional'] != null
+        ? PhotoAdditional.fromJson(json['additional'])
+        : null;
   }
   num id;
   String filename;
@@ -175,13 +189,22 @@ class PhotoAdditional {
   });
 
   PhotoAdditional.fromJson(dynamic json) {
-    resolution = json['resolution'] != null ? Resolution.fromJson(json['resolution']) : null;
+    resolution = json['resolution'] != null
+        ? Resolution.fromJson(json['resolution'])
+        : null;
     orientation = json['orientation'];
     orientationOriginal = json['orientation_original'];
-    thumbnail = json['thumbnail'] != null ? ThumbnailModel.fromJson(json['thumbnail']) : null;
-    address = json['address'] != null ? Address.fromJson(json['address']) : null;
-    videoMeta = json['video_meta'] != null ? VideoMeta.fromJson(json['video_meta']) : null;
-    sharingInfo = json['sharing_info'] != null ? SharingInfo.fromJson(json['sharing_info']) : null;
+    thumbnail = json['thumbnail'] != null
+        ? ThumbnailModel.fromJson(json['thumbnail'])
+        : null;
+    address =
+        json['address'] != null ? Address.fromJson(json['address']) : null;
+    videoMeta = json['video_meta'] != null
+        ? VideoMeta.fromJson(json['video_meta'])
+        : null;
+    sharingInfo = json['sharing_info'] != null
+        ? SharingInfo.fromJson(json['sharing_info'])
+        : null;
     if (json['video_convert'] != null) {
       videoConvert = [];
       json['video_convert'].forEach((e) {
@@ -355,7 +378,8 @@ class VideoConvert {
 
   VideoConvert.fromJson(dynamic json) {
     quality = json['quality'];
-    metadata = json['metadata'] != null ? Metadata.fromJson(json['metadata']) : null;
+    metadata =
+        json['metadata'] != null ? Metadata.fromJson(json['metadata']) : null;
   }
   String quality;
   Metadata metadata;

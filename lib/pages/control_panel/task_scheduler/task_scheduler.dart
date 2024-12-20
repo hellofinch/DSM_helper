@@ -109,7 +109,8 @@ class _TaskSchedulerState extends State<TaskScheduler> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    curveType: task['enable'] ? CurveType.emboss : CurveType.flat,
+                    curveType:
+                        task['enable'] ? CurveType.emboss : CurveType.flat,
                     padding: EdgeInsets.all(5),
                     bevel: 5,
                     child: SizedBox(

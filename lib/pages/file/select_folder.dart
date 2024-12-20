@@ -86,7 +86,8 @@ class _SelectFolderState extends State<SelectFolder> {
       await getFileList(path);
     }
     double offset = _scrollController.position.maxScrollExtent;
-    _scrollController.animateTo(offset, duration: Duration(milliseconds: 200), curve: Curves.ease);
+    _scrollController.animateTo(offset,
+        duration: Duration(milliseconds: 200), curve: Curves.ease);
   }
 
   setPaths(String path) {
@@ -167,7 +168,8 @@ class _SelectFolderState extends State<SelectFolder> {
                 width: 20,
               ),
               Hero(
-                tag: Util.baseUrl + "/webapi/entry.cgi?path=${Uri.encodeComponent(path)}&size=original&api=SYNO.FileStation.Thumb&method=get&version=2&_sid=${Util.sid}&animate=true",
+                tag: Util.baseUrl +
+                    "/webapi/entry.cgi?path=${Uri.encodeComponent(path)}&size=original&api=SYNO.FileStation.Thumb&method=get&version=2&_sid=${Util.sid}&animate=true",
                 child: FileIcon(
                   file['isdir'] ? FileTypeEnum.folder : fileType,
                   thumb: file['path'],
@@ -190,8 +192,16 @@ class _SelectFolderState extends State<SelectFolder> {
                       height: 5,
                     ),
                     Text(
-                      (file['isdir'] ? "" : "${Util.formatSize(file['additional']['size'])}" + " | ") + DateTime.fromMillisecondsSinceEpoch(file['additional']['time']['crtime'] * 1000).format("Y/m/d H:i:s"),
-                      style: TextStyle(fontSize: 12, color: AppTheme.of(context).placeholderColor),
+                      (file['isdir']
+                              ? ""
+                              : "${Util.formatSize(file['additional']['size'])}" +
+                                  " | ") +
+                          DateTime.fromMillisecondsSinceEpoch(
+                                  file['additional']['time']['crtime'] * 1000)
+                              .format("Y/m/d H:i:s"),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: AppTheme.of(context).placeholderColor),
                     ),
                   ],
                 ),
@@ -308,16 +318,20 @@ class _SelectFolderState extends State<SelectFolder> {
                                     return Material(
                                       color: Colors.transparent,
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           NeuCard(
                                             width: double.infinity,
-                                            margin: EdgeInsets.symmetric(horizontal: 50),
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 50),
                                             curveType: CurveType.emboss,
                                             bevel: 5,
                                             decoration: NeumorphicDecoration(
-                                              color: Theme.of(context).scaffoldBackgroundColor,
-                                              borderRadius: BorderRadius.circular(25),
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
                                             ),
                                             child: Padding(
                                               padding: EdgeInsets.all(20),
@@ -325,23 +339,36 @@ class _SelectFolderState extends State<SelectFolder> {
                                                 children: [
                                                   Text(
                                                     "新建文件夹",
-                                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                   ),
                                                   SizedBox(
                                                     height: 16,
                                                   ),
                                                   NeuCard(
-                                                    decoration: NeumorphicDecoration(
-                                                      color: Theme.of(context).scaffoldBackgroundColor,
-                                                      borderRadius: BorderRadius.circular(20),
+                                                    decoration:
+                                                        NeumorphicDecoration(
+                                                      color: Theme.of(context)
+                                                          .scaffoldBackgroundColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
                                                     ),
                                                     bevel: 20,
                                                     curveType: CurveType.flat,
-                                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 20,
+                                                            vertical: 5),
                                                     child: TextField(
-                                                      onChanged: (v) => name = v,
-                                                      decoration: InputDecoration(
-                                                        border: InputBorder.none,
+                                                      onChanged: (v) =>
+                                                          name = v,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        border:
+                                                            InputBorder.none,
                                                         hintText: "请输入文件夹名",
                                                         labelText: "文件夹名",
                                                       ),
@@ -355,33 +382,65 @@ class _SelectFolderState extends State<SelectFolder> {
                                                       Expanded(
                                                         child: NeuButton(
                                                           onPressed: () async {
-                                                            if (name.trim() == "") {
-                                                              Util.toast("请输入文件夹名");
+                                                            if (name.trim() ==
+                                                                "") {
+                                                              Util.toast(
+                                                                  "请输入文件夹名");
                                                               return;
                                                             }
-                                                            Navigator.of(context).pop();
-                                                            String path = paths.join("/").substring(1);
-                                                            var res = await Api.createFolder(path, name);
-                                                            if (res['success']) {
-                                                              Util.toast("文件夹创建成功");
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            String path = paths
+                                                                .join("/")
+                                                                .substring(1);
+                                                            var res = await Api
+                                                                .createFolder(
+                                                                    path, name);
+                                                            if (res[
+                                                                'success']) {
+                                                              Util.toast(
+                                                                  "文件夹创建成功");
                                                               refresh();
                                                             } else {
-                                                              if (res['error']['errors'] != null && res['error']['errors'].length > 0 && res['error']['errors'][0]['code'] == 414) {
-                                                                Util.toast("文件夹创建失败：指定的名称已存在");
+                                                              if (res['error'][
+                                                                          'errors'] !=
+                                                                      null &&
+                                                                  res['error']['errors']
+                                                                          .length >
+                                                                      0 &&
+                                                                  res['error']['errors']
+                                                                              [
+                                                                              0]
+                                                                          [
+                                                                          'code'] ==
+                                                                      414) {
+                                                                Util.toast(
+                                                                    "文件夹创建失败：指定的名称已存在");
                                                               } else {
-                                                                Util.toast("文件夹创建失败");
+                                                                Util.toast(
+                                                                    "文件夹创建失败");
                                                               }
                                                             }
                                                           },
-                                                          decoration: NeumorphicDecoration(
-                                                            color: Theme.of(context).scaffoldBackgroundColor,
-                                                            borderRadius: BorderRadius.circular(25),
+                                                          decoration:
+                                                              NeumorphicDecoration(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .scaffoldBackgroundColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25),
                                                           ),
                                                           bevel: 20,
-                                                          padding: EdgeInsets.symmetric(vertical: 10),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  vertical: 10),
                                                           child: Text(
                                                             "确定",
-                                                            style: TextStyle(fontSize: 18),
+                                                            style: TextStyle(
+                                                                fontSize: 18),
                                                           ),
                                                         ),
                                                       ),
@@ -391,17 +450,28 @@ class _SelectFolderState extends State<SelectFolder> {
                                                       Expanded(
                                                         child: NeuButton(
                                                           onPressed: () async {
-                                                            Navigator.of(context).pop();
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
                                                           },
-                                                          decoration: NeumorphicDecoration(
-                                                            color: Theme.of(context).scaffoldBackgroundColor,
-                                                            borderRadius: BorderRadius.circular(25),
+                                                          decoration:
+                                                              NeumorphicDecoration(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .scaffoldBackgroundColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25),
                                                           ),
                                                           bevel: 20,
-                                                          padding: EdgeInsets.symmetric(vertical: 10),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  vertical: 10),
                                                           child: Text(
                                                             "取消",
-                                                            style: TextStyle(fontSize: 18),
+                                                            style: TextStyle(
+                                                                fontSize: 18),
                                                           ),
                                                         ),
                                                       ),
@@ -421,7 +491,8 @@ class _SelectFolderState extends State<SelectFolder> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             bevel: 5,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 2),
                             child: Text(
                               "新建",
                               style: TextStyle(fontSize: 14),
@@ -439,7 +510,8 @@ class _SelectFolderState extends State<SelectFolder> {
                               Navigator.of(context).pop(selectedFiles);
                             } else {
                               if (paths.length > 1) {
-                                Navigator.of(context).pop([paths.join("/").substring(1)]);
+                                Navigator.of(context)
+                                    .pop([paths.join("/").substring(1)]);
                               } else {
                                 Util.toast("无法选择根目录");
                               }
@@ -450,7 +522,8 @@ class _SelectFolderState extends State<SelectFolder> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           bevel: 5,
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                           child: Text(
                             "选择",
                             style: TextStyle(fontSize: 14),
@@ -481,8 +554,12 @@ class _SelectFolderState extends State<SelectFolder> {
                         )
                       : success
                           ? ListView(
-                              padding: EdgeInsets.only(bottom: selectedFiles.length > 0 ? 140 : 20),
-                              children: files.where((file) => file['isdir']).map(_buildFileItem).toList(),
+                              padding: EdgeInsets.only(
+                                  bottom: selectedFiles.length > 0 ? 140 : 20),
+                              children: files
+                                  .where((file) => file['isdir'])
+                                  .map(_buildFileItem)
+                                  .toList(),
                             )
                           : Center(
                               child: Column(
@@ -495,14 +572,17 @@ class _SelectFolderState extends State<SelectFolder> {
                                   SizedBox(
                                     width: 200,
                                     child: NeuButton(
-                                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       bevel: 5,
                                       onPressed: () {
-                                        String path = paths.join("/").substring(1);
+                                        String path =
+                                            paths.join("/").substring(1);
                                         goPath(path);
                                       },
                                       child: Text(

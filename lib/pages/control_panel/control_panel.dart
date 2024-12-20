@@ -186,8 +186,10 @@ class _ControlPanelState extends State<ControlPanel> {
                                 settings: RouteSettings(name: "user_groups")));
                           },
                           child: NeuCard(
-                            width: (MediaQuery.of(context).size.width - 120) / 3,
-                            height: (MediaQuery.of(context).size.width - 120) / 3,
+                            width:
+                                (MediaQuery.of(context).size.width - 120) / 3,
+                            height:
+                                (MediaQuery.of(context).size.width - 120) / 3,
                             curveType: CurveType.flat,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -474,8 +476,10 @@ class _ControlPanelState extends State<ControlPanel> {
                                 settings: RouteSettings(name: "ssh_setting")));
                           },
                           child: NeuCard(
-                            width: (MediaQuery.of(context).size.width - 120) / 3,
-                            height: (MediaQuery.of(context).size.width - 120) / 3,
+                            width:
+                                (MediaQuery.of(context).size.width - 120) / 3,
+                            height:
+                                (MediaQuery.of(context).size.width - 120) / 3,
                             curveType: CurveType.flat,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -541,9 +545,11 @@ class _ControlPanelState extends State<ControlPanel> {
                         onTap: () {
                           Navigator.of(context).push(CupertinoPageRoute(
                               builder: (content) {
-                                return SystemInfo(0, widget.system, widget.volumes, widget.disks);
+                                return SystemInfo(0, widget.system,
+                                    widget.volumes, widget.disks);
                               },
-                              settings: RouteSettings(name: "system_info_all")));
+                              settings:
+                                  RouteSettings(name: "system_info_all")));
                         },
                         child: NeuCard(
                           width: (MediaQuery.of(context).size.width - 120) / 3,
@@ -665,11 +671,14 @@ class _ControlPanelState extends State<ControlPanel> {
                                 builder: (context) {
                                   return TaskScheduler();
                                 },
-                                settings: RouteSettings(name: "task_scheduler")));
+                                settings:
+                                    RouteSettings(name: "task_scheduler")));
                           },
                           child: NeuCard(
-                            width: (MediaQuery.of(context).size.width - 120) / 3,
-                            height: (MediaQuery.of(context).size.width - 120) / 3,
+                            width:
+                                (MediaQuery.of(context).size.width - 120) / 3,
+                            height:
+                                (MediaQuery.of(context).size.width - 120) / 3,
                             curveType: CurveType.flat,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -741,7 +750,8 @@ class _ControlPanelState extends State<ControlPanel> {
                               builder: (context) {
                                 return ExternalDevice();
                               },
-                              settings: RouteSettings(name: "external_device")));
+                              settings:
+                                  RouteSettings(name: "external_device")));
                         },
                         child: NeuCard(
                           width: (MediaQuery.of(context).size.width - 120) / 3,
@@ -774,7 +784,8 @@ class _ControlPanelState extends State<ControlPanel> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                          Navigator.of(context)
+                              .push(CupertinoPageRoute(builder: (context) {
                             return UpdateReset();
                           }));
                         },
@@ -811,12 +822,21 @@ class _ControlPanelState extends State<ControlPanel> {
                                   ],
                                 ),
                               ),
-                              if (widget.notify != null && widget.notify['SYNO.SDS.AdminCenter.Update_Reset.Main'] != null && widget.notify['SYNO.SDS.AdminCenter.Update_Reset.Main']['unread'] != null)
+                              if (widget.notify != null &&
+                                  widget.notify[
+                                          'SYNO.SDS.AdminCenter.Update_Reset.Main'] !=
+                                      null &&
+                                  widget.notify[
+                                              'SYNO.SDS.AdminCenter.Update_Reset.Main']
+                                          ['unread'] !=
+                                      null)
                                 Positioned(
                                   top: 6,
                                   right: 6,
                                   child: Badge(
-                                    widget.notify['SYNO.SDS.AdminCenter.Update_Reset.Main']['unread'],
+                                    widget.notify[
+                                            'SYNO.SDS.AdminCenter.Update_Reset.Main']
+                                        ['unread'],
                                     size: 20,
                                   ),
                                 ),
@@ -1025,8 +1045,10 @@ class _ControlPanelState extends State<ControlPanel> {
                                 settings: RouteSettings(name: "ssh_setting")));
                           },
                           child: NeuCard(
-                            width: (MediaQuery.of(context).size.width - 120) / 3,
-                            height: (MediaQuery.of(context).size.width - 120) / 3,
+                            width:
+                                (MediaQuery.of(context).size.width - 120) / 3,
+                            height:
+                                (MediaQuery.of(context).size.width - 120) / 3,
                             curveType: CurveType.flat,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -1062,11 +1084,14 @@ class _ControlPanelState extends State<ControlPanel> {
                                 builder: (context) {
                                   return TaskScheduler();
                                 },
-                                settings: RouteSettings(name: "task_scheduler")));
+                                settings:
+                                    RouteSettings(name: "task_scheduler")));
                           },
                           child: NeuCard(
-                            width: (MediaQuery.of(context).size.width - 120) / 3,
-                            height: (MediaQuery.of(context).size.width - 120) / 3,
+                            width:
+                                (MediaQuery.of(context).size.width - 120) / 3,
+                            height:
+                                (MediaQuery.of(context).size.width - 120) / 3,
                             curveType: CurveType.flat,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,

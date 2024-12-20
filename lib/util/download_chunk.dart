@@ -7,7 +7,8 @@ import 'package:flutter/cupertino.dart';
 class DioDownload {
   final downloadDio = Dio();
   int _getContentLength(Response<ResponseBody> response) {
-    return int.parse(response.headers.value(Headers.contentLengthHeader) ?? '-1');
+    return int.parse(
+        response.headers.value(Headers.contentLengthHeader) ?? '-1');
   }
 
   Future<void> downloadFile({

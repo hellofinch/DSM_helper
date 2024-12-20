@@ -43,7 +43,8 @@ class _SelectServerState extends State<SelectServer> {
         onPressed: () async {
           Navigator.of(context).push(CupertinoPageRoute(
               builder: (context) {
-                return Ssh(server['host'], server['port'], server['account'], server['password']);
+                return Ssh(server['host'], server['port'], server['account'],
+                    server['password']);
               },
               settings: RouteSettings(name: "ssh_client")));
         },
@@ -196,7 +197,8 @@ class _SelectServerState extends State<SelectServer> {
                       SizedBox(
                         width: 200,
                         child: NeuButton(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
                           decoration: NeumorphicDecoration(
                             color: Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(20),
@@ -208,7 +210,8 @@ class _SelectServerState extends State<SelectServer> {
                                     builder: (context) {
                                       return AddServer();
                                     },
-                                    settings: RouteSettings(name: "add_ssh_server")))
+                                    settings:
+                                        RouteSettings(name: "add_ssh_server")))
                                 .then((value) {
                               getData();
                             });

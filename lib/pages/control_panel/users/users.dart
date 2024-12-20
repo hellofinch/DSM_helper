@@ -115,7 +115,10 @@ class _UsersState extends State<Users> with SingleTickerProviderStateMixin {
                   children: [
                     Row(
                       children: [
-                        if (user['expired'] == 'normal') Label("正常", Colors.green) else Label("停用", Colors.red),
+                        if (user['expired'] == 'normal')
+                          Label("正常", Colors.green)
+                        else
+                          Label("停用", Colors.red),
                         SizedBox(
                           width: 5,
                         ),
@@ -193,19 +196,26 @@ class _UsersState extends State<Users> with SingleTickerProviderStateMixin {
                       isScrollable: false,
                       controller: _tabController,
                       indicatorSize: TabBarIndicatorSize.label,
-                      labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                      labelColor:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
                       unselectedLabelColor: Colors.grey,
                       indicator: BubbleTabIndicator(
-                        indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                        shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                        indicatorColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        shadowColor: Util.getAdjustColor(
+                            Theme.of(context).scaffoldBackgroundColor, -20),
                       ),
                       tabs: [
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                           child: Text("用户账号"),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                           child: Text("用户群组"),
                         ),
                       ],

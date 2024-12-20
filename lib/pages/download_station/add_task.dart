@@ -122,7 +122,8 @@ class _AddDownloadTaskState extends State<AddDownloadTask> {
           NeuButton(
             onPressed: () async {
               FocusScope.of(context).unfocus();
-              FilePickerResult _pickedFile = await FilePicker.platform.pickFiles();
+              FilePickerResult _pickedFile =
+                  await FilePicker.platform.pickFiles();
               if (_pickedFile != null && _pickedFile.count > 0) {
                 String path = _pickedFile.paths[0];
                 String ext = path.split(".").last;
@@ -181,9 +182,11 @@ class _AddDownloadTaskState extends State<AddDownloadTask> {
               }
               var res;
               if (torrentPath != "") {
-                res = await Api.downloadTaskCreate(saveFolder, "file", filePath: torrentPath);
+                res = await Api.downloadTaskCreate(saveFolder, "file",
+                    filePath: torrentPath);
                 if (res['success']) {
-                  Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                  Navigator.of(context)
+                      .push(CupertinoPageRoute(builder: (context) {
                     return SelectFile(res['data']['list_id'], saveFolder);
                   }));
                 } else {

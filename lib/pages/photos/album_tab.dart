@@ -49,32 +49,37 @@ class AlbumTabState extends State<AlbumTab> {
   }
 
   getAlbum() async {
-    albums = await AlbumModel.fetch(additional: ["sharing_info", "thumbnail"], limit: 100, isTeam: isTeam);
+    albums = await AlbumModel.fetch(
+        additional: ["sharing_info", "thumbnail"], limit: 100, isTeam: isTeam);
     debugPrint("相册：${albums.length}");
     setState(() {});
   }
 
   getRecently() async {
-    recentlyAdds = await PhotoModel.recentlyAdd(limit: 4, isTeam: isTeam, additional: ['thumbnail'], type: 'photo');
+    recentlyAdds = await PhotoModel.recentlyAdd(
+        limit: 4, isTeam: isTeam, additional: ['thumbnail'], type: 'photo');
     debugPrint("最近添加：${recentlyAdds.length}");
     setState(() {});
   }
 
   getVideos() async {
-    videos = await PhotoModel.fetch(limit: 4, isTeam: isTeam, additional: ['thumbnail'], type: 'video');
+    videos = await PhotoModel.fetch(
+        limit: 4, isTeam: isTeam, additional: ['thumbnail'], type: 'video');
     debugPrint("视频：${recentlyAdds.length}");
     setState(() {});
   }
 
   getShares() async {}
   getGeocoding() async {
-    geocodings = await GeocodingModel.fetch(limit: 4, isTeam: isTeam, additional: ['thumbnail']);
+    geocodings = await GeocodingModel.fetch(
+        limit: 4, isTeam: isTeam, additional: ['thumbnail']);
     debugPrint("位置：${recentlyAdds.length}");
     setState(() {});
   }
 
   getGeneral() async {
-    generalTags = await GeneralTagModel.fetch(limit: 4, isTeam: isTeam, additional: ['thumbnail']);
+    generalTags = await GeneralTagModel.fetch(
+        limit: 4, isTeam: isTeam, additional: ['thumbnail']);
     debugPrint("标签：${recentlyAdds.length}");
     setState(() {});
   }
@@ -93,7 +98,8 @@ class AlbumTabState extends State<AlbumTab> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                Navigator.of(context)
+                    .push(CupertinoPageRoute(builder: (context) {
                   return GeocodingPage(isTeam);
                 }));
               },
@@ -120,7 +126,8 @@ class AlbumTabState extends State<AlbumTab> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                Navigator.of(context)
+                    .push(CupertinoPageRoute(builder: (context) {
                   return GeneralTagPage(isTeam);
                 }));
               },
@@ -147,8 +154,10 @@ class AlbumTabState extends State<AlbumTab> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
-                  return TimelinePage(title: "视频", type: 'video', isTeam: widget.isTeam);
+                Navigator.of(context)
+                    .push(CupertinoPageRoute(builder: (context) {
+                  return TimelinePage(
+                      title: "视频", type: 'video', isTeam: widget.isTeam);
                 }));
               },
               child: Column(
@@ -173,8 +182,10 @@ class AlbumTabState extends State<AlbumTab> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
-                  return TimelinePage(title: "最近添加", isTeam: widget.isTeam, recentlyAdd: true);
+                Navigator.of(context)
+                    .push(CupertinoPageRoute(builder: (context) {
+                  return TimelinePage(
+                      title: "最近添加", isTeam: widget.isTeam, recentlyAdd: true);
                 }));
               },
               child: Column(

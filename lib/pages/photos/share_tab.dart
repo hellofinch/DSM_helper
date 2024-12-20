@@ -22,7 +22,10 @@ class _ShareTabState extends State<ShareTab> {
   }
 
   getData() async {
-    albums = await AlbumModel.fetch(additional: ["thumbnail", "sharing_info"], shared: true, sortBy: 'share_modify_time');
+    albums = await AlbumModel.fetch(
+        additional: ["thumbnail", "sharing_info"],
+        shared: true,
+        sortBy: 'share_modify_time');
     setState(() {
       loading = false;
     });
@@ -51,7 +54,8 @@ class _ShareTabState extends State<ShareTab> {
               AlbumModel e = albums[i];
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                  Navigator.of(context)
+                      .push(CupertinoPageRoute(builder: (context) {
                     return AlbumPage(e);
                   }));
                 },
@@ -99,7 +103,8 @@ class _ShareTabState extends State<ShareTab> {
                                   Row(
                                     children: [
                                       if (e.shared) ...[
-                                        if (e.additional.sharingInfo.enablePassword)
+                                        if (e.additional.sharingInfo
+                                            .enablePassword)
                                           Icon(
                                             CupertinoIcons.lock,
                                             color: Colors.white,

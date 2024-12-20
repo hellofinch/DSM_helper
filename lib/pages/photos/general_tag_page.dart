@@ -25,7 +25,8 @@ class _GeneralTagPageState extends State<GeneralTagPage> {
   }
 
   Future getData() async {
-    tags = await GeneralTagModel.fetch(additional: ['thumbnail'], isTeam: widget.isTeam);
+    tags = await GeneralTagModel.fetch(
+        additional: ['thumbnail'], isTeam: widget.isTeam);
     setState(() {
       loading = false;
     });
@@ -64,7 +65,8 @@ class _GeneralTagPageState extends State<GeneralTagPage> {
                 children: tags.map((tag) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                      Navigator.of(context)
+                          .push(CupertinoPageRoute(builder: (context) {
                         return TimelinePage(
                           title: tag.name,
                           isTeam: widget.isTeam,
@@ -77,7 +79,8 @@ class _GeneralTagPageState extends State<GeneralTagPage> {
                       child: Column(
                         children: [
                           ExtendedImage.network(
-                            tag.additional.thumbnail.thumbUrl(size: 'sm', isTeam: widget.isTeam),
+                            tag.additional.thumbnail
+                                .thumbUrl(size: 'sm', isTeam: widget.isTeam),
                             width: photoWidth,
                             height: photoWidth,
                             shape: BoxShape.rectangle,

@@ -6,6 +6,7 @@ class Log {
   static init() {
     logger.levelPrefixes = {};
     logger.mode = LoggerMode.log;
-    logger.setLevel(kDebugMode ? Level.ALL : Level.OFF, includeCallerInfo: true);
+    logger.setLevel(kDebugMode ? Level.ALL : Level.OFF,
+        includeCallerInfo: true);
   }
 }

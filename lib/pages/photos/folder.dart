@@ -29,7 +29,8 @@ class FolderState extends State<Folder> {
     this.isTeam = isTeam;
     try {
       folders = [];
-      FolderModel root = await FolderModel.fetch(additional: ['access_permission'], isTeam: isTeam);
+      FolderModel root = await FolderModel.fetch(
+          additional: ['access_permission'], isTeam: isTeam);
       folders.add(root);
       fetchFolderDetail(root);
     } catch (e) {
@@ -42,12 +43,30 @@ class FolderState extends State<Folder> {
       loading = true;
     });
     await Future.wait([
-      folder.fetchFolders(additional: isTeam ? ["sharing_info", "access_permission", "thumbnail", "password_verified"] : ["thumbnail"], isTeam: isTeam),
-      folder.fetchPhotos(additional: ["thumbnail", "resolution", "orientation", "video_convert", "video_meta"], isTeam: isTeam),
+      folder.fetchFolders(
+          additional: isTeam
+              ? [
+                  "sharing_info",
+                  "access_permission",
+                  "thumbnail",
+                  "password_verified"
+                ]
+              : ["thumbnail"],
+          isTeam: isTeam),
+      folder.fetchPhotos(additional: [
+        "thumbnail",
+        "resolution",
+        "orientation",
+        "video_convert",
+        "video_meta"
+      ], isTeam: isTeam),
     ]);
     Future.delayed(Duration(milliseconds: 200)).then((_) {
       print(pathScrollController.position.maxScrollExtent);
-      pathScrollController.animateTo(pathScrollController.position.maxScrollExtent, duration: Duration(milliseconds: 200), curve: Curves.ease);
+      pathScrollController.animateTo(
+          pathScrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease);
     });
     setState(() {
       loading = false;
@@ -80,7 +99,11 @@ class FolderState extends State<Folder> {
                       },
                       child: Text(
                         folders[i].lastName == "/" ? "全部" : folders[i].lastName,
-                        style: TextStyle(color: Color(0xff212121), fontWeight: i == folders.length - 1 ? FontWeight.bold : FontWeight.normal),
+                        style: TextStyle(
+                            color: Color(0xff212121),
+                            fontWeight: i == folders.length - 1
+                                ? FontWeight.bold
+                                : FontWeight.normal),
                       ),
                     );
                   },

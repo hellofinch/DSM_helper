@@ -43,7 +43,9 @@ class _DownloadSettingState extends State<DownloadSetting> {
                 AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
                 if (Platform.isAndroid && androidInfo.version.sdkInt >= 30) {
                   bool permission = false;
-                  permission = await Permission.manageExternalStorage.request().isGranted;
+                  permission = await Permission.manageExternalStorage
+                      .request()
+                      .isGranted;
                   if (!permission) {
                     Util.toast("安卓11以上需授权文件管理权限");
                     return;

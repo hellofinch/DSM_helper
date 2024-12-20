@@ -77,7 +77,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
         if (res['data']['beta_packages'] != null) {
           betas = res['data']['beta_packages'];
           if (betas.length > 0) {
-            _tabController = TabController(initialIndex: 1, length: 4, vsync: this);
+            _tabController =
+                TabController(initialIndex: 1, length: 4, vsync: this);
           }
         }
         //
@@ -170,7 +171,9 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
         if (installedPackageInfo['id'] == package['id']) {
           package['installed'] = true;
           package['installed_version'] = installedPackageInfo['version'];
-          package['can_update'] = Util.versionCompare(package['installed_version'], package['version']) < 0;
+          package['can_update'] = Util.versionCompare(
+                  package['installed_version'], package['version']) <
+              0;
           package['additional'] = installedPackageInfo['additional'];
           if (package['installed']) {
             installedPackages.add(package);
@@ -178,7 +181,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
           if (package['can_update']) {
             canUpdatePackages.add(package);
           }
-          if (package['additional'] != null && package['additional']['status'] == "running") {
+          if (package['additional'] != null &&
+              package['additional']['status'] == "running") {
             package['launched'] = true;
           } else if (launchedPackages.contains(package['id'])) {
             package['launched'] = true;
@@ -242,9 +246,12 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
       );
     } else if (package['installed']) {
       String text = "";
-      if (package['launched'] && package['additional'] != null && package['additional']['startable']) {
+      if (package['launched'] &&
+          package['additional'] != null &&
+          package['additional']['startable']) {
         text = "停用";
-      } else if (package['additional'] != null && package['additional']['startable']) {
+      } else if (package['additional'] != null &&
+          package['additional']['startable']) {
         text = "启动";
       } else {
         text = "已安装";
@@ -255,7 +262,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
             setState(() {
               loading = true;
             });
-            var res = await Api.launchPackage(package['id'], package['dsm_apps'], "start");
+            var res = await Api.launchPackage(
+                package['id'], package['dsm_apps'], "start");
             if (res['success']) {
               Util.toast("已启动");
               // await getLaunchedPackages();
@@ -275,7 +283,10 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                     padding: EdgeInsets.all(22),
                     bevel: 5,
                     curveType: CurveType.emboss,
-                    decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                    decoration: NeumorphicDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(22))),
                     child: SafeArea(
                       top: false,
                       child: Column(
@@ -283,14 +294,16 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                         children: <Widget>[
                           Text(
                             "停用套件",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: 12,
                           ),
                           Text(
                             "确认要停用此套件？",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w400),
                           ),
                           SizedBox(
                             height: 22,
@@ -304,7 +317,10 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                                     setState(() {
                                       loading = true;
                                     });
-                                    var res = await Api.launchPackage(package['id'], package['dsm_apps'], "stop");
+                                    var res = await Api.launchPackage(
+                                        package['id'],
+                                        package['dsm_apps'],
+                                        "stop");
                                     if (res['success']) {
                                       Util.toast("已停用");
                                       // await getLaunchedPackages();
@@ -315,14 +331,16 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                                     }
                                   },
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   bevel: 5,
                                   padding: EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
                                     "停用",
-                                    style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.redAccent),
                                   ),
                                 ),
                               ),
@@ -335,7 +353,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                                     Navigator.of(context).pop();
                                   },
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   bevel: 5,
@@ -381,7 +400,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
           Navigator.of(context)
               .push(CupertinoPageRoute(
                   builder: (context) {
-                    return PackageDetail(package, beta: beta, method: "install");
+                    return PackageDetail(package,
+                        beta: beta, method: "install");
                   },
                   settings: RouteSettings(name: "package_detail")))
               .then((_) async {
@@ -537,7 +557,9 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      if (isBeta || (package['additional'] != null && package['additional']['beta']))
+                      if (isBeta ||
+                          (package['additional'] != null &&
+                              package['additional']['beta']))
                         Align(
                           alignment: Alignment.topRight,
                           child: Label(
@@ -570,7 +592,9 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            Padding(padding: EdgeInsets.all(20), child: _buildButton(package, beta: isBeta)),
+            Padding(
+                padding: EdgeInsets.all(20),
+                child: _buildButton(package, beta: isBeta)),
           ],
         ),
       ),
@@ -603,28 +627,35 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                   isScrollable: true,
                   controller: _tabController,
                   indicatorSize: TabBarIndicatorSize.label,
-                  labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                  labelColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                   unselectedLabelColor: Colors.grey,
                   indicator: BubbleTabIndicator(
                     indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                    shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                    shadowColor: Util.getAdjustColor(
+                        Theme.of(context).scaffoldBackgroundColor, -20),
                   ),
                   tabs: [
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                       child: Text("已安装"),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                       child: Text("全部套件"),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                       child: Text("社群"),
                     ),
                     if (betas.length > 0)
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("Beta"),
                       ),
                   ],
@@ -641,7 +672,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                                 padding: EdgeInsets.all(50),
                                 curveType: CurveType.flat,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 bevel: 20,
@@ -651,12 +683,14 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                               ),
                             )
                           : ListView(
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
                               children: [
                                 if (canUpdatePackages.length > 0)
                                   ListView.builder(
                                     itemBuilder: (content, i) {
-                                      return _buildUpdateItem(canUpdatePackages[i]);
+                                      return _buildUpdateItem(
+                                          canUpdatePackages[i]);
                                     },
                                     itemCount: canUpdatePackages.length,
                                     shrinkWrap: true,
@@ -679,7 +713,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                                 padding: EdgeInsets.all(50),
                                 curveType: CurveType.flat,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 bevel: 20,
@@ -689,7 +724,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                               ),
                             )
                           : ListView(
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
                               children: [
                                 Wrap(
                                   runSpacing: 20,
@@ -708,7 +744,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                                 padding: EdgeInsets.all(50),
                                 curveType: CurveType.flat,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 bevel: 20,
@@ -718,7 +755,8 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                               ),
                             )
                           : ListView(
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
                               children: [
                                 Wrap(
                                   runSpacing: 20,
@@ -732,13 +770,15 @@ class _PackagesState extends State<Packages> with TickerProviderStateMixin {
                     ),
                     if (betas.length > 0)
                       ListView(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                         children: [
                           Wrap(
                             runSpacing: 20,
                             spacing: 20,
                             children: betas.map((package) {
-                              return _buildPackageItem(package, false, isBeta: true);
+                              return _buildPackageItem(package, false,
+                                  isBeta: true);
                             }).toList(),
                           ),
                         ],

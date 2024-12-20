@@ -73,7 +73,10 @@ class _TaskRecordState extends State<TaskRecord> {
                   ),
                   Row(
                     children: [
-                      if (record['exit_type'] == 'normal') Label("正常", Colors.green) else Label("中断(${record['exit_code']})", Colors.red),
+                      if (record['exit_type'] == 'normal')
+                        Label("正常", Colors.green)
+                      else
+                        Label("中断(${record['exit_code']})", Colors.red),
                       SizedBox(
                         width: 5,
                       ),

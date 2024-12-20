@@ -14,7 +14,8 @@ class FileService extends StatefulWidget {
   _FileServiceState createState() => _FileServiceState();
 }
 
-class _FileServiceState extends State<FileService> with SingleTickerProviderStateMixin {
+class _FileServiceState extends State<FileService>
+    with SingleTickerProviderStateMixin {
   TextEditingController _workgroupController = TextEditingController();
   TextEditingController _nfsv4Controller = TextEditingController();
   TextEditingController _timeoutController = TextEditingController();
@@ -62,7 +63,8 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
             case "SYNO.Core.FileServ.SMB":
               setState(() {
                 smb = item['data'];
-                _workgroupController.value = TextEditingValue(text: smb['workgroup'] ?? "");
+                _workgroupController.value =
+                    TextEditingValue(text: smb['workgroup'] ?? "");
               });
               break;
             case "SYNO.Core.FileServ.AFP":
@@ -74,20 +76,24 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
               setState(() {
                 nfs = item['data'];
               });
-              _nfsv4Controller.value = TextEditingValue(text: nfs['nfs_v4_domain'] ?? "");
+              _nfsv4Controller.value =
+                  TextEditingValue(text: nfs['nfs_v4_domain'] ?? "");
               break;
             case "SYNO.Core.FileServ.FTP":
               setState(() {
                 ftp = item['data'];
-                _timeoutController.value = TextEditingValue(text: "${ftp['timeout']}");
-                _ftpPortController.value = TextEditingValue(text: "${ftp['portnum']}");
+                _timeoutController.value =
+                    TextEditingValue(text: "${ftp['timeout']}");
+                _ftpPortController.value =
+                    TextEditingValue(text: "${ftp['portnum']}");
               });
               break;
             case "SYNO.Core.FileServ.FTP.SFTP":
               setState(() {
                 sftp = item['data'];
                 print(sftp);
-                _sftpPortController.value = TextEditingValue(text: "${sftp['portnum']}");
+                _sftpPortController.value =
+                    TextEditingValue(text: "${sftp['portnum']}");
               });
               break;
             case "SYNO.Core.BandwidthControl.Protocol":
@@ -168,19 +174,24 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                     isScrollable: true,
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
-                    labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                    labelColor: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
                     unselectedLabelColor: Colors.grey,
                     indicator: BubbleTabIndicator(
                       indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                      shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                      shadowColor: Util.getAdjustColor(
+                          Theme.of(context).scaffoldBackgroundColor, -20),
                     ),
                     tabs: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("SMB/AFP/NFS"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("FTP"),
                       ),
                       // Padding(
@@ -220,7 +231,9 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                 children: [
                                   Text(
                                     "SMB",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -228,17 +241,22 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                   GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        smb['enable_samba'] = !smb['enable_samba'];
+                                        smb['enable_samba'] =
+                                            !smb['enable_samba'];
                                       });
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       height: 60,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                      curveType: smb['enable_samba'] ? CurveType.emboss : CurveType.flat,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      curveType: smb['enable_samba']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -261,12 +279,14 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     ),
                                     NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       bevel: 20,
                                       curveType: CurveType.flat,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
                                       child: TextField(
                                         controller: _workgroupController,
                                         onChanged: (v) => smb['workgroup'] = v,
@@ -282,17 +302,23 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          smb['disable_shadow_copy'] = !smb['disable_shadow_copy'];
+                                          smb['disable_shadow_copy'] =
+                                              !smb['disable_shadow_copy'];
                                         });
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                        curveType: smb['disable_shadow_copy'] ? CurveType.emboss : CurveType.flat,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        curveType: smb['disable_shadow_copy']
+                                            ? CurveType.emboss
+                                            : CurveType.flat,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -315,22 +341,30 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          syslogClient['cifs'] = !syslogClient['cifs'];
+                                          syslogClient['cifs'] =
+                                              !syslogClient['cifs'];
                                         });
                                         if (syslogClient['cifs']) {
-                                          Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                                          Navigator.of(context).push(
+                                              CupertinoPageRoute(
+                                                  builder: (context) {
                                             return LogSetting("cifs");
                                           }));
                                         }
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                        curveType: syslogClient['cifs'] ? CurveType.emboss : CurveType.flat,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        curveType: syslogClient['cifs']
+                                            ? CurveType.emboss
+                                            : CurveType.flat,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -357,16 +391,21 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                             child: NeuButton(
                                               onPressed: () {
                                                 if (syslogClient['cifs']) {
-                                                  Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                                                  Navigator.of(context).push(
+                                                      CupertinoPageRoute(
+                                                          builder: (context) {
                                                     return LogSetting("cifs");
                                                   }));
                                                 }
                                               },
                                               decoration: NeumorphicDecoration(
-                                                color: Theme.of(context).scaffoldBackgroundColor,
-                                                borderRadius: BorderRadius.circular(20),
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
                                               ),
-                                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 20, vertical: 20),
                                               child: Text("日志设置"),
                                             ),
                                           ),
@@ -376,15 +415,20 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                           Expanded(
                                             child: NeuButton(
                                               onPressed: () {
-                                                Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                                                Navigator.of(context).push(
+                                                    CupertinoPageRoute(
+                                                        builder: (context) {
                                                   return LogCenter();
                                                 }));
                                               },
                                               decoration: NeumorphicDecoration(
-                                                color: Theme.of(context).scaffoldBackgroundColor,
-                                                borderRadius: BorderRadius.circular(20),
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
                                               ),
-                                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 20, vertical: 20),
                                               child: Text(
                                                 "查看日志",
                                               ),
@@ -416,7 +460,9 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                 children: [
                                   Text(
                                     "AFP",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -429,12 +475,16 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       height: 60,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                      curveType: afp['enable_afp'] ? CurveType.emboss : CurveType.flat,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      curveType: afp['enable_afp']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -458,17 +508,23 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          syslogClient['afp'] = !syslogClient['afp'];
+                                          syslogClient['afp'] =
+                                              !syslogClient['afp'];
                                         });
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                        curveType: syslogClient['afp'] ? CurveType.emboss : CurveType.flat,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        curveType: syslogClient['afp']
+                                            ? CurveType.emboss
+                                            : CurveType.flat,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -508,7 +564,9 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                 children: [
                                   Text(
                                     "NFS",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -521,12 +579,16 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       height: 60,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                      curveType: nfs['enable_nfs'] ? CurveType.emboss : CurveType.flat,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      curveType: nfs['enable_nfs']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -550,17 +612,23 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          nfs['enable_nfs_v4'] = !nfs['enable_nfs_v4'];
+                                          nfs['enable_nfs_v4'] =
+                                              !nfs['enable_nfs_v4'];
                                         });
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                        curveType: nfs['enable_nfs_v4'] ? CurveType.emboss : CurveType.flat,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        curveType: nfs['enable_nfs_v4']
+                                            ? CurveType.emboss
+                                            : CurveType.flat,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -578,21 +646,25 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                       ),
                                     ),
                                   ],
-                                  if (nfs['enable_nfs'] && nfs['enable_nfs_v4']) ...[
+                                  if (nfs['enable_nfs'] &&
+                                      nfs['enable_nfs_v4']) ...[
                                     SizedBox(
                                       height: 20,
                                     ),
                                     NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       bevel: 20,
                                       curveType: CurveType.flat,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
                                       child: TextField(
                                         controller: _nfsv4Controller,
-                                        onChanged: (v) => nfs['nfs_v4_domain'] = v,
+                                        onChanged: (v) =>
+                                            nfs['nfs_v4_domain'] = v,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           labelText: 'NFSv4 域',
@@ -627,7 +699,9 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                 children: [
                                   Text(
                                     "FTP/FTPS",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -640,12 +714,16 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       height: 60,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                      curveType: ftp['enable_ftp'] ? CurveType.emboss : CurveType.flat,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      curveType: ftp['enable_ftp']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -668,17 +746,22 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                   GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        ftp['enable_ftps'] = !ftp['enable_ftps'];
+                                        ftp['enable_ftps'] =
+                                            !ftp['enable_ftps'];
                                       });
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       height: 60,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                      curveType: ftp['enable_ftps'] ? CurveType.emboss : CurveType.flat,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      curveType: ftp['enable_ftps']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -701,12 +784,14 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     ),
                                     NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       bevel: 20,
                                       curveType: CurveType.flat,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
                                       child: TextField(
                                         controller: _timeoutController,
                                         onChanged: (v) {
@@ -718,7 +803,8 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                         },
                                         keyboardType: TextInputType.number,
                                         inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly,
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
                                         ],
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
@@ -731,12 +817,14 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     ),
                                     NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       bevel: 20,
                                       curveType: CurveType.flat,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
                                       child: TextField(
                                         controller: _ftpPortController,
                                         onChanged: (v) {
@@ -748,7 +836,8 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                         },
                                         keyboardType: TextInputType.number,
                                         inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly,
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
                                         ],
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
@@ -762,17 +851,23 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          ftp['enable_fxp'] = !ftp['enable_fxp'];
+                                          ftp['enable_fxp'] =
+                                              !ftp['enable_fxp'];
                                         });
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                        curveType: ftp['enable_fxp'] ? CurveType.emboss : CurveType.flat,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        curveType: ftp['enable_fxp']
+                                            ? CurveType.emboss
+                                            : CurveType.flat,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -795,17 +890,23 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          ftp['enable_fips'] = !ftp['enable_fips'];
+                                          ftp['enable_fips'] =
+                                              !ftp['enable_fips'];
                                         });
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                        curveType: ftp['enable_fips'] ? CurveType.emboss : CurveType.flat,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        curveType: ftp['enable_fips']
+                                            ? CurveType.emboss
+                                            : CurveType.flat,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -828,17 +929,23 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          ftp['enable_ascii'] = !ftp['enable_ascii'];
+                                          ftp['enable_ascii'] =
+                                              !ftp['enable_ascii'];
                                         });
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         height: 60,
-                                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                        curveType: ftp['enable_ascii'] ? CurveType.emboss : CurveType.flat,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        curveType: ftp['enable_ascii']
+                                            ? CurveType.emboss
+                                            : CurveType.flat,
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -878,8 +985,10 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                       },
                                       child: NeuCard(
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         padding: EdgeInsets.all(20),
                                         curveType: CurveType.flat,
@@ -887,7 +996,8 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                           children: [
                                             Text("UTF-8 编码:"),
                                             Spacer(),
-                                            Text("${utf8Modes[ftp['utf8_mode']]}"),
+                                            Text(
+                                                "${utf8Modes[ftp['utf8_mode']]}"),
                                           ],
                                         ),
                                       ),
@@ -915,7 +1025,9 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                 children: [
                                   Text(
                                     "SFTP",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -928,12 +1040,16 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       height: 60,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                      curveType: sftp['enable'] ? CurveType.emboss : CurveType.flat,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      curveType: sftp['enable']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -955,12 +1071,14 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                                   ),
                                   NeuCard(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     bevel: 20,
                                     curveType: CurveType.flat,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     child: TextField(
                                       controller: _sftpPortController,
                                       onChanged: (v) {
@@ -996,7 +1114,8 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                   child: Padding(
                     padding: EdgeInsets.all(20),
                     child: NeuButton(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       decoration: NeumorphicDecoration(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
@@ -1008,7 +1127,8 @@ class _FileServiceState extends State<FileService> with SingleTickerProviderStat
                         setState(() {
                           saving = true;
                         });
-                        var res = await Api.fileServiceSave(smb, syslogClient, afp, nfs, ftp, sftp);
+                        var res = await Api.fileServiceSave(
+                            smb, syslogClient, afp, nfs, ftp, sftp);
 
                         if (res['success']) {
                           setState(() {

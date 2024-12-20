@@ -38,7 +38,8 @@ class _LogoutState extends State<Logout> {
                   decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: read ? Color(0xffff9813) : Colors.grey),
+                    border: Border.all(
+                        color: read ? Color(0xffff9813) : Colors.grey),
                   ),
                   height: 20,
                   width: 20,
@@ -58,7 +59,9 @@ class _LogoutState extends State<Logout> {
                   child: Text.rich(
                     TextSpan(
                       children: [
-                        TextSpan(text: "我已知悉账号注销后，所有与此账号有关的文件、操作记录等信息将被删除并永久无法恢复，我已备份好重要文件，因账号注销造成的损失与群晖助手无关。"),
+                        TextSpan(
+                            text:
+                                "我已知悉账号注销后，所有与此账号有关的文件、操作记录等信息将被删除并永久无法恢复，我已备份好重要文件，因账号注销造成的损失与群晖助手无关。"),
                       ],
                       style: TextStyle(fontSize: 12),
                     ),

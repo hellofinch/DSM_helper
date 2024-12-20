@@ -69,7 +69,8 @@ Page resource error:
               padding: EdgeInsets.all(10),
               bevel: 5,
               onPressed: () {
-                launchUrlString(widget.url, mode: LaunchMode.externalApplication);
+                launchUrlString(widget.url,
+                    mode: LaunchMode.externalApplication);
               },
               child: Image.asset(
                 "assets/icons/browser.png",

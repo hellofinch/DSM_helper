@@ -30,7 +30,8 @@ class _AppBackButtonState extends State<AppBackButton> {
             padding: EdgeInsets.only(left: 10, top: 8, bottom: 8),
             child: NeuButton(
               decoration: NeumorphicDecoration(
-                color: widget.color ?? Theme.of(context).scaffoldBackgroundColor,
+                color:
+                    widget.color ?? Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(10),
               ),
               padding: EdgeInsets.all(10),

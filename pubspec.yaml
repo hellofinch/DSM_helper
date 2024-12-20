@@ -1,5 +1,5 @@
 name: dsm_helper
-description: 适用于群辉6.x的手机助手。采用新拟态设计风格
+description: 适用于群辉的手机助手。采用新拟态设计风格
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.

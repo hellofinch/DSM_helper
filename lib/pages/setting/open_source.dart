@@ -187,13 +187,15 @@ class _OpenSourceState extends State<OpenSource> {
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       onPressed: () {
                         Navigator.of(context).push(
                           CupertinoPageRoute(builder: (context) {
                             return Browser(
                               title: "${list[i]['name']}",
-                              url: "https://pub.dev/packages/" + list[i]['name'],
+                              url:
+                                  "https://pub.dev/packages/" + list[i]['name'],
                             );
                           }),
                         );

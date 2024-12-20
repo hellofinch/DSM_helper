@@ -43,12 +43,15 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     getData();
     Util.setStorage("agreement", "1");
-    FlutterSharingIntent.instance.getInitialSharing().then((List<SharedFile> value) {
+    FlutterSharingIntent.instance
+        .getInitialSharing()
+        .then((List<SharedFile> value) {
       print("Shared: getInitialMedia ${value.map((f) => f.path).join(",")}");
       handleFiles(value);
     });
     // For sharing images coming from outside the app while the app is in the memory
-    FlutterSharingIntent.instance.getMediaStream().listen((List<SharedFile> value) {
+    FlutterSharingIntent.instance.getMediaStream().listen(
+        (List<SharedFile> value) {
       handleFiles(value);
       print("Shared: getMediaStream ${value.map((f) => f.path).join(",")}");
     }, onError: (err) {
@@ -87,10 +90,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   handleFiles(List<SharedFile> files) async {
     _sharedFiles = files;
     if (_sharedFiles != null && _sharedFiles.length > 0) {
-      if (_sharedFiles.length == 1 && _sharedFiles.first.path.endsWith(".torrent")) {
+      if (_sharedFiles.length == 1 &&
+          _sharedFiles.first.path.endsWith(".torrent")) {
         String filePath = '';
         if (Platform.isAndroid) {
-          filePath = await FlutterSharingIntent.getAbsolutePath(_sharedFiles.first.path);
+          filePath = await FlutterSharingIntent.getAbsolutePath(
+              _sharedFiles.first.path);
         } else {
           filePath = _sharedFiles.first.path;
         }
@@ -144,8 +149,10 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   checkAuth() async {
     // print("是否需要启动密码")
     String launchAuthStr = await Util.getStorage("launch_auth");
-    String launchAuthPasswordStr = await Util.getStorage("launch_auth_password");
-    String launchAuthBiometricsStr = await Util.getStorage("launch_auth_biometrics");
+    String launchAuthPasswordStr =
+        await Util.getStorage("launch_auth_password");
+    String launchAuthBiometricsStr =
+        await Util.getStorage("launch_auth_biometrics");
     if (launchAuthStr != null) {
       launchAuth = launchAuthStr == "1";
     } else {
@@ -210,7 +217,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     }
     value.then((v) {
       if (v) {
-        if (lastPopTime == null || DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
+        if (lastPopTime == null ||
+            DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
           lastPopTime = DateTime.now();
           Util.toast('再按一次退出${Util.appName}');
         } else {
@@ -248,7 +256,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             });
           },
           groupValue: _currentIndex,
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           children: {
             0: Padding(
               padding: EdgeInsets.symmetric(vertical: 6),

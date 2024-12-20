@@ -22,13 +22,21 @@ class ImagePreview extends StatefulWidget {
   final Function onDelete;
   final PageController pageController;
 
-  ImagePreview(this.images, this.index, {this.network = true, this.tag, this.thumbs: const [], this.names: const [], this.paths: const [], this.onDelete}) : this.pageController = PageController(initialPage: index);
+  ImagePreview(this.images, this.index,
+      {this.network = true,
+      this.tag,
+      this.thumbs: const [],
+      this.names: const [],
+      this.paths: const [],
+      this.onDelete})
+      : this.pageController = PageController(initialPage: index);
 
   @override
   _ImagePreviewState createState() => _ImagePreviewState();
 }
 
-class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderStateMixin {
+class _ImagePreviewState extends State<ImagePreview>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _animation;
   var rebuildIndex = StreamController<int>.broadcast();
@@ -38,17 +46,20 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
   List<double> doubleTapScales = <double>[1.0, 2.0];
   int currentIndex = 0;
   bool blackBackground = false;
-  GlobalKey<ExtendedImageSlidePageState> slidePageKey = GlobalKey<ExtendedImageSlidePageState>();
+  GlobalKey<ExtendedImageSlidePageState> slidePageKey =
+      GlobalKey<ExtendedImageSlidePageState>();
   double initScale({Size imageSize, Size size, double initialScale}) {
     var n1 = imageSize.height / imageSize.width;
     var n2 = size.height / size.width;
     if (n1 > n2) {
-      final FittedSizes fittedSizes = applyBoxFit(BoxFit.contain, imageSize, size);
+      final FittedSizes fittedSizes =
+          applyBoxFit(BoxFit.contain, imageSize, size);
       //final Size sourceSize = fittedSizes.source;
       Size destinationSize = fittedSizes.destination;
       return size.width / destinationSize.width;
     } else if (n1 / n2 < 1 / 10) {
-      final FittedSizes fittedSizes = applyBoxFit(BoxFit.contain, imageSize, size);
+      final FittedSizes fittedSizes =
+          applyBoxFit(BoxFit.contain, imageSize, size);
       //final Size sourceSize = fittedSizes.source;
       Size destinationSize = fittedSizes.destination;
       return size.height / destinationSize.height;
@@ -69,7 +80,9 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
             padding: EdgeInsets.all(22),
             bevel: 5,
             curveType: CurveType.emboss,
-            decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+            decoration: NeumorphicDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
             child: SafeArea(
               top: false,
               child: Column(
@@ -95,20 +108,25 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                         child: NeuButton(
                           onPressed: () async {
                             Navigator.of(context).pop();
-                            var res = await Api.deleteTask([widget.paths[index]]);
+                            var res =
+                                await Api.deleteTask([widget.paths[index]]);
                             if (res['success']) {
                               Util.toast("文件删除成功");
-                              if (widget.thumbs != null && widget.thumbs.length > index) {
+                              if (widget.thumbs != null &&
+                                  widget.thumbs.length > index) {
                                 widget.thumbs?.removeAt(index);
                               }
 
-                              if (widget.images != null && widget.images.length > index) {
+                              if (widget.images != null &&
+                                  widget.images.length > index) {
                                 widget.images?.removeAt(index);
                               }
-                              if (widget.paths != null && widget.paths.length > index) {
+                              if (widget.paths != null &&
+                                  widget.paths.length > index) {
                                 widget.paths?.removeAt(index);
                               }
-                              if (widget.names != null && widget.names.length > index) {
+                              if (widget.names != null &&
+                                  widget.names.length > index) {
                                 widget.names?.removeAt(index);
                               }
                               setState(() {});
@@ -123,7 +141,8 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
                             "确认删除",
-                            style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.redAccent),
                           ),
                         ),
                       ),
@@ -163,7 +182,8 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
 
   @override
   void initState() {
-    _animationController = AnimationController(duration: const Duration(milliseconds: 150), vsync: this);
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 150), vsync: this);
     setState(() {
       currentIndex = widget.index;
     });
@@ -190,8 +210,12 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     Widget result = Material(
-      color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.transparent,
-      shadowColor: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.transparent,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : Colors.transparent,
+      shadowColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : Colors.transparent,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -208,8 +232,13 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                   loadStateChanged: (ExtendedImageState state) {
                     switch (state.extendedImageLoadState) {
                       case LoadState.loading:
-                        final ImageChunkEvent loadingProgress = state.loadingProgress;
-                        final double progress = loadingProgress?.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes : null;
+                        final ImageChunkEvent loadingProgress =
+                            state.loadingProgress;
+                        final double progress =
+                            loadingProgress?.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null;
                         if (widget.thumbs.length > index + 1) {
                           return Stack(
                             alignment: Alignment.center,
@@ -256,8 +285,14 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                   // },
                   initGestureConfigHandler: (state) {
                     double initialScale = 1.0;
-                    if (state.extendedImageInfo != null && state.extendedImageInfo.image != null) {
-                      initialScale = initScale(size: size, initialScale: initialScale, imageSize: Size(state.extendedImageInfo.image.width.toDouble(), state.extendedImageInfo.image.height.toDouble()));
+                    if (state.extendedImageInfo != null &&
+                        state.extendedImageInfo.image != null) {
+                      initialScale = initScale(
+                          size: size,
+                          initialScale: initialScale,
+                          imageSize: Size(
+                              state.extendedImageInfo.image.width.toDouble(),
+                              state.extendedImageInfo.image.height.toDouble()));
                     }
                     return GestureConfig(
                         inPageView: true,
@@ -283,9 +318,12 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                       end = doubleTapScales[0];
                     }
                     animationListener = () {
-                      state.handleDoubleTap(scale: _animation.value, doubleTapPosition: pointerDownPosition);
+                      state.handleDoubleTap(
+                          scale: _animation.value,
+                          doubleTapPosition: pointerDownPosition);
                     };
-                    _animation = _animationController.drive(Tween<double>(begin: begin, end: end));
+                    _animation = _animationController
+                        .drive(Tween<double>(begin: begin, end: end));
                     _animation.addListener(animationListener);
                     _animationController.forward();
                   },
@@ -308,8 +346,14 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                   // },
                   initGestureConfigHandler: (state) {
                     double initialScale = 1.0;
-                    if (state.extendedImageInfo != null && state.extendedImageInfo.image != null) {
-                      initialScale = initScale(size: size, initialScale: initialScale, imageSize: Size(state.extendedImageInfo.image.width.toDouble(), state.extendedImageInfo.image.height.toDouble()));
+                    if (state.extendedImageInfo != null &&
+                        state.extendedImageInfo.image != null) {
+                      initialScale = initScale(
+                          size: size,
+                          initialScale: initialScale,
+                          imageSize: Size(
+                              state.extendedImageInfo.image.width.toDouble(),
+                              state.extendedImageInfo.image.height.toDouble()));
                     }
                     return GestureConfig(
                         inPageView: true,
@@ -335,9 +379,12 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                       end = doubleTapScales[0];
                     }
                     animationListener = () {
-                      state.handleDoubleTap(scale: _animation.value, doubleTapPosition: pointerDownPosition);
+                      state.handleDoubleTap(
+                          scale: _animation.value,
+                          doubleTapPosition: pointerDownPosition);
                     };
-                    _animation = _animationController.drive(Tween<double>(begin: begin, end: end));
+                    _animation = _animationController
+                        .drive(Tween<double>(begin: begin, end: end));
                     _animation.addListener(animationListener);
                     _animationController.forward();
                   },
@@ -388,21 +435,29 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                         child: Row(
                           children: [
                             Expanded(
-                              child: widget.names != null ? FileName(widget.names, currentIndex, rebuildIndex) : Container(),
+                              child: widget.names != null
+                                  ? FileName(
+                                      widget.names, currentIndex, rebuildIndex)
+                                  : Container(),
                             ),
                             GestureDetector(
                               onTap: () {
                                 WeChatImage wechatImage;
-                                if (widget.images[currentIndex].startsWith("http")) {
-                                  wechatImage = WeChatImage.network(widget.images[currentIndex]);
-                                } else if (widget.images[currentIndex].startsWith("/")) {
-                                  wechatImage = WeChatImage.file(File(widget.images[currentIndex]));
+                                if (widget.images[currentIndex]
+                                    .startsWith("http")) {
+                                  wechatImage = WeChatImage.network(
+                                      widget.images[currentIndex]);
+                                } else if (widget.images[currentIndex]
+                                    .startsWith("/")) {
+                                  wechatImage = WeChatImage.file(
+                                      File(widget.images[currentIndex]));
                                 } else {
                                   Util.toast("暂不支持分享此图片");
                                   return;
                                 }
                                 shareToWeChat(
-                                  WeChatShareImageModel(wechatImage, scene: WeChatScene.SESSION),
+                                  WeChatShareImageModel(wechatImage,
+                                      scene: WeChatScene.SESSION),
                                 );
                               },
                               child: Image.asset(
@@ -419,7 +474,8 @@ class _ImagePreviewState extends State<ImagePreview> with SingleTickerProviderSt
                     widget.images,
                     currentIndex,
                     rebuildIndex,
-                    onDelete: widget.paths != null && widget.paths.length > currentIndex
+                    onDelete: widget.paths != null &&
+                            widget.paths.length > currentIndex
                         ? (index) {
                             deleteFile(index);
                           }
@@ -502,7 +558,8 @@ class MySwiperPlugin extends StatelessWidget {
                   bevel: 0,
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   onPressed: () {
-                    Util.saveImage(pics[data.data], context: context).then((res) {
+                    Util.saveImage(pics[data.data], context: context)
+                        .then((res) {
                       if (res['code'] == 1) {
                         Util.toast("已保存到相册");
                       } else {

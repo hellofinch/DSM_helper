@@ -49,7 +49,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
       getFolderDetail(widget.folder['name']);
     }
 
-    volumeController.text = "${widget.volumes[selectedVolumeIndex]['display_name']}(可用容量：${Util.formatSize(int.parse(widget.volumes[selectedVolumeIndex]['size_free_byte']))}) - ${widget.volumes[selectedVolumeIndex]['fs_type']}";
+    volumeController.text =
+        "${widget.volumes[selectedVolumeIndex]['display_name']}(可用容量：${Util.formatSize(int.parse(widget.volumes[selectedVolumeIndex]['size_free_byte']))}) - ${widget.volumes[selectedVolumeIndex]['fs_type']}";
     unitController.text = units[selectedUnitIndex];
     super.initState();
   }
@@ -93,7 +94,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
       for (var i = 0; i < widget.volumes.length; i++) {
         if (widget.volumes[i]['volume_path'] == folder['vol_path']) {
           selectedVolumeIndex = i;
-          volumeController.text = "${widget.volumes[selectedVolumeIndex]['display_name']}(可用容量：${Util.formatSize(int.parse(widget.volumes[selectedVolumeIndex]['size_free_byte']))}) - ${widget.volumes[selectedVolumeIndex]['fs_type']}";
+          volumeController.text =
+              "${widget.volumes[selectedVolumeIndex]['display_name']}(可用容量：${Util.formatSize(int.parse(widget.volumes[selectedVolumeIndex]['size_free_byte']))}) - ${widget.volumes[selectedVolumeIndex]['fs_type']}";
           break;
         }
       }
@@ -135,7 +137,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
         return;
       }
       try {
-        shareQuota = "${int.parse(shareQuotaController.text) * pow(1024, 2 - selectedUnitIndex)}";
+        shareQuota =
+            "${int.parse(shareQuotaController.text) * pow(1024, 2 - selectedUnitIndex)}";
       } catch (e) {
         Util.toast("共享文件夹配额仅支持输入整数");
         return;
@@ -247,7 +250,11 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                               width: double.infinity,
                               bevel: 20,
                               curveType: CurveType.emboss,
-                              decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                              decoration: NeumorphicDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(22))),
                               child: SafeArea(
                                 top: false,
                                 child: Padding(
@@ -257,7 +264,9 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                                     children: <Widget>[
                                       Text(
                                         "选择所在位置",
-                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                       SizedBox(
                                         height: 12,
@@ -268,30 +277,42 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                                           child: NeuButton(
                                             onPressed: () {
                                               setState(() {
-                                                selectedVolumeIndex = widget.volumes.indexOf(volume);
+                                                selectedVolumeIndex = widget
+                                                    .volumes
+                                                    .indexOf(volume);
                                               });
-                                              volumeController.value = TextEditingValue(text: "${widget.volumes[selectedVolumeIndex]['display_name']}(可用容量：${Util.formatSize(int.parse(widget.volumes[selectedVolumeIndex]['size_free_byte']))}) - ${widget.volumes[selectedVolumeIndex]['fs_type']}");
+                                              volumeController.value =
+                                                  TextEditingValue(
+                                                      text:
+                                                          "${widget.volumes[selectedVolumeIndex]['display_name']}(可用容量：${Util.formatSize(int.parse(widget.volumes[selectedVolumeIndex]['size_free_byte']))}) - ${widget.volumes[selectedVolumeIndex]['fs_type']}");
                                               Navigator.of(context).pop();
                                             },
                                             decoration: NeumorphicDecoration(
-                                              color: Theme.of(context).scaffoldBackgroundColor,
-                                              borderRadius: BorderRadius.circular(25),
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
                                             ),
                                             bevel: 20,
-                                            padding: EdgeInsets.symmetric(vertical: 10),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
                                             child: Container(
-                                              padding: EdgeInsets.only(left: 20),
+                                              padding:
+                                                  EdgeInsets.only(left: 20),
                                               width: double.infinity,
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("${volume['display_name']}(可用容量：${Util.formatSize(int.parse(volume['size_free_byte']))}) - ${volume['fs_type']}"),
+                                                  Text(
+                                                      "${volume['display_name']}(可用容量：${Util.formatSize(int.parse(volume['size_free_byte']))}) - ${volume['fs_type']}"),
                                                   SizedBox(
                                                     height: 5,
                                                   ),
                                                   Text(
                                                     "${volume['description']}",
-                                                    style: TextStyle(color: Colors.grey),
+                                                    style: TextStyle(
+                                                        color: Colors.grey),
                                                   ),
                                                 ],
                                               ),
@@ -304,11 +325,14 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                                           Navigator.of(context).pop();
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 20,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "取消",
                                           style: TextStyle(fontSize: 18),
@@ -333,7 +357,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                       ),
                       bevel: 20,
                       curveType: CurveType.flat,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: TextField(
                         controller: volumeController,
                         decoration: InputDecoration(
@@ -362,7 +387,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                       curveType: hidden ? CurveType.emboss : CurveType.flat,
                       bevel: 20,
                       height: 60,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
                           Text("在“网上邻居”隐藏此共享文件夹"),
@@ -391,10 +417,12 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      curveType: hideUnreadable ? CurveType.emboss : CurveType.flat,
+                      curveType:
+                          hideUnreadable ? CurveType.emboss : CurveType.flat,
                       bevel: 20,
                       height: 60,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
                           Text("对没有权限的用户隐藏子文件夹和文件"),
@@ -427,10 +455,12 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            curveType: recycleBin ? CurveType.emboss : CurveType.flat,
+                            curveType:
+                                recycleBin ? CurveType.emboss : CurveType.flat,
                             bevel: 20,
                             height: 60,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
                             child: Row(
                               children: [
                                 Expanded(
@@ -476,7 +506,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                                     : CurveType.flat,
                             bevel: 20,
                             height: 60,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
                             child: Row(
                               children: [
                                 Expanded(
@@ -516,7 +547,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                       curveType: encryption ? CurveType.emboss : CurveType.flat,
                       bevel: 20,
                       height: 60,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
                           Text("加密共享此文件夹"),
@@ -544,7 +576,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                             ),
                             bevel: 20,
                             curveType: CurveType.flat,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
                             child: TextField(
                               onChanged: (v) => password = v,
                               obscureText: true,
@@ -567,7 +600,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                             ),
                             bevel: 20,
                             curveType: CurveType.flat,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
                             child: TextField(
                               onChanged: (v) => confirmPassword = v,
                               obscureText: true,
@@ -588,7 +622,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                   GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
-                      if (widget.volumes[selectedVolumeIndex]['fs_type'] == "btrfs") {
+                      if (widget.volumes[selectedVolumeIndex]['fs_type'] ==
+                          "btrfs") {
                         setState(() {
                           enableShareCow = !enableShareCow;
                         });
@@ -599,14 +634,17 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      curveType: widget.volumes[selectedVolumeIndex]['fs_type'] != "btrfs"
+                      curveType: widget.volumes[selectedVolumeIndex]
+                                  ['fs_type'] !=
+                              "btrfs"
                           ? CurveType.convex
                           : enableShareCow
                               ? CurveType.emboss
                               : CurveType.flat,
                       bevel: 20,
                       height: 60,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
                           Text("启用数据总和检查码以实现高级数据完整性"),
@@ -626,7 +664,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                   GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
-                      if (widget.volumes[selectedVolumeIndex]['fs_type'] == "btrfs") {
+                      if (widget.volumes[selectedVolumeIndex]['fs_type'] ==
+                          "btrfs") {
                         setState(() {
                           enableShareCompress = !enableShareCompress;
                         });
@@ -637,14 +676,17 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      curveType: widget.volumes[selectedVolumeIndex]['fs_type'] != "btrfs"
+                      curveType: widget.volumes[selectedVolumeIndex]
+                                  ['fs_type'] !=
+                              "btrfs"
                           ? CurveType.convex
                           : enableShareCompress
                               ? CurveType.emboss
                               : CurveType.flat,
                       bevel: 20,
                       height: 60,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
                           Text("启用文件压缩"),
@@ -664,7 +706,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                   GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
-                      if (widget.volumes[selectedVolumeIndex]['fs_type'] == "btrfs") {
+                      if (widget.volumes[selectedVolumeIndex]['fs_type'] ==
+                          "btrfs") {
                         setState(() {
                           enableShareQuota = !enableShareQuota;
                         });
@@ -675,14 +718,17 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      curveType: widget.volumes[selectedVolumeIndex]['fs_type'] != "btrfs"
+                      curveType: widget.volumes[selectedVolumeIndex]
+                                  ['fs_type'] !=
+                              "btrfs"
                           ? CurveType.convex
                           : enableShareQuota
                               ? CurveType.emboss
                               : CurveType.flat,
                       bevel: 20,
                       height: 60,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
                           Text("启用共享文件夹配额"),
@@ -716,7 +762,8 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                             ),
                             bevel: 20,
                             curveType: CurveType.flat,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
                             child: TextField(
                               onChanged: (v) => shareQuota = v,
                               inputFormatters: [
@@ -747,7 +794,11 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                                       width: double.infinity,
                                       bevel: 20,
                                       curveType: CurveType.emboss,
-                                      decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                                      decoration: NeumorphicDecoration(
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(22))),
                                       child: SafeArea(
                                         top: false,
                                         child: Padding(
@@ -757,33 +808,49 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                                             children: <Widget>[
                                               Text(
                                                 "选择单位",
-                                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
                                               SizedBox(
                                                 height: 12,
                                               ),
                                               ...units.map((unit) {
                                                 return Padding(
-                                                  padding: EdgeInsets.only(bottom: 20),
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 20),
                                                   child: NeuButton(
                                                     onPressed: () {
                                                       setState(() {
-                                                        selectedUnitIndex = units.indexOf(unit);
+                                                        selectedUnitIndex =
+                                                            units.indexOf(unit);
                                                       });
-                                                      unitController.value = TextEditingValue(text: units[selectedUnitIndex]);
-                                                      Navigator.of(context).pop();
+                                                      unitController.value =
+                                                          TextEditingValue(
+                                                              text: units[
+                                                                  selectedUnitIndex]);
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
-                                                    decoration: NeumorphicDecoration(
-                                                      color: Theme.of(context).scaffoldBackgroundColor,
-                                                      borderRadius: BorderRadius.circular(25),
+                                                    decoration:
+                                                        NeumorphicDecoration(
+                                                      color: Theme.of(context)
+                                                          .scaffoldBackgroundColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
                                                     ),
                                                     bevel: 20,
-                                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 20),
                                                     child: Container(
                                                       width: double.infinity,
                                                       child: Text(
                                                         "$unit",
-                                                        textAlign: TextAlign.center,
+                                                        textAlign:
+                                                            TextAlign.center,
                                                       ),
                                                     ),
                                                   ),
@@ -793,15 +860,20 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                                                 onPressed: () async {
                                                   Navigator.of(context).pop();
                                                 },
-                                                decoration: NeumorphicDecoration(
-                                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                                  borderRadius: BorderRadius.circular(25),
+                                                decoration:
+                                                    NeumorphicDecoration(
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
                                                 ),
                                                 bevel: 20,
-                                                padding: EdgeInsets.symmetric(vertical: 10),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10),
                                                 child: Text(
                                                   "取消",
-                                                  style: TextStyle(fontSize: 18),
+                                                  style:
+                                                      TextStyle(fontSize: 18),
                                                 ),
                                               ),
                                               SizedBox(
@@ -818,12 +890,14 @@ class _AddSharedFoldersState extends State<AddSharedFolders> {
                             },
                             child: NeuCard(
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               bevel: 20,
                               curveType: CurveType.flat,
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
                               child: TextField(
                                 controller: unitController,
                                 decoration: InputDecoration(

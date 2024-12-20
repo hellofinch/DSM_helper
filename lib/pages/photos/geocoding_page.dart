@@ -25,7 +25,8 @@ class _GeocodingPageState extends State<GeocodingPage> {
   }
 
   Future getData() async {
-    geocodings = await GeocodingModel.fetch(additional: ['thumbnail'], isTeam: widget.isTeam);
+    geocodings = await GeocodingModel.fetch(
+        additional: ['thumbnail'], isTeam: widget.isTeam);
     geocodings.forEach((element) {
       if (geocodingGroups[element.country] == null) {
         geocodingGroups[element.country] = [];
@@ -65,7 +66,8 @@ class _GeocodingPageState extends State<GeocodingPage> {
           : ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 20),
               itemBuilder: (context, i) {
-                MapEntry<String, List<GeocodingModel>> entry = geocodingGroups.entries.toList()[i];
+                MapEntry<String, List<GeocodingModel>> entry =
+                    geocodingGroups.entries.toList()[i];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -79,7 +81,8 @@ class _GeocodingPageState extends State<GeocodingPage> {
                       children: entry.value.map((geocoding) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                            Navigator.of(context)
+                                .push(CupertinoPageRoute(builder: (context) {
                               return TimelinePage(
                                 title: geocoding.name,
                                 isTeam: widget.isTeam,
@@ -92,7 +95,8 @@ class _GeocodingPageState extends State<GeocodingPage> {
                             child: Column(
                               children: [
                                 ExtendedImage.network(
-                                  geocoding.additional.thumbnail.thumbUrl(size: 'sm', isTeam: widget.isTeam),
+                                  geocoding.additional.thumbnail.thumbUrl(
+                                      size: 'sm', isTeam: widget.isTeam),
                                   width: photoWidth,
                                   height: photoWidth,
                                   shape: BoxShape.rectangle,

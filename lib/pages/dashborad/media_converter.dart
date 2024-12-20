@@ -56,7 +56,9 @@ class _MediaConverterState extends State<MediaConverter> {
         width: double.infinity,
         bevel: 5,
         curveType: CurveType.emboss,
-        decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+        decoration: NeumorphicDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
         child: SafeArea(
           top: false,
           child: Padding(
@@ -66,7 +68,10 @@ class _MediaConverterState extends State<MediaConverter> {
               children: <Widget>[
                 Text(
                   "转换进程",
-                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   height: 12,
@@ -74,7 +79,9 @@ class _MediaConverterState extends State<MediaConverter> {
                 NeuCard(
                   bevel: 20,
                   curveType: CurveType.flat,
-                  decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.circular(22)),
+                  decoration: NeumorphicDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(22)),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -82,7 +89,14 @@ class _MediaConverterState extends State<MediaConverter> {
                       children: [
                         Text.rich(
                           TextSpan(
-                            children: [TextSpan(text: "图像：", style: TextStyle(color: Colors.blue, fontSize: 18)), TextSpan(text: "共 ${converter['photo_total']} 个图像")],
+                            children: [
+                              TextSpan(
+                                  text: "图像：",
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 18)),
+                              TextSpan(
+                                  text: "共 ${converter['photo_total']} 个图像")
+                            ],
                           ),
                         ),
                         SizedBox(
@@ -99,7 +113,20 @@ class _MediaConverterState extends State<MediaConverter> {
                             backgroundColor: Colors.transparent,
                             progressColor: Colors.blue,
                             currentValue: max(
-                                converter['photo_remain'] > 0 ? ((converter['photo_total'] - converter['photo_remain']) * 100 / converter['photo_total']).ceil() : 0, converter['thumb_remain'] > 0 ? ((converter['thumb_total'] - converter['thumb_remain']) * 100 / converter['thumb_total']).ceil() : 0),
+                                converter['photo_remain'] > 0
+                                    ? ((converter['photo_total'] -
+                                                converter['photo_remain']) *
+                                            100 /
+                                            converter['photo_total'])
+                                        .ceil()
+                                    : 0,
+                                converter['thumb_remain'] > 0
+                                    ? ((converter['thumb_total'] -
+                                                converter['thumb_remain']) *
+                                            100 /
+                                            converter['thumb_total'])
+                                        .ceil()
+                                    : 0),
                             displayText: '%',
                           ),
                         ),
@@ -113,7 +140,9 @@ class _MediaConverterState extends State<MediaConverter> {
                 NeuCard(
                   bevel: 20,
                   curveType: CurveType.flat,
-                  decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.circular(22)),
+                  decoration: NeumorphicDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(22)),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -121,7 +150,13 @@ class _MediaConverterState extends State<MediaConverter> {
                       children: [
                         Text.rich(
                           TextSpan(
-                            children: [TextSpan(text: "视频：", style: TextStyle(color: Colors.blue, fontSize: 18)), TextSpan(text: "共 ${converter['video_total']}个视频")],
+                            children: [
+                              TextSpan(
+                                  text: "视频：",
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 18)),
+                              TextSpan(text: "共 ${converter['video_total']}个视频")
+                            ],
                           ),
                         ),
                         SizedBox(
@@ -137,7 +172,12 @@ class _MediaConverterState extends State<MediaConverter> {
                           child: FAProgressBar(
                             backgroundColor: Colors.transparent,
                             progressColor: Colors.blue,
-                            currentValue: converter['video_total'] > 0 ? (converter['video_remain'] * 100 / converter['video_total']).ceil() : 0,
+                            currentValue: converter['video_total'] > 0
+                                ? (converter['video_remain'] *
+                                        100 /
+                                        converter['video_total'])
+                                    .ceil()
+                                : 0,
                             displayText: '%',
                           ),
                         ),
@@ -152,7 +192,9 @@ class _MediaConverterState extends State<MediaConverter> {
                   bevel: 20,
                   width: double.infinity,
                   curveType: CurveType.flat,
-                  decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.circular(22)),
+                  decoration: NeumorphicDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(22)),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
@@ -161,12 +203,23 @@ class _MediaConverterState extends State<MediaConverter> {
                           child: Text.rich(
                             TextSpan(
                               children: [
-                                TextSpan(text: "状态：", style: TextStyle(color: Colors.blue, fontSize: 18)),
                                 TextSpan(
-                                  text: "${converter['status'] == "converting" ? "转换中" : converter['status'] == "paused" ? "已暂停" : converter['status']}",
+                                    text: "状态：",
+                                    style: TextStyle(
+                                        color: Colors.blue, fontSize: 18)),
+                                TextSpan(
+                                  text:
+                                      "${converter['status'] == "converting" ? "转换中" : converter['status'] == "paused" ? "已暂停" : converter['status']}",
                                 ),
-                                if (converter['resume_time'] > 0) TextSpan(text: " (${DateTime.fromMillisecondsSinceEpoch(converter['resume_time'] * 1000).format("H:i")}恢复)", style: TextStyle(color: Colors.grey)),
-                                if (converter['resume_time'] < 0) TextSpan(text: " (无限期延迟)", style: TextStyle(color: Colors.grey)),
+                                if (converter['resume_time'] > 0)
+                                  TextSpan(
+                                      text:
+                                          " (${DateTime.fromMillisecondsSinceEpoch(converter['resume_time'] * 1000).format("H:i")}恢复)",
+                                      style: TextStyle(color: Colors.grey)),
+                                if (converter['resume_time'] < 0)
+                                  TextSpan(
+                                      text: " (无限期延迟)",
+                                      style: TextStyle(color: Colors.grey)),
                               ],
                             ),
                           ),
@@ -190,7 +243,10 @@ class _MediaConverterState extends State<MediaConverter> {
                                           children: [
                                             Text(
                                               "延迟转换",
-                                              style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500),
                                             ),
                                             SizedBox(
                                               height: 12,
@@ -200,12 +256,16 @@ class _MediaConverterState extends State<MediaConverter> {
                                                 Navigator.of(context).pop(1);
                                               },
                                               child: NeuCard(
-                                                margin: EdgeInsets.only(bottom: 20),
+                                                margin:
+                                                    EdgeInsets.only(bottom: 20),
                                                 width: double.infinity,
                                                 curveType: CurveType.flat,
-                                                decoration: NeumorphicDecoration(
-                                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                                  borderRadius: BorderRadius.circular(20),
+                                                decoration:
+                                                    NeumorphicDecoration(
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
                                                 ),
                                                 bevel: 20,
                                                 child: Padding(
@@ -221,12 +281,16 @@ class _MediaConverterState extends State<MediaConverter> {
                                                 Navigator.of(context).pop(3);
                                               },
                                               child: NeuCard(
-                                                margin: EdgeInsets.only(bottom: 20),
+                                                margin:
+                                                    EdgeInsets.only(bottom: 20),
                                                 width: double.infinity,
                                                 curveType: CurveType.flat,
-                                                decoration: NeumorphicDecoration(
-                                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                                  borderRadius: BorderRadius.circular(20),
+                                                decoration:
+                                                    NeumorphicDecoration(
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
                                                 ),
                                                 bevel: 20,
                                                 child: Padding(
@@ -242,12 +306,16 @@ class _MediaConverterState extends State<MediaConverter> {
                                                 Navigator.of(context).pop(6);
                                               },
                                               child: NeuCard(
-                                                margin: EdgeInsets.only(bottom: 20),
+                                                margin:
+                                                    EdgeInsets.only(bottom: 20),
                                                 width: double.infinity,
                                                 curveType: CurveType.flat,
-                                                decoration: NeumorphicDecoration(
-                                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                                  borderRadius: BorderRadius.circular(20),
+                                                decoration:
+                                                    NeumorphicDecoration(
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
                                                 ),
                                                 bevel: 20,
                                                 child: Padding(
@@ -263,12 +331,16 @@ class _MediaConverterState extends State<MediaConverter> {
                                                 Navigator.of(context).pop(-1);
                                               },
                                               child: NeuCard(
-                                                margin: EdgeInsets.only(bottom: 20),
+                                                margin:
+                                                    EdgeInsets.only(bottom: 20),
                                                 width: double.infinity,
                                                 curveType: CurveType.flat,
-                                                decoration: NeumorphicDecoration(
-                                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                                  borderRadius: BorderRadius.circular(20),
+                                                decoration:
+                                                    NeumorphicDecoration(
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
                                                 ),
                                                 bevel: 20,
                                                 child: Padding(
@@ -284,11 +356,14 @@ class _MediaConverterState extends State<MediaConverter> {
                                                 Navigator.of(context).pop();
                                               },
                                               decoration: NeumorphicDecoration(
-                                                color: Theme.of(context).scaffoldBackgroundColor,
-                                                borderRadius: BorderRadius.circular(25),
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
                                               ),
                                               bevel: 5,
-                                              padding: EdgeInsets.symmetric(vertical: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10),
                                               child: Text(
                                                 "取消",
                                                 style: TextStyle(fontSize: 18),
@@ -300,7 +375,8 @@ class _MediaConverterState extends State<MediaConverter> {
                                     );
                                   }).then((value) async {
                                 if (value != null) {
-                                  var res = await Api.mediaConverter("pause", hours: value);
+                                  var res = await Api.mediaConverter("pause",
+                                      hours: value);
                                   if (res['success']) {
                                     getMediaConverter();
                                   }
@@ -319,7 +395,9 @@ class _MediaConverterState extends State<MediaConverter> {
                             curveType: CurveType.flat,
                             bevel: 20,
                             child: Icon(
-                              converter['status'] == "paused" ? CupertinoIcons.play_arrow_solid : CupertinoIcons.pause_fill,
+                              converter['status'] == "paused"
+                                  ? CupertinoIcons.play_arrow_solid
+                                  : CupertinoIcons.pause_fill,
                               color: Color(0xffff9813),
                               size: 16,
                             ),

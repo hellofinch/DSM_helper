@@ -58,7 +58,9 @@ class _VirtualMachineState extends State<VirtualMachine> {
             padding: EdgeInsets.all(22),
             bevel: 5,
             curveType: CurveType.emboss,
-            decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+            decoration: NeumorphicDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
             child: SafeArea(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -71,7 +73,9 @@ class _VirtualMachineState extends State<VirtualMachine> {
                     height: 12,
                   ),
                   Text(
-                    action == "poweroff" ? "如果您强制关闭虚拟机，可能出现数据丟失或文件系统错误。是否确定继续？" : "如果您虚拟机上未安装Guest Agent，可能无法成功关闭，是否确定继续？",
+                    action == "poweroff"
+                        ? "如果您强制关闭虚拟机，可能出现数据丟失或文件系统错误。是否确定继续？"
+                        : "如果您虚拟机上未安装Guest Agent，可能无法成功关闭，是否确定继续？",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                   ),
                   SizedBox(
@@ -105,7 +109,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
                             "确认",
-                            style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.redAccent),
                           ),
                         ),
                       ),
@@ -384,7 +389,11 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                 padding: EdgeInsets.all(22),
                                 bevel: 5,
                                 curveType: CurveType.emboss,
-                                decoration: NeumorphicDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                                decoration: NeumorphicDecoration(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(22))),
                                 child: SafeArea(
                                   top: false,
                                   child: Column(
@@ -392,7 +401,9 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                     children: <Widget>[
                                       Text(
                                         "选择操作",
-                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                       SizedBox(
                                         height: 12,
@@ -403,14 +414,19 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                           power(guest, "shutdown");
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "关机",
-                                          style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.redAccent),
                                         ),
                                       ),
                                       SizedBox(
@@ -422,14 +438,19 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                           power(guest, "poweroff");
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "强制关机",
-                                          style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.redAccent),
                                         ),
                                       ),
                                       SizedBox(
@@ -441,14 +462,19 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                           power(guest, "reboot");
                                         },
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(25),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
                                         ),
                                         bevel: 5,
-                                        padding: EdgeInsets.symmetric(vertical: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
                                         child: Text(
                                           "重新启动",
-                                          style: TextStyle(fontSize: 18, color: Colors.redAccent),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.redAccent),
                                         ),
                                       ),
                                       SizedBox(
@@ -492,7 +518,11 @@ class _VirtualMachineState extends State<VirtualMachine> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    curveType: guest['type'] == "healthy" ? (guest['status'] == "none" ? CurveType.emboss : CurveType.flat) : CurveType.convex,
+                    curveType: guest['type'] == "healthy"
+                        ? (guest['status'] == "none"
+                            ? CurveType.emboss
+                            : CurveType.flat)
+                        : CurveType.convex,
                     bevel: 20,
                     child: powerLoading[guest['id']]
                         ? CupertinoActivityIndicator()
@@ -557,7 +587,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                         changeProgressColor: Colors.red,
                         progressColor: Colors.blue,
                         currentValue: guest['ram_usage'] ~/ 100,
-                        displayText: '.${(guest['ram_usage'] % 100).toString().padLeft(2, "0")}%',
+                        displayText:
+                            '.${(guest['ram_usage'] % 100).toString().padLeft(2, "0")}%',
                       ),
                     ),
                   ),
@@ -597,7 +628,11 @@ class _VirtualMachineState extends State<VirtualMachine> {
                 repo['type'] == "healthy"
                     ? Label("正常", Colors.green)
                     : repo['type'] == "warning"
-                        ? Label(repo['status'] == "provision_warning" ? "空间不足" : repo['status'], Colors.orange)
+                        ? Label(
+                            repo['status'] == "provision_warning"
+                                ? "空间不足"
+                                : repo['status'],
+                            Colors.orange)
                         : Label("${repo['status']}", Colors.red),
               ],
             ),
@@ -638,7 +673,10 @@ class _VirtualMachineState extends State<VirtualMachine> {
                       changeColorValue: 90,
                       changeProgressColor: Colors.red,
                       progressColor: Colors.blue,
-                      currentValue: ((int.parse(repo['used']) / int.parse(repo['size'])) * 100).floor(),
+                      currentValue:
+                          ((int.parse(repo['used']) / int.parse(repo['size'])) *
+                                  100)
+                              .floor(),
                       displayText: '%',
                     ),
                   ),
@@ -697,10 +735,13 @@ class _VirtualMachineState extends State<VirtualMachine> {
                           Expanded(
                             child: NeuCard(
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              curveType: _currentIndex == 0 ? CurveType.emboss : CurveType.flat,
+                              curveType: _currentIndex == 0
+                                  ? CurveType.emboss
+                                  : CurveType.flat,
                               padding: EdgeInsets.all(10),
                               bevel: 20,
                               child: Column(
@@ -709,7 +750,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                     children: [
                                       Text("主机"),
                                       Spacer(),
-                                      Text("${cluster['host_summ']['error'] + cluster['host_summ']['healthy'] + cluster['host_summ']['warning']}"),
+                                      Text(
+                                          "${cluster['host_summ']['error'] + cluster['host_summ']['healthy'] + cluster['host_summ']['warning']}"),
                                     ],
                                   ),
                                   SizedBox(
@@ -718,17 +760,20 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                   if (cluster['host_summ']['error'] > 0)
                                     Text(
                                       "${cluster['host_summ']['error']}",
-                                      style: TextStyle(fontSize: 40, color: Colors.red),
+                                      style: TextStyle(
+                                          fontSize: 40, color: Colors.red),
                                     )
                                   else if (cluster['host_summ']['warning'] > 0)
                                     Text(
                                       "${cluster['host_summ']['warning']}",
-                                      style: TextStyle(fontSize: 40, color: Colors.orange),
+                                      style: TextStyle(
+                                          fontSize: 40, color: Colors.orange),
                                     )
                                   else
                                     Text(
                                       "${cluster['host_summ']['healthy']}",
-                                      style: TextStyle(fontSize: 40, color: Colors.green),
+                                      style: TextStyle(
+                                          fontSize: 40, color: Colors.green),
                                     ),
                                 ],
                               ),
@@ -747,10 +792,13 @@ class _VirtualMachineState extends State<VirtualMachine> {
                               },
                               child: NeuCard(
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                curveType: _currentIndex == 1 ? CurveType.emboss : CurveType.flat,
+                                curveType: _currentIndex == 1
+                                    ? CurveType.emboss
+                                    : CurveType.flat,
                                 padding: EdgeInsets.all(10),
                                 bevel: 20,
                                 child: Column(
@@ -759,7 +807,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                       children: [
                                         Text("虚拟机"),
                                         Spacer(),
-                                        Text("${cluster['guest_summ']['error'] + cluster['guest_summ']['healthy'] + cluster['guest_summ']['warning']}"),
+                                        Text(
+                                            "${cluster['guest_summ']['error'] + cluster['guest_summ']['healthy'] + cluster['guest_summ']['warning']}"),
                                       ],
                                     ),
                                     SizedBox(
@@ -768,17 +817,21 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                     if (cluster['guest_summ']['error'] > 0)
                                       Text(
                                         "${cluster['guest_summ']['error']}",
-                                        style: TextStyle(fontSize: 40, color: Colors.red),
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.red),
                                       )
-                                    else if (cluster['guest_summ']['warning'] > 0)
+                                    else if (cluster['guest_summ']['warning'] >
+                                        0)
                                       Text(
                                         "${cluster['guest_summ']['warning']}",
-                                        style: TextStyle(fontSize: 40, color: Colors.orange),
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.orange),
                                       )
                                     else
                                       Text(
                                         "${cluster['guest_summ']['healthy']}",
-                                        style: TextStyle(fontSize: 40, color: Colors.green),
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.green),
                                       ),
                                   ],
                                 ),
@@ -798,10 +851,13 @@ class _VirtualMachineState extends State<VirtualMachine> {
                               },
                               child: NeuCard(
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                curveType: _currentIndex == 2 ? CurveType.emboss : CurveType.flat,
+                                curveType: _currentIndex == 2
+                                    ? CurveType.emboss
+                                    : CurveType.flat,
                                 padding: EdgeInsets.all(10),
                                 bevel: 20,
                                 child: Column(
@@ -810,7 +866,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                       children: [
                                         Text("存储"),
                                         Spacer(),
-                                        Text("${cluster['repo_summ']['error'] + cluster['repo_summ']['healthy'] + cluster['repo_summ']['warning']}"),
+                                        Text(
+                                            "${cluster['repo_summ']['error'] + cluster['repo_summ']['healthy'] + cluster['repo_summ']['warning']}"),
                                       ],
                                     ),
                                     SizedBox(
@@ -819,17 +876,21 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                     if (cluster['repo_summ']['error'] > 0)
                                       Text(
                                         "${cluster['repo_summ']['error']}",
-                                        style: TextStyle(fontSize: 40, color: Colors.red),
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.red),
                                       )
-                                    else if (cluster['repo_summ']['warning'] > 0)
+                                    else if (cluster['repo_summ']['warning'] >
+                                        0)
                                       Text(
                                         "${cluster['repo_summ']['warning']}",
-                                        style: TextStyle(fontSize: 40, color: Colors.orange),
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.orange),
                                       )
                                     else
                                       Text(
                                         "${cluster['repo_summ']['healthy']}",
-                                        style: TextStyle(fontSize: 40, color: Colors.green),
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.green),
                                       ),
                                   ],
                                 ),
@@ -851,7 +912,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                 padding: EdgeInsets.all(50),
                                 curveType: CurveType.flat,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 bevel: 20,
@@ -873,7 +935,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                 padding: EdgeInsets.all(50),
                                 curveType: CurveType.flat,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 bevel: 20,
@@ -895,7 +958,8 @@ class _VirtualMachineState extends State<VirtualMachine> {
                                 padding: EdgeInsets.all(50),
                                 curveType: CurveType.flat,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 bevel: 20,

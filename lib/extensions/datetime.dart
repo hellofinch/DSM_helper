@@ -29,7 +29,9 @@ extension DateTimeExt on DateTime {
   }
 
   bool isSameDay(DateTime otherTime) {
-    return this.year == otherTime.year && this.month == otherTime.month && this.day == otherTime.day;
+    return this.year == otherTime.year &&
+        this.month == otherTime.month &&
+        this.day == otherTime.day;
   }
 
   bool isSameMonth(DateTime otherTime) {
@@ -37,7 +39,8 @@ extension DateTimeExt on DateTime {
   }
 
   String get timeAgo {
-    int elapsed = DateTime.now().millisecondsSinceEpoch - this.millisecondsSinceEpoch;
+    int elapsed =
+        DateTime.now().millisecondsSinceEpoch - this.millisecondsSinceEpoch;
 
     final num seconds = elapsed ~/ 1000;
     final num minutes = seconds ~/ 60;

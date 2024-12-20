@@ -49,9 +49,12 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
               setState(() {
                 if (item['data'] != null) {
                   network = item['data'];
-                  _serverNameController.value = TextEditingValue(text: network['server_name']);
-                  _dnsPrimaryController.value = TextEditingValue(text: network['dns_primary']);
-                  _dnsSecondaryController.value = TextEditingValue(text: network['dns_secondary']);
+                  _serverNameController.value =
+                      TextEditingValue(text: network['server_name']);
+                  _dnsPrimaryController.value =
+                      TextEditingValue(text: network['dns_primary']);
+                  _dnsSecondaryController.value =
+                      TextEditingValue(text: network['dns_secondary']);
                 }
               });
               break;
@@ -68,8 +71,10 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
             case "SYNO.Core.Network.Proxy":
               setState(() {
                 proxy = item['data'];
-                _proxyHttpHostController.value = TextEditingValue(text: proxy['http_host']);
-                _proxyHttpPortController.value = TextEditingValue(text: proxy['http_port']);
+                _proxyHttpHostController.value =
+                    TextEditingValue(text: proxy['http_host']);
+                _proxyHttpPortController.value =
+                    TextEditingValue(text: proxy['http_port']);
               });
               break;
             case "SYNO.Core.Network.Router.Gateway.List":
@@ -126,31 +131,39 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                     isScrollable: true,
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
-                    labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                    labelColor: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
                     unselectedLabelColor: Colors.grey,
                     indicator: BubbleTabIndicator(
                       indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                      shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                      shadowColor: Util.getAdjustColor(
+                          Theme.of(context).scaffoldBackgroundColor, -20),
                     ),
                     tabs: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("常规"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("网络界面"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("流量控制"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("静态路由"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("DSM设置"),
                       ),
                     ],
@@ -167,7 +180,8 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Padding(
@@ -177,7 +191,9 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                 children: [
                                   Text(
                                     "常规",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -188,15 +204,18 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                   ),
                                   NeuCard(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     bevel: 20,
                                     curveType: CurveType.flat,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     child: TextField(
                                       controller: _serverNameController,
-                                      onChanged: (v) => network['server_name'] = v,
+                                      onChanged: (v) =>
+                                          network['server_name'] = v,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         labelText: '系统名称',
@@ -210,7 +229,8 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Text("IPv6默认网关: ${network['v6gateway'] == "" ? "-" : network['v6gateway']}"),
+                                  Text(
+                                      "IPv6默认网关: ${network['v6gateway'] == "" ? "-" : network['v6gateway']}"),
                                   SizedBox(
                                     height: 20,
                                   ),
@@ -218,17 +238,22 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                     onTap: () {
                                       FocusScope.of(context).unfocus();
                                       setState(() {
-                                        network['dns_manual'] = !network['dns_manual'];
+                                        network['dns_manual'] =
+                                            !network['dns_manual'];
                                       });
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      curveType: network['dns_manual'] ? CurveType.emboss : CurveType.flat,
+                                      curveType: network['dns_manual']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       bevel: 12,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
                                       child: Row(
                                         children: [
                                           Text("手动配置DNS服务器"),
@@ -248,16 +273,21 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                   ),
                                   NeuCard(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     bevel: 20,
-                                    curveType: network['dns_manual'] ? CurveType.flat : CurveType.concave,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    curveType: network['dns_manual']
+                                        ? CurveType.flat
+                                        : CurveType.concave,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     child: TextField(
                                       controller: _dnsPrimaryController,
                                       enabled: network['dns_manual'],
-                                      onChanged: (v) => network['dns_primary'] = v,
+                                      onChanged: (v) =>
+                                          network['dns_primary'] = v,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         labelText: '首选DNS服务器',
@@ -269,16 +299,21 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                   ),
                                   NeuCard(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     bevel: 20,
-                                    curveType: network['dns_manual'] ? CurveType.flat : CurveType.concave,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    curveType: network['dns_manual']
+                                        ? CurveType.flat
+                                        : CurveType.concave,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     child: TextField(
                                       controller: _dnsSecondaryController,
                                       enabled: network['dns_manual'],
-                                      onChanged: (v) => network['dns_secondary'] = v,
+                                      onChanged: (v) =>
+                                          network['dns_secondary'] = v,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         labelText: '备用DNS服务器',
@@ -297,7 +332,8 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             bevel: 10,
                             curveType: CurveType.flat,
                             child: Padding(
@@ -307,7 +343,9 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                 children: [
                                   Text(
                                     "代理服务器",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -321,12 +359,16 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                     },
                                     child: NeuCard(
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      curveType: proxy['enable'] ? CurveType.emboss : CurveType.flat,
+                                      curveType: proxy['enable']
+                                          ? CurveType.emboss
+                                          : CurveType.flat,
                                       bevel: 12,
-                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 10),
                                       child: Row(
                                         children: [
                                           Text("手动配置DNS服务器"),
@@ -346,12 +388,16 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                   ),
                                   NeuCard(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     bevel: 20,
-                                    curveType: proxy['enable'] ? CurveType.flat : CurveType.concave,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    curveType: proxy['enable']
+                                        ? CurveType.flat
+                                        : CurveType.concave,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     child: TextField(
                                       controller: _proxyHttpHostController,
                                       enabled: proxy['enable'],
@@ -367,12 +413,16 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                   ),
                                   NeuCard(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     bevel: 20,
-                                    curveType: proxy['enable'] ? CurveType.flat : CurveType.concave,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    curveType: proxy['enable']
+                                        ? CurveType.flat
+                                        : CurveType.concave,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     child: TextField(
                                       controller: _proxyHttpPortController,
                                       enabled: proxy['enable'],
@@ -397,10 +447,12 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                           ...ethernets.map((ethernet) {
                             return NeuCard(
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                              margin:
+                                  EdgeInsets.only(left: 20, right: 20, top: 20),
                               bevel: 10,
                               curveType: CurveType.flat,
                               // padding: EdgeInsets.symmetric(horizontal: 20),
@@ -411,19 +463,30 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                       children: [
                                         Text(
                                           "局域网${ethernets.indexOf(ethernet) + 1}",
-                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        if (ethernet['status'] == 'connected') Label("已联机", Colors.blue) else if (ethernet['status'] == 'disconnected') Label("尚未联机", Colors.grey) else Label(ethernet['status'], Colors.orangeAccent),
+                                        if (ethernet['status'] == 'connected')
+                                          Label("已联机", Colors.blue)
+                                        else if (ethernet['status'] ==
+                                            'disconnected')
+                                          Label("尚未联机", Colors.grey)
+                                        else
+                                          Label(ethernet['status'],
+                                              Colors.orangeAccent),
                                       ],
                                     ),
                                     if (ethernet['status'] == 'connected')
                                       Row(
                                         children: [
-                                          Text(ethernet['use_dhcp'] ? 'DHCP' : '静态IP'),
+                                          Text(ethernet['use_dhcp']
+                                              ? 'DHCP'
+                                              : '静态IP'),
                                           SizedBox(
                                             width: 20,
                                           ),
@@ -435,7 +498,8 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                 showFirst: false,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
                                     child: Column(
                                       children: [
                                         Row(
@@ -443,7 +507,9 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                             Text("子网掩码(mask)："),
                                             Expanded(
                                               child: Text(
-                                                ethernet['mask'] == '' ? '--' : ethernet['mask'],
+                                                ethernet['mask'] == ''
+                                                    ? '--'
+                                                    : ethernet['mask'],
                                                 textAlign: TextAlign.right,
                                               ),
                                             ),
@@ -452,20 +518,31 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                         Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text("IPv6地址："),
                                               Expanded(
-                                                child: ethernet['ipv6'] != null && ethernet['ipv6'].length > 0
+                                                child: ethernet['ipv6'] !=
+                                                            null &&
+                                                        ethernet['ipv6']
+                                                                .length >
+                                                            0
                                                     ? Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                                        children: (ethernet['ipv6'] as List).map((ipv6) {
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children:
+                                                            (ethernet['ipv6']
+                                                                    as List)
+                                                                .map((ipv6) {
                                                           return Text(ipv6);
                                                         }).toList(),
                                                       )
                                                     : Text(
                                                         "--",
-                                                        textAlign: TextAlign.right,
+                                                        textAlign:
+                                                            TextAlign.right,
                                                       ),
                                               ),
                                             ],
@@ -495,10 +572,12 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                           ...pppoes.map((pppoe) {
                             return NeuCard(
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                              margin:
+                                  EdgeInsets.only(left: 20, right: 20, top: 20),
                               bevel: 10,
                               curveType: CurveType.flat,
                               // padding: EdgeInsets.symmetric(horizontal: 20),
@@ -509,19 +588,30 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                       children: [
                                         Text(
                                           "PPPoE",
-                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        if (pppoe['status'] == 'connected') Label("已联机", Colors.blue) else if (pppoe['status'] == 'disconnected') Label("尚未联机", Colors.grey) else Label(pppoe['status'], Colors.orangeAccent),
+                                        if (pppoe['status'] == 'connected')
+                                          Label("已联机", Colors.blue)
+                                        else if (pppoe['status'] ==
+                                            'disconnected')
+                                          Label("尚未联机", Colors.grey)
+                                        else
+                                          Label(pppoe['status'],
+                                              Colors.orangeAccent),
                                       ],
                                     ),
                                     if (pppoe['status'] == 'connected')
                                       Row(
                                         children: [
-                                          Text(pppoe['use_dhcp'] ? 'DHCP' : '静态IP'),
+                                          Text(pppoe['use_dhcp']
+                                              ? 'DHCP'
+                                              : '静态IP'),
                                           SizedBox(
                                             width: 20,
                                           ),
@@ -533,7 +623,8 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                 showFirst: false,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
                                     child: Column(
                                       children: [
                                         Row(
@@ -541,7 +632,9 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                             Text("子网掩码(mask)："),
                                             Expanded(
                                               child: Text(
-                                                pppoe['mask'] == '' ? '--' : pppoe['mask'],
+                                                pppoe['mask'] == ''
+                                                    ? '--'
+                                                    : pppoe['mask'],
                                                 textAlign: TextAlign.right,
                                               ),
                                             ),
@@ -550,20 +643,27 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
                                         Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text("IPv6地址："),
                                               Expanded(
-                                                child: pppoe['ipv6'] != null && pppoe['ipv6'].length > 0
+                                                child: pppoe['ipv6'] != null &&
+                                                        pppoe['ipv6'].length > 0
                                                     ? Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                                        children: (pppoe['ipv6'] as List).map((ipv6) {
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: (pppoe['ipv6']
+                                                                as List)
+                                                            .map((ipv6) {
                                                           return Text(ipv6);
                                                         }).toList(),
                                                       )
                                                     : Text(
                                                         "--",
-                                                        textAlign: TextAlign.right,
+                                                        textAlign:
+                                                            TextAlign.right,
                                                       ),
                                               ),
                                             ],

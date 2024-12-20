@@ -125,11 +125,14 @@ class _AboutState extends State<About> {
                             children: [
                               TextSpan(
                                 text: "用户协议",
-                                style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue),
                                 recognizer: _licenseRecognizer
                                   ..onTap = () {
                                     FocusScope.of(context).unfocus();
-                                    Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute(builder: (context) {
                                       return License();
                                     }));
                                   },
@@ -137,11 +140,14 @@ class _AboutState extends State<About> {
                               TextSpan(text: "    "),
                               TextSpan(
                                 text: "隐私政策",
-                                style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue),
                                 recognizer: _privacyRecognizer
                                   ..onTap = () {
                                     FocusScope.of(context).unfocus();
-                                    Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute(builder: (context) {
                                       return Browser(
                                         url: '${Util.appUrl}/privacy',
                                         title: "隐私政策",
@@ -190,12 +196,15 @@ class _AboutState extends State<About> {
                                   Spacer(),
                                   NeuButton(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     onPressed: () {
-                                      launchUrlString(e.key, mode: LaunchMode.externalApplication);
+                                      launchUrlString(e.key,
+                                          mode: LaunchMode.externalApplication);
                                     },
                                     child: Text("加入"),
                                   ),
@@ -237,12 +246,15 @@ class _AboutState extends State<About> {
                                   Spacer(),
                                   NeuButton(
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
                                     onPressed: () {
-                                      launchUrlString('mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D${e.key}');
+                                      launchUrlString(
+                                          'mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D${e.key}');
                                     },
                                     child: Text("加群"),
                                   ),
@@ -284,12 +296,15 @@ class _AboutState extends State<About> {
                                 Spacer(),
                                 NeuButton(
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 5),
                                   onPressed: () {
-                                    ClipboardData data = new ClipboardData(text: e.name);
+                                    ClipboardData data =
+                                        new ClipboardData(text: e.name);
                                     Clipboard.setData(data);
                                     Util.toast("已复制到剪贴板");
                                   },
@@ -334,9 +349,11 @@ class _AboutState extends State<About> {
                             color: Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           onPressed: () {
-                            Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                            Navigator.of(context)
+                                .push(CupertinoPageRoute(builder: (context) {
                               return Browser(
                                 url: "https://gitee.com/apaipai/dsm_helper",
                               );
@@ -378,7 +395,8 @@ class _AboutState extends State<About> {
                             color: Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           onPressed: () {
                             Navigator.of(context).push(
                               CupertinoPageRoute(builder: (context) {
@@ -426,7 +444,8 @@ class _AboutState extends State<About> {
                             color: Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           onPressed: () {
                             Navigator.of(context).push(
                               CupertinoPageRoute(

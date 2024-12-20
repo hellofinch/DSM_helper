@@ -49,8 +49,10 @@ class _HelperSettingState extends State<HelperSetting> {
 
   initAuth() async {
     String launchAuthStr = await Util.getStorage("launch_auth");
-    String launchAuthPasswordStr = await Util.getStorage("launch_auth_password");
-    String launchAuthBiometricsStr = await Util.getStorage("launch_auth_biometrics");
+    String launchAuthPasswordStr =
+        await Util.getStorage("launch_auth_password");
+    String launchAuthBiometricsStr =
+        await Util.getStorage("launch_auth_biometrics");
     String videoPlayerStr = await Util.getStorage("video_player");
     String launchAccountPageStr = await Util.getStorage('launch_account_page');
     if (videoPlayerStr != null) {
@@ -79,7 +81,8 @@ class _HelperSettingState extends State<HelperSetting> {
     canCheckBiometrics = await auth.canCheckBiometrics;
     setState(() {});
     if (canCheckBiometrics) {
-      List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
+      List<BiometricType> availableBiometrics =
+          await auth.getAvailableBiometrics();
       if (Platform.isIOS) {
         setState(() {
           if (availableBiometrics.contains(BiometricType.face)) {
@@ -163,7 +166,8 @@ class _HelperSettingState extends State<HelperSetting> {
                                 onTap: () {
                                   setState(() {
                                     Util.vibrateNormal = !Util.vibrateNormal;
-                                    Util.setStorage("vibrate_warning", Util.vibrateNormal ? "1" : "0");
+                                    Util.setStorage("vibrate_warning",
+                                        Util.vibrateNormal ? "1" : "0");
                                     if (Util.vibrateNormal) {
                                       Util.vibrate(FeedbackType.light);
                                     }
@@ -173,16 +177,20 @@ class _HelperSettingState extends State<HelperSetting> {
                                   // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   padding: EdgeInsets.all(20),
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  curveType: Util.vibrateNormal ? CurveType.emboss : CurveType.flat,
+                                  curveType: Util.vibrateNormal
+                                      ? CurveType.emboss
+                                      : CurveType.flat,
                                   bevel: 20,
                                   child: Row(
                                     children: [
                                       Text(
                                         "基础操作震动",
-                                        style: TextStyle(fontSize: 16, height: 1.6),
+                                        style: TextStyle(
+                                            fontSize: 16, height: 1.6),
                                       ),
                                       Spacer(),
                                       if (Util.vibrateNormal)
@@ -201,7 +209,8 @@ class _HelperSettingState extends State<HelperSetting> {
                                 onTap: () {
                                   setState(() {
                                     Util.vibrateWarning = !Util.vibrateWarning;
-                                    Util.setStorage("vibrate_warning", Util.vibrateWarning ? "1" : "0");
+                                    Util.setStorage("vibrate_warning",
+                                        Util.vibrateWarning ? "1" : "0");
                                     if (Util.vibrateWarning) {
                                       Util.vibrate(FeedbackType.warning);
                                     }
@@ -211,16 +220,20 @@ class _HelperSettingState extends State<HelperSetting> {
                                   // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   padding: EdgeInsets.all(20),
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  curveType: Util.vibrateWarning ? CurveType.emboss : CurveType.flat,
+                                  curveType: Util.vibrateWarning
+                                      ? CurveType.emboss
+                                      : CurveType.flat,
                                   bevel: 20,
                                   child: Row(
                                     children: [
                                       Text(
                                         "敏感操作震动",
-                                        style: TextStyle(fontSize: 16, height: 1.6),
+                                        style: TextStyle(
+                                            fontSize: 16, height: 1.6),
                                       ),
                                       Spacer(),
                                       if (Util.vibrateWarning)
@@ -294,7 +307,8 @@ class _HelperSettingState extends State<HelperSetting> {
                   builder: (context) {
                     return NeuPicker(
                       List.generate(20, (index) => "${index + 1}"),
-                      value: List.generate(20, (index) => index + 1).indexOf(settingProvider.refreshDuration),
+                      value: List.generate(20, (index) => index + 1)
+                          .indexOf(settingProvider.refreshDuration),
                       onConfirm: (v) {
                         settingProvider.setRefreshDuration(v + 1);
                       },
@@ -338,7 +352,8 @@ class _HelperSettingState extends State<HelperSetting> {
             onTap: () {
               setState(() {
                 launchAccountPage = !launchAccountPage;
-                Util.setStorage("launch_account_page", launchAccountPage ? "1" : "0");
+                Util.setStorage(
+                    "launch_account_page", launchAccountPage ? "1" : "0");
               });
             },
             child: NeuCard(
@@ -434,18 +449,24 @@ class _HelperSettingState extends State<HelperSetting> {
                                     if (password) {
                                       setState(() {
                                         password = false;
-                                        Util.setStorage("launch_auth_password", "0");
+                                        Util.setStorage(
+                                            "launch_auth_password", "0");
                                         biometrics = false;
-                                        Util.setStorage("launch_auth_biometrics", "0");
+                                        Util.setStorage(
+                                            "launch_auth_biometrics", "0");
                                       });
                                     } else {
-                                      Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+                                      Navigator.of(context).push(
+                                          CupertinoPageRoute(
+                                              builder: (context) {
                                         return GesturePasswordPage();
                                       })).then((res) {
                                         if (res != null && res) {
                                           setState(() {
                                             password = true;
-                                            Util.setStorage("launch_auth_password", password ? "1" : "0");
+                                            Util.setStorage(
+                                                "launch_auth_password",
+                                                password ? "1" : "0");
                                           });
                                         }
                                       });
@@ -458,10 +479,13 @@ class _HelperSettingState extends State<HelperSetting> {
                                   // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   padding: EdgeInsets.all(20),
                                   decoration: NeumorphicDecoration(
-                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  curveType: password ? CurveType.emboss : CurveType.flat,
+                                  curveType: password
+                                      ? CurveType.emboss
+                                      : CurveType.flat,
                                   bevel: 20,
                                   child: Column(
                                     children: [
@@ -469,7 +493,8 @@ class _HelperSettingState extends State<HelperSetting> {
                                         children: [
                                           Text(
                                             "图形密码",
-                                            style: TextStyle(fontSize: 16, height: 1.6),
+                                            style: TextStyle(
+                                                fontSize: 16, height: 1.6),
                                           ),
                                           Spacer(),
                                           if (password)
@@ -496,7 +521,8 @@ class _HelperSettingState extends State<HelperSetting> {
                                         return;
                                       }
                                       try {
-                                        bool didAuthenticate = await auth.authenticate(
+                                        bool didAuthenticate =
+                                            await auth.authenticate(
                                           options: AuthenticationOptions(
                                             biometricOnly: true,
                                             sensitiveTransaction: false,
@@ -505,17 +531,21 @@ class _HelperSettingState extends State<HelperSetting> {
                                             IOSAuthMessages(
                                               lockOut: "认证失败次数过多，请稍后再试",
                                               goToSettingsButton: "设置",
-                                              goToSettingsDescription: "系统未设置${biometricTypeName[biometricsType]}，点击设置按钮前往系统设置页面",
+                                              goToSettingsDescription:
+                                                  "系统未设置${biometricTypeName[biometricsType]}，点击设置按钮前往系统设置页面",
                                               cancelButton: "取消",
                                             ),
                                             AndroidAuthMessages(
                                               biometricNotRecognized: "系统未设置指纹",
-                                              biometricRequiredTitle: "请触摸指纹传感器",
+                                              biometricRequiredTitle:
+                                                  "请触摸指纹传感器",
                                               signInTitle: "验证指纹",
                                               cancelButton: "取消",
-                                              biometricHint: "如果验证失败5次请等待30秒后重试",
+                                              biometricHint:
+                                                  "如果验证失败5次请等待30秒后重试",
                                               goToSettingsButton: "设置",
-                                              goToSettingsDescription: "点击设置按钮前往系统指纹设置页面",
+                                              goToSettingsDescription:
+                                                  "点击设置按钮前往系统指纹设置页面",
                                               biometricSuccess: "指纹验证成功",
                                             )
                                           ],
@@ -524,14 +554,18 @@ class _HelperSettingState extends State<HelperSetting> {
                                         auth.stopAuthentication();
                                         setState(() {
                                           biometrics = didAuthenticate;
-                                          Util.setStorage("launch_auth_biometrics", biometrics ? "1" : "0");
+                                          Util.setStorage(
+                                              "launch_auth_biometrics",
+                                              biometrics ? "1" : "0");
                                         });
                                       } on PlatformException catch (e) {
                                         if (e.code == auth_error.notAvailable) {
                                           Util.toast("生物验证不可用");
-                                        } else if (e.code == auth_error.passcodeNotSet) {
+                                        } else if (e.code ==
+                                            auth_error.passcodeNotSet) {
                                           Util.toast("系统未设置密码");
-                                        } else if (e.code == auth_error.lockedOut) {
+                                        } else if (e.code ==
+                                            auth_error.lockedOut) {
                                           Util.toast("认证失败次数过多，请稍后再试");
                                         } else {
                                           Util.toast(e.message);
@@ -540,7 +574,9 @@ class _HelperSettingState extends State<HelperSetting> {
                                     } else {
                                       setState(() {
                                         biometrics = false;
-                                        Util.setStorage("launch_auth_biometrics", biometrics ? "1" : "0");
+                                        Util.setStorage(
+                                            "launch_auth_biometrics",
+                                            biometrics ? "1" : "0");
                                       });
                                     }
 
@@ -553,10 +589,13 @@ class _HelperSettingState extends State<HelperSetting> {
                                     // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                     padding: EdgeInsets.all(20),
                                     decoration: NeumorphicDecoration(
-                                      color: Theme.of(context).scaffoldBackgroundColor,
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    curveType: biometrics ? CurveType.emboss : CurveType.flat,
+                                    curveType: biometrics
+                                        ? CurveType.emboss
+                                        : CurveType.flat,
                                     bevel: 20,
                                     child: Column(
                                       children: [
@@ -564,7 +603,8 @@ class _HelperSettingState extends State<HelperSetting> {
                                           children: [
                                             Text(
                                               "${biometricTypeName[biometricsType]}验证",
-                                              style: TextStyle(fontSize: 16, height: 1.6),
+                                              style: TextStyle(
+                                                  fontSize: 16, height: 1.6),
                                             ),
                                             Spacer(),
                                             if (biometrics)

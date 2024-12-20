@@ -23,7 +23,8 @@ class GeocodingModel {
     this.name,
     this.secondLevel,
   });
-  static Future<List<GeocodingModel>> fetch({List<String> additional, int limit = 5000, bool isTeam = false}) async {
+  static Future<List<GeocodingModel>> fetch(
+      {List<String> additional, int limit = 5000, bool isTeam = false}) async {
     var res = await Util.post("entry.cgi", data: {
       // "folder_id": id,
       "api": 'SYNO.Foto${isTeam ? 'Team' : ''}.Browse.Geocoding',
@@ -47,7 +48,9 @@ class GeocodingModel {
   }
 
   GeocodingModel.fromJson(dynamic json) {
-    additional = json['additional'] != null ? PhotoAdditional.fromJson(json['additional']) : null;
+    additional = json['additional'] != null
+        ? PhotoAdditional.fromJson(json['additional'])
+        : null;
     country = json['country'];
     countryId = json['country_id'];
     firstLevel = json['first_level'];

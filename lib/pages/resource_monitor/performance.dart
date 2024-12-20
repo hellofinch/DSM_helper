@@ -19,7 +19,8 @@ class Performance extends StatefulWidget {
   _PerformanceState createState() => _PerformanceState();
 }
 
-class _PerformanceState extends State<Performance> with SingleTickerProviderStateMixin {
+class _PerformanceState extends State<Performance>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   bool loading = true;
   List cpus = [];
@@ -28,7 +29,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
   List disks = [];
   List spaces = [];
   List luns = [];
-  List colors = [Colors.red, Colors.purpleAccent, Colors.redAccent, Colors.green, Colors.amber, Colors.orange, Colors.teal, Colors.indigoAccent, Colors.cyanAccent, Colors.yellow, Colors.black, Colors.lightGreenAccent, Colors.pinkAccent];
+  List colors = [
+    Colors.red,
+    Colors.purpleAccent,
+    Colors.redAccent,
+    Colors.green,
+    Colors.amber,
+    Colors.orange,
+    Colors.teal,
+    Colors.indigoAccent,
+    Colors.cyanAccent,
+    Colors.yellow,
+    Colors.black,
+    Colors.lightGreenAccent,
+    Colors.pinkAccent
+  ];
   Timer timer;
   int maxNetworkSpeed = 0;
   int maxDiskReadSpeed = 0;
@@ -39,10 +54,13 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
   int networkCount = 0;
   @override
   void initState() {
-    final settingProvider = Provider.of<SettingProvider>(context, listen: false);
-    _tabController = TabController(initialIndex: widget.tabIndex, length: 6, vsync: this);
+    final settingProvider =
+        Provider.of<SettingProvider>(context, listen: false);
+    _tabController =
+        TabController(initialIndex: widget.tabIndex, length: 6, vsync: this);
     getData();
-    timer = Timer.periodic(Duration(seconds: settingProvider.refreshDuration), (timer) {
+    timer = Timer.periodic(Duration(seconds: settingProvider.refreshDuration),
+        (timer) {
       getData();
     });
     super.initState();
@@ -91,7 +109,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
           if (res['data']['space']['total']['read_byte'] > maxVolumeReadSpeed) {
             maxVolumeReadSpeed = res['data']['space']['total']['read_byte'];
           }
-          if (res['data']['space']['total']['write_byte'] > maxVolumeWriteSpeed) {
+          if (res['data']['space']['total']['write_byte'] >
+              maxVolumeWriteSpeed) {
             maxVolumeWriteSpeed = res['data']['space']['total']['write_byte'];
           }
         });
@@ -137,35 +156,44 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                     isScrollable: true,
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
-                    labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                    labelColor: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
                     unselectedLabelColor: Colors.grey,
                     indicator: BubbleTabIndicator(
                       indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                      shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                      shadowColor: Util.getAdjustColor(
+                          Theme.of(context).scaffoldBackgroundColor, -20),
                     ),
                     tabs: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("概览"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("CPU"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("内存"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("网络"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("磁盘"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("存储空间"),
                       ),
                     ],
@@ -198,18 +226,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "CPU",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -218,16 +253,24 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      LineTooltipItem("利用率：${items[0].y.floor()}%", TextStyle(color: Colors.cyan)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          LineTooltipItem(
+                                                              "利用率：${items[0].y.floor()}%",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .cyan)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -240,8 +283,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -267,11 +314,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             minY: 0,
                                             maxY: 100,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: cpus.map((cpu) {
-                                                  return FlSpot(cpus.indexOf(cpu).toDouble(), (cpu['user_load'] + cpu['system_load']).toDouble());
+                                                  return FlSpot(
+                                                      cpus
+                                                          .indexOf(cpu)
+                                                          .toDouble(),
+                                                      (cpu['user_load'] +
+                                                              cpu['system_load'])
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.cyan,
@@ -282,7 +339,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 ),
                                                 belowBarData: BarAreaData(
                                                   show: true,
-                                                  color: Colors.cyan.withOpacity(0.2),
+                                                  color: Colors.cyan
+                                                      .withOpacity(0.2),
                                                 ),
                                               ),
                                             ],
@@ -333,18 +391,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "内存",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -353,16 +418,24 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      LineTooltipItem("利用率：${items[0].y.floor()}%", TextStyle(color: Colors.orangeAccent)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          LineTooltipItem(
+                                                              "利用率：${items[0].y.floor()}%",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .orangeAccent)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -375,8 +448,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -402,11 +479,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             minY: 0,
                                             maxY: 100,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: memories.map((memory) {
-                                                  return FlSpot(memories.indexOf(memory).toDouble(), memory['real_usage'].toDouble());
+                                                  return FlSpot(
+                                                      memories
+                                                          .indexOf(memory)
+                                                          .toDouble(),
+                                                      memory['real_usage']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.orangeAccent,
@@ -417,7 +503,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 ),
                                                 belowBarData: BarAreaData(
                                                   show: true,
-                                                  color: Colors.orangeAccent.withOpacity(0.2),
+                                                  color: Colors.orangeAccent
+                                                      .withOpacity(0.2),
                                                 ),
                                               ),
                                             ],
@@ -468,18 +555,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "网络",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -488,19 +582,27 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                tooltipBgColor: Colors.white.withOpacity(0.6),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                tooltipBgColor: Colors.white
+                                                    .withOpacity(0.6),
                                                 tooltipRoundedRadius: 20,
                                                 fitInsideHorizontally: true,
                                                 fitInsideVertically: true,
-                                                getTooltipItems: (List<LineBarSpot> items) {
-                                                  return items.map((LineBarSpot touchedSpot) {
+                                                getTooltipItems:
+                                                    (List<LineBarSpot> items) {
+                                                  return items.map((LineBarSpot
+                                                      touchedSpot) {
                                                     final textStyle = TextStyle(
-                                                      color: touchedSpot.bar.color,
-                                                      fontWeight: FontWeight.bold,
+                                                      color:
+                                                          touchedSpot.bar.color,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontSize: 14,
                                                     );
-                                                    return LineTooltipItem('${touchedSpot.bar.color == Colors.blue ? "上传" : "下载"}:${Util.formatSize(touchedSpot.y.floor())}', textStyle);
+                                                    return LineTooltipItem(
+                                                        '${touchedSpot.bar.color == Colors.blue ? "上传" : "下载"}:${Util.formatSize(touchedSpot.y.floor())}',
+                                                        textStyle);
                                                   }).toList();
                                                 },
                                               ),
@@ -516,14 +618,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
                                                 getTitlesWidget: (value, _) {
                                                   return Text(
-                                                    Util.formatSize(value, fixed: 0),
+                                                    Util.formatSize(value,
+                                                        fixed: 0),
                                                     style: TextStyle(
                                                       color: Color(0xff67727d),
                                                       fontSize: 12,
@@ -537,7 +644,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 //   return (value.floor() * 1000).toString();
                                                 // },
                                                 reservedSize: 28,
-                                                interval: Util.chartInterval(maxNetworkSpeed),
+                                                interval: Util.chartInterval(
+                                                    maxNetworkSpeed),
                                               )),
                                             ),
                                             // titlesData: FlTitlesData(
@@ -563,11 +671,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             // ),
                                             minY: 0,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: networks.map((network) {
-                                                  return FlSpot(networks.indexOf(network).toDouble(), network[0]['tx'].toDouble());
+                                                  return FlSpot(
+                                                      networks
+                                                          .indexOf(network)
+                                                          .toDouble(),
+                                                      network[0]['tx']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -578,12 +695,18 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 ),
                                                 belowBarData: BarAreaData(
                                                   show: true,
-                                                  color: Colors.blue.withOpacity(0.2),
+                                                  color: Colors.blue
+                                                      .withOpacity(0.2),
                                                 ),
                                               ),
                                               LineChartBarData(
                                                 spots: networks.map((network) {
-                                                  return FlSpot(networks.indexOf(network).toDouble(), network[0]['rx'].toDouble());
+                                                  return FlSpot(
+                                                      networks
+                                                          .indexOf(network)
+                                                          .toDouble(),
+                                                      network[0]['rx']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.green,
@@ -594,7 +717,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 ),
                                                 belowBarData: BarAreaData(
                                                   show: true,
-                                                  color: Colors.green.withOpacity(0.2),
+                                                  color: Colors.green
+                                                      .withOpacity(0.2),
                                                 ),
                                               ),
                                             ],
@@ -613,7 +737,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         color: Colors.blue,
                                       ),
                                       Text(
-                                        Util.formatSize(networks.last[0]['tx'], fixed: 0) + "/S",
+                                        Util.formatSize(networks.last[0]['tx'],
+                                                fixed: 0) +
+                                            "/S",
                                         style: TextStyle(color: Colors.blue),
                                       ),
                                       Spacer(),
@@ -622,7 +748,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         color: Colors.green,
                                       ),
                                       Text(
-                                        Util.formatSize(networks.last[0]['rx'], fixed: 0) + "/S",
+                                        Util.formatSize(networks.last[0]['rx'],
+                                                fixed: 0) +
+                                            "/S",
                                         style: TextStyle(color: Colors.green),
                                       ),
                                     ],
@@ -655,18 +783,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "磁盘",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -675,16 +810,24 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      LineTooltipItem("利用率：${items[0].y.floor()}%", TextStyle(color: Colors.pink)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          LineTooltipItem(
+                                                              "利用率：${items[0].y.floor()}%",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .pink)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -697,8 +840,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -724,11 +871,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             minY: 0,
                                             maxY: 100,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: disks.map((disk) {
-                                                  return FlSpot(disks.indexOf(disk).toDouble(), disk['total']['utilization'].toDouble());
+                                                  return FlSpot(
+                                                      disks
+                                                          .indexOf(disk)
+                                                          .toDouble(),
+                                                      disk['total']
+                                                              ['utilization']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.pink,
@@ -739,7 +896,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 ),
                                                 belowBarData: BarAreaData(
                                                   show: true,
-                                                  color: Colors.pink.withOpacity(0.2),
+                                                  color: Colors.pink
+                                                      .withOpacity(0.2),
                                                 ),
                                               ),
                                             ],
@@ -787,18 +945,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "存储空间",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -807,16 +972,24 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      LineTooltipItem("利用率：${items[0].y.floor()}%", TextStyle(color: Colors.purpleAccent)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          LineTooltipItem(
+                                                              "利用率：${items[0].y.floor()}%",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .purpleAccent)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -829,8 +1002,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -856,11 +1033,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             minY: 0,
                                             maxY: 100,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: spaces.map((space) {
-                                                  return FlSpot(spaces.indexOf(space).toDouble(), space['total']['utilization'].toDouble());
+                                                  return FlSpot(
+                                                      spaces
+                                                          .indexOf(space)
+                                                          .toDouble(),
+                                                      space['total']
+                                                              ['utilization']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.purpleAccent,
@@ -869,7 +1056,10 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 dotData: FlDotData(
                                                   show: false,
                                                 ),
-                                                belowBarData: BarAreaData(show: true, color: Colors.purpleAccent.withOpacity(0.2)),
+                                                belowBarData: BarAreaData(
+                                                    show: true,
+                                                    color: Colors.purpleAccent
+                                                        .withOpacity(0.2)),
                                               ),
                                             ],
                                           ),
@@ -910,7 +1100,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                 curveType: CurveType.flat,
                                 bevel: 20,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -920,15 +1111,28 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                     LineChartData(
                                       lineTouchData: LineTouchData(
                                         touchTooltipData: LineTouchTooltipData(
-                                            tooltipBgColor: Colors.white.withOpacity(0.6),
+                                            tooltipBgColor:
+                                                Colors.white.withOpacity(0.6),
                                             tooltipRoundedRadius: 20,
                                             fitInsideHorizontally: true,
                                             fitInsideVertically: true,
                                             getTooltipItems: (items) {
                                               return [
-                                                LineTooltipItem("用户：${items[2].y}%", TextStyle(color: Color(0xffBAE050))),
-                                                LineTooltipItem("系统：${items[1].y - items[2].y}%", TextStyle(color: Color(0xff73B0EE))),
-                                                LineTooltipItem("I/O：${items[0].y - items[1].y}%", TextStyle(color: Color(0xff5584C8))),
+                                                LineTooltipItem(
+                                                    "用户：${items[2].y}%",
+                                                    TextStyle(
+                                                        color:
+                                                            Color(0xffBAE050))),
+                                                LineTooltipItem(
+                                                    "系统：${items[1].y - items[2].y}%",
+                                                    TextStyle(
+                                                        color:
+                                                            Color(0xff73B0EE))),
+                                                LineTooltipItem(
+                                                    "I/O：${items[0].y - items[1].y}%",
+                                                    TextStyle(
+                                                        color:
+                                                            Color(0xff5584C8))),
                                               ];
                                             }),
                                       ),
@@ -943,8 +1147,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             reservedSize: 22,
                                           ),
                                         ),
-                                        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        rightTitles: AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
                                         leftTitles: AxisTitles(
                                             sideTitles: SideTitles(
                                           showTitles: true,
@@ -970,11 +1178,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                       minY: 0,
                                       maxY: 100,
                                       // maxY: 20,
-                                      borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                      borderData: FlBorderData(
+                                          show: true,
+                                          border: Border.all(
+                                              color: Colors.black12, width: 1)),
                                       lineBarsData: [
                                         LineChartBarData(
                                           spots: cpus.map((cpu) {
-                                            return FlSpot(cpus.indexOf(cpu).toDouble(), (cpu['user_load'] + cpu['system_load'] + cpu['other_load']).toDouble());
+                                            return FlSpot(
+                                                cpus.indexOf(cpu).toDouble(),
+                                                (cpu['user_load'] +
+                                                        cpu['system_load'] +
+                                                        cpu['other_load'])
+                                                    .toDouble());
                                           }).toList(),
                                           isCurved: true,
                                           color: Color(0xff5584C8),
@@ -990,7 +1206,11 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         ),
                                         LineChartBarData(
                                           spots: cpus.map((cpu) {
-                                            return FlSpot(cpus.indexOf(cpu).toDouble(), (cpu['user_load'] + cpu['system_load']).toDouble());
+                                            return FlSpot(
+                                                cpus.indexOf(cpu).toDouble(),
+                                                (cpu['user_load'] +
+                                                        cpu['system_load'])
+                                                    .toDouble());
                                           }).toList(),
                                           isCurved: true,
                                           color: Color(0xff73B0EE),
@@ -1006,7 +1226,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         ),
                                         LineChartBarData(
                                           spots: cpus.map((cpu) {
-                                            return FlSpot(cpus.indexOf(cpu).toDouble(), cpu['user_load'].toDouble());
+                                            return FlSpot(
+                                                cpus.indexOf(cpu).toDouble(),
+                                                cpu['user_load'].toDouble());
                                           }).toList(),
                                           isCurved: true,
                                           color: Color(0xffBAE050),
@@ -1032,7 +1254,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
                             curveType: CurveType.flat,
                             bevel: 10,
                             child: Padding(
@@ -1043,12 +1266,16 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                     children: [
                                       Text(
                                         "利用率",
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       Spacer(),
                                       Text(
                                         "${cpus.last['user_load'] + cpus.last['system_load']} %",
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ],
                                   ),
@@ -1058,25 +1285,39 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   Row(
                                     children: [
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${cpus.last['user_load']}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${cpus.last['user_load']}",
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                     TextSpan(text: " %"),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Color(0xffBAE050)),
+                                                style: TextStyle(
+                                                    color: Color(0xffBAE050)),
                                               ),
                                               SizedBox(
                                                 height: 5,
@@ -1088,25 +1329,39 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                       ),
                                       Spacer(),
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${cpus.last['system_load']}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${cpus.last['system_load']}",
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                     TextSpan(text: " %"),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Color(0xff73B0EE)),
+                                                style: TextStyle(
+                                                    color: Color(0xff73B0EE)),
                                               ),
                                               SizedBox(
                                                 height: 5,
@@ -1118,25 +1373,39 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                       ),
                                       Spacer(),
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${cpus.last['other_load']}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${cpus.last['other_load']}",
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                     TextSpan(text: " %"),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Color(0xff5584C8)),
+                                                style: TextStyle(
+                                                    color: Color(0xff5584C8)),
                                               ),
                                               SizedBox(
                                                 height: 10,
@@ -1157,7 +1426,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
                             curveType: CurveType.flat,
                             bevel: 10,
                             child: Padding(
@@ -1167,7 +1437,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                 children: [
                                   Text(
                                     "负载平均",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -1175,21 +1447,34 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   Row(
                                     children: [
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${cpus.last['1min_load'] / 100}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${cpus.last['1min_load'] / 100}",
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
                                               ),
@@ -1203,21 +1488,34 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                       ),
                                       Spacer(),
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${cpus.last['5min_load'] / 100}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${cpus.last['5min_load'] / 100}",
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
                                               ),
@@ -1231,21 +1529,34 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                       ),
                                       Spacer(),
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${cpus.last['15min_load'] / 100}", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${cpus.last['15min_load'] / 100}",
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
                                               ),
@@ -1275,7 +1586,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                 curveType: CurveType.flat,
                                 bevel: 20,
                                 decoration: NeumorphicDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1285,13 +1597,17 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                     LineChartData(
                                       lineTouchData: LineTouchData(
                                         touchTooltipData: LineTouchTooltipData(
-                                            tooltipBgColor: Colors.white.withOpacity(0.6),
+                                            tooltipBgColor:
+                                                Colors.white.withOpacity(0.6),
                                             tooltipRoundedRadius: 20,
                                             fitInsideHorizontally: true,
                                             fitInsideVertically: true,
                                             getTooltipItems: (items) {
                                               return [
-                                                LineTooltipItem("利用率：${items[0].y}%", TextStyle(color: Colors.blue)),
+                                                LineTooltipItem(
+                                                    "利用率：${items[0].y}%",
+                                                    TextStyle(
+                                                        color: Colors.blue)),
                                               ];
                                             }),
                                       ),
@@ -1306,8 +1622,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             reservedSize: 22,
                                           ),
                                         ),
-                                        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                        topTitles: AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
+                                        rightTitles: AxisTitles(
+                                            sideTitles:
+                                                SideTitles(showTitles: false)),
                                         leftTitles: AxisTitles(
                                             sideTitles: SideTitles(
                                           showTitles: true,
@@ -1333,11 +1653,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                       minY: 0,
                                       maxY: 100,
                                       // maxY: 20,
-                                      borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                      borderData: FlBorderData(
+                                          show: true,
+                                          border: Border.all(
+                                              color: Colors.black12, width: 1)),
                                       lineBarsData: [
                                         LineChartBarData(
                                           spots: memories.map((memory) {
-                                            return FlSpot(memories.indexOf(memory).toDouble(), memory['real_usage'].toDouble());
+                                            return FlSpot(
+                                                memories
+                                                    .indexOf(memory)
+                                                    .toDouble(),
+                                                memory['real_usage']
+                                                    .toDouble());
                                           }).toList(),
                                           isCurved: true,
                                           color: Colors.blue,
@@ -1363,7 +1691,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
                             curveType: CurveType.flat,
                             bevel: 10,
                             child: Padding(
@@ -1374,26 +1703,34 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                     children: [
                                       Text(
                                         "利用率",
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       SizedBox(
                                         width: 20,
                                       ),
                                       Text(
                                         "${memories.last['real_usage']} %",
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       Spacer(),
                                       Text(
                                         "总计",
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       SizedBox(
                                         width: 20,
                                       ),
                                       Text(
                                         "${Util.formatSize(memories.last['memory_size'] * 1024, fixed: 0)}",
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ],
                                   ),
@@ -1403,24 +1740,38 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   Row(
                                     children: [
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${Util.formatSize((memories.last['memory_size'] - memories.last['total_real']) * 1024, fixed: 1)}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${Util.formatSize((memories.last['memory_size'] - memories.last['total_real']) * 1024, fixed: 1)}",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Colors.grey),
+                                                style: TextStyle(
+                                                    color: Colors.grey),
                                               ),
                                               SizedBox(
                                                 height: 5,
@@ -1434,24 +1785,38 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         width: 20,
                                       ),
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${Util.formatSize(memories.last['real_usage'] * memories.last['memory_size'] * 10.24, fixed: 1)}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${Util.formatSize(memories.last['real_usage'] * memories.last['memory_size'] * 10.24, fixed: 1)}",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Colors.orange),
+                                                style: TextStyle(
+                                                    color: Colors.orange),
                                               ),
                                               SizedBox(
                                                 height: 5,
@@ -1465,24 +1830,38 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         width: 20,
                                       ),
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${Util.formatSize(memories.last['buffer'] * 1024, fixed: 1)}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${Util.formatSize(memories.last['buffer'] * 1024, fixed: 1)}",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Colors.lightBlue),
+                                                style: TextStyle(
+                                                    color: Colors.lightBlue),
                                               ),
                                               SizedBox(
                                                 height: 10,
@@ -1500,24 +1879,38 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   Row(
                                     children: [
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${Util.formatSize(memories.last['cached'] * 1024, fixed: 1)}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${Util.formatSize(memories.last['cached'] * 1024, fixed: 1)}",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Colors.cyan),
+                                                style: TextStyle(
+                                                    color: Colors.cyan),
                                               ),
                                               SizedBox(
                                                 height: 5,
@@ -1531,24 +1924,38 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         width: 20,
                                       ),
                                       NeuCard(
-                                        width: (MediaQuery.of(context).size.width - 120) / 3,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    120) /
+                                                3,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         curveType: CurveType.flat,
                                         bevel: 10,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
                                           child: Column(
                                             children: [
                                               Text.rich(
                                                 TextSpan(
                                                   children: [
-                                                    TextSpan(text: "${Util.formatSize(memories.last['avail_real'] * 1024, fixed: 1)}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                                    TextSpan(
+                                                        text:
+                                                            "${Util.formatSize(memories.last['avail_real'] * 1024, fixed: 1)}",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
                                                   ],
                                                 ),
-                                                style: TextStyle(color: Colors.green),
+                                                style: TextStyle(
+                                                    color: Colors.green),
                                               ),
                                               SizedBox(
                                                 height: 5,
@@ -1575,10 +1982,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           for (int i = 0; i < networkCount; i++)
                             NeuCard(
                               curveType: CurveType.flat,
-                              margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                              margin: EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 20),
                               bevel: 20,
                               decoration: NeumorphicDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Column(
@@ -1588,22 +1997,31 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                     height: 20,
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: Text(
                                       i == 0 ? "总计" : "局域网 $i",
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                   AspectRatio(
                                     aspectRatio: 1.70,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                      padding: const EdgeInsets.only(
+                                          left: 20,
+                                          right: 20,
+                                          top: 20,
+                                          bottom: 5),
                                       child: NeuCard(
                                         curveType: CurveType.flat,
                                         bevel: 20,
                                         decoration: NeumorphicDecoration(
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          color: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         // padding: EdgeInsets.symmetric(horizontal: 10),
                                         child: Padding(
@@ -1611,19 +2029,30 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                           child: LineChart(
                                             LineChartData(
                                               lineTouchData: LineTouchData(
-                                                touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
+                                                touchTooltipData:
+                                                    LineTouchTooltipData(
+                                                  tooltipBgColor: Colors.white
+                                                      .withOpacity(0.6),
                                                   tooltipRoundedRadius: 20,
                                                   fitInsideHorizontally: true,
                                                   fitInsideVertically: true,
-                                                  getTooltipItems: (List<LineBarSpot> items) {
-                                                    return items.map((LineBarSpot touchedSpot) {
-                                                      final textStyle = TextStyle(
-                                                        color: touchedSpot.bar.color,
-                                                        fontWeight: FontWeight.bold,
+                                                  getTooltipItems:
+                                                      (List<LineBarSpot>
+                                                          items) {
+                                                    return items.map(
+                                                        (LineBarSpot
+                                                            touchedSpot) {
+                                                      final textStyle =
+                                                          TextStyle(
+                                                        color: touchedSpot
+                                                            .bar.color,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         fontSize: 14,
                                                       );
-                                                      return LineTooltipItem('${touchedSpot.bar.color == Colors.blue ? "上传" : "下载"}:${Util.formatSize(touchedSpot.y.floor())}', textStyle);
+                                                      return LineTooltipItem(
+                                                          '${touchedSpot.bar.color == Colors.blue ? "上传" : "下载"}:${Util.formatSize(touchedSpot.y.floor())}',
+                                                          textStyle);
                                                     }).toList();
                                                   },
                                                 ),
@@ -1639,16 +2068,22 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                     reservedSize: 22,
                                                   ),
                                                 ),
-                                                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                                topTitles: AxisTitles(
+                                                    sideTitles: SideTitles(
+                                                        showTitles: false)),
+                                                rightTitles: AxisTitles(
+                                                    sideTitles: SideTitles(
+                                                        showTitles: false)),
                                                 leftTitles: AxisTitles(
                                                     sideTitles: SideTitles(
                                                   showTitles: true,
                                                   getTitlesWidget: (value, _) {
                                                     return Text(
-                                                      Util.formatSize(value, fixed: 0),
+                                                      Util.formatSize(value,
+                                                          fixed: 0),
                                                       style: TextStyle(
-                                                        color: Color(0xff67727d),
+                                                        color:
+                                                            Color(0xff67727d),
                                                         fontSize: 12,
                                                       ),
                                                     );
@@ -1660,7 +2095,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   //   return (value.floor() * 1000).toString();
                                                   // },
                                                   reservedSize: 28,
-                                                  interval: Util.chartInterval(maxNetworkSpeed),
+                                                  interval: Util.chartInterval(
+                                                      maxNetworkSpeed),
                                                 )),
                                               ),
                                               // titlesData: FlTitlesData(
@@ -1686,11 +2122,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                               // ),
                                               minY: 0,
                                               // maxY: 20,
-                                              borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                              borderData: FlBorderData(
+                                                  show: true,
+                                                  border: Border.all(
+                                                      color: Colors.black12,
+                                                      width: 1)),
                                               lineBarsData: [
                                                 LineChartBarData(
-                                                  spots: networks.map((network) {
-                                                    return FlSpot(networks.indexOf(network).toDouble(), network[i]['tx'].toDouble());
+                                                  spots:
+                                                      networks.map((network) {
+                                                    return FlSpot(
+                                                        networks
+                                                            .indexOf(network)
+                                                            .toDouble(),
+                                                        network[i]['tx']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: Colors.blue,
@@ -1701,12 +2147,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   ),
                                                   belowBarData: BarAreaData(
                                                     show: true,
-                                                    color: Colors.blue.withOpacity(0.2),
+                                                    color: Colors.blue
+                                                        .withOpacity(0.2),
                                                   ),
                                                 ),
                                                 LineChartBarData(
-                                                  spots: networks.map((network) {
-                                                    return FlSpot(networks.indexOf(network).toDouble(), network[i]['rx'].toDouble());
+                                                  spots:
+                                                      networks.map((network) {
+                                                    return FlSpot(
+                                                        networks
+                                                            .indexOf(network)
+                                                            .toDouble(),
+                                                        network[i]['rx']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: Colors.green,
@@ -1717,7 +2170,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   ),
                                                   belowBarData: BarAreaData(
                                                     show: true,
-                                                    color: Colors.green.withOpacity(0.2),
+                                                    color: Colors.green
+                                                        .withOpacity(0.2),
                                                   ),
                                                 ),
                                               ],
@@ -1728,7 +2182,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: Row(
                                       children: [
                                         Icon(
@@ -1736,7 +2191,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                           color: Colors.blue,
                                         ),
                                         Text(
-                                          Util.formatSize(networks.last[i]['tx']) + "/S",
+                                          Util.formatSize(
+                                                  networks.last[i]['tx']) +
+                                              "/S",
                                           style: TextStyle(color: Colors.blue),
                                         ),
                                         Spacer(),
@@ -1745,7 +2202,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                           color: Colors.green,
                                         ),
                                         Text(
-                                          Util.formatSize(networks.last[i]['rx']) + "/S",
+                                          Util.formatSize(
+                                                  networks.last[i]['rx']) +
+                                              "/S",
                                           style: TextStyle(color: Colors.green),
                                         ),
                                       ],
@@ -1771,7 +2230,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                               runSpacing: 10,
                               children: [
                                 Label("总计", Colors.blue),
-                                for (int i = 0; i < disks.last['disk'].length; i++)
+                                for (int i = 0;
+                                    i < disks.last['disk'].length;
+                                    i++)
                                   Label(
                                     "${disks.last['disk'][i]['display_name']}",
                                     colors[i],
@@ -1785,7 +2246,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -1801,18 +2263,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "利用率",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1821,21 +2290,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < disks.last['disk'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${disks.last['disk'][i]['display_name']}：${disks[items[0].spotIndex]['disk'][i]['utilization'].floor()}%",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${disks[items[0].spotIndex]['total']['utilization'].floor()}%", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  disks
+                                                                      .last[
+                                                                          'disk']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${disks.last['disk'][i]['display_name']}：${disks[items[0].spotIndex]['disk'][i]['utilization'].floor()}%",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${disks[items[0].spotIndex]['total']['utilization'].floor()}%",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -1848,8 +2333,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -1875,11 +2364,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             minY: 0,
                                             maxY: 100,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: disks.map((disk) {
-                                                  return FlSpot(disks.indexOf(disk).toDouble(), disk['total']['utilization'].toDouble());
+                                                  return FlSpot(
+                                                      disks
+                                                          .indexOf(disk)
+                                                          .toDouble(),
+                                                      disk['total']
+                                                              ['utilization']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -1889,10 +2388,18 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < disks.last['disk'].length; i++)
+                                              for (int i = 0;
+                                                  i < disks.last['disk'].length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: disks.map((disk) {
-                                                    return FlSpot(disks.indexOf(disk).toDouble(), disk['disk'][i]['utilization'].toDouble());
+                                                    return FlSpot(
+                                                        disks
+                                                            .indexOf(disk)
+                                                            .toDouble(),
+                                                        disk['disk'][i]
+                                                                ['utilization']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -1917,7 +2424,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -1933,18 +2441,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "读取速度",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -1953,21 +2468,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < disks.last['disk'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${disks.last['disk'][i]['display_name']}：${Util.formatSize(disks[items[0].spotIndex]['disk'][i]['read_byte'].floor())}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${Util.formatSize(disks[items[0].spotIndex]['total']['read_byte'].floor())}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  disks
+                                                                      .last[
+                                                                          'disk']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${disks.last['disk'][i]['display_name']}：${Util.formatSize(disks[items[0].spotIndex]['disk'][i]['read_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${Util.formatSize(disks[items[0].spotIndex]['total']['read_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -1980,14 +2511,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
                                                 getTitlesWidget: (value, _) {
                                                   return Text(
-                                                    Util.formatSize(value, fixed: 0),
+                                                    Util.formatSize(value,
+                                                        fixed: 0),
                                                     style: TextStyle(
                                                       color: Color(0xff67727d),
                                                       fontSize: 12,
@@ -2001,7 +2537,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 //   return (value.floor() * 1000).toString();
                                                 // },
                                                 reservedSize: 28,
-                                                interval: Util.chartInterval(maxDiskReadSpeed),
+                                                interval: Util.chartInterval(
+                                                    maxDiskReadSpeed),
                                               )),
                                             ),
                                             // titlesData: FlTitlesData(
@@ -2027,11 +2564,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             // ),
                                             minY: 0,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: disks.map((disk) {
-                                                  return FlSpot(disks.indexOf(disk).toDouble(), disk['total']['read_byte'].toDouble());
+                                                  return FlSpot(
+                                                      disks
+                                                          .indexOf(disk)
+                                                          .toDouble(),
+                                                      disk['total']['read_byte']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2041,10 +2587,18 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < disks.last['disk'].length; i++)
+                                              for (int i = 0;
+                                                  i < disks.last['disk'].length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: disks.map((disk) {
-                                                    return FlSpot(disks.indexOf(disk).toDouble(), disk['disk'][i]['read_byte'].toDouble());
+                                                    return FlSpot(
+                                                        disks
+                                                            .indexOf(disk)
+                                                            .toDouble(),
+                                                        disk['disk'][i]
+                                                                ['read_byte']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -2069,7 +2623,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -2085,18 +2640,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "写入速度",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -2105,21 +2667,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < disks.last['disk'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${disks.last['disk'][i]['display_name']}：${Util.formatSize(disks[items[0].spotIndex]['disk'][i]['write_byte'].floor())}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${Util.formatSize(disks[items[0].spotIndex]['total']['write_byte'].floor())}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  disks
+                                                                      .last[
+                                                                          'disk']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${disks.last['disk'][i]['display_name']}：${Util.formatSize(disks[items[0].spotIndex]['disk'][i]['write_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${Util.formatSize(disks[items[0].spotIndex]['total']['write_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -2132,14 +2710,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
                                                 getTitlesWidget: (value, _) {
                                                   return Text(
-                                                    Util.formatSize(value, fixed: 0),
+                                                    Util.formatSize(value,
+                                                        fixed: 0),
                                                     style: TextStyle(
                                                       color: Color(0xff67727d),
                                                       fontSize: 12,
@@ -2153,7 +2736,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 //   return (value.floor() * 1000).toString();
                                                 // },
                                                 reservedSize: 28,
-                                                interval: Util.chartInterval(maxDiskWriteSpeed),
+                                                interval: Util.chartInterval(
+                                                    maxDiskWriteSpeed),
                                               )),
                                             ),
                                             // titlesData: FlTitlesData(
@@ -2179,11 +2763,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             // ),
                                             minY: 0,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: disks.map((disk) {
-                                                  return FlSpot(disks.indexOf(disk).toDouble(), disk['total']['write_byte'].toDouble());
+                                                  return FlSpot(
+                                                      disks
+                                                          .indexOf(disk)
+                                                          .toDouble(),
+                                                      disk['total']
+                                                              ['write_byte']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2193,10 +2787,18 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < disks.last['disk'].length; i++)
+                                              for (int i = 0;
+                                                  i < disks.last['disk'].length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: disks.map((disk) {
-                                                    return FlSpot(disks.indexOf(disk).toDouble(), disk['disk'][i]['write_byte'].toDouble());
+                                                    return FlSpot(
+                                                        disks
+                                                            .indexOf(disk)
+                                                            .toDouble(),
+                                                        disk['disk'][i]
+                                                                ['write_byte']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -2221,7 +2823,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -2237,18 +2840,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "读取IOPS",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -2257,21 +2867,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < disks.last['disk'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${disks.last['disk'][i]['display_name']}：${disks[items[0].spotIndex]['disk'][i]['read_access'].floor()}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${disks[items[0].spotIndex]['total']['read_access'].floor()}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  disks
+                                                                      .last[
+                                                                          'disk']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${disks.last['disk'][i]['display_name']}：${disks[items[0].spotIndex]['disk'][i]['read_access'].floor()}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${disks[items[0].spotIndex]['total']['read_access'].floor()}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -2284,8 +2910,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -2310,11 +2940,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             ),
                                             minY: 0,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: disks.map((disk) {
-                                                  return FlSpot(disks.indexOf(disk).toDouble(), disk['total']['read_access'].toDouble());
+                                                  return FlSpot(
+                                                      disks
+                                                          .indexOf(disk)
+                                                          .toDouble(),
+                                                      disk['total']
+                                                              ['read_access']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2324,10 +2964,18 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < disks.last['disk'].length; i++)
+                                              for (int i = 0;
+                                                  i < disks.last['disk'].length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: disks.map((disk) {
-                                                    return FlSpot(disks.indexOf(disk).toDouble(), disk['disk'][i]['read_access'].toDouble());
+                                                    return FlSpot(
+                                                        disks
+                                                            .indexOf(disk)
+                                                            .toDouble(),
+                                                        disk['disk'][i]
+                                                                ['read_access']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -2352,7 +3000,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -2368,18 +3017,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "写入IOPS",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -2388,21 +3044,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < disks.last['disk'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${disks.last['disk'][i]['display_name']}：${Util.formatSize(disks[items[0].spotIndex]['disk'][i]['write_access'].floor())}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${Util.formatSize(disks[items[0].spotIndex]['total']['write_access'].floor())}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  disks
+                                                                      .last[
+                                                                          'disk']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${disks.last['disk'][i]['display_name']}：${Util.formatSize(disks[items[0].spotIndex]['disk'][i]['write_access'].floor())}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${Util.formatSize(disks[items[0].spotIndex]['total']['write_access'].floor())}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -2415,8 +3087,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -2434,11 +3110,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                               )),
                                             ),
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: disks.map((disk) {
-                                                  return FlSpot(disks.indexOf(disk).toDouble(), disk['total']['write_access'].toDouble());
+                                                  return FlSpot(
+                                                      disks
+                                                          .indexOf(disk)
+                                                          .toDouble(),
+                                                      disk['total']
+                                                              ['write_access']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2448,10 +3134,18 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < disks.last['disk'].length; i++)
+                                              for (int i = 0;
+                                                  i < disks.last['disk'].length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: disks.map((disk) {
-                                                    return FlSpot(disks.indexOf(disk).toDouble(), disk['disk'][i]['write_access'].toDouble());
+                                                    return FlSpot(
+                                                        disks
+                                                            .indexOf(disk)
+                                                            .toDouble(),
+                                                        disk['disk'][i]
+                                                                ['write_access']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -2488,7 +3182,9 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                               runSpacing: 10,
                               children: [
                                 Label("总计", Colors.blue),
-                                for (int i = 0; i < spaces.last['volume'].length; i++)
+                                for (int i = 0;
+                                    i < spaces.last['volume'].length;
+                                    i++)
                                   Label(
                                     "${spaces.last['volume'][i]['display_name']}",
                                     colors[i],
@@ -2502,7 +3198,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -2518,18 +3215,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "利用率",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -2538,21 +3242,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < spaces.last['volume'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${spaces.last['volume'][i]['display_name']}：${spaces[items[0].spotIndex]['volume'][i]['utilization'].floor()}%",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${spaces[items[0].spotIndex]['total']['utilization'].floor()}%", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  spaces
+                                                                      .last[
+                                                                          'volume']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${spaces.last['volume'][i]['display_name']}：${spaces[items[0].spotIndex]['volume'][i]['utilization'].floor()}%",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${spaces[items[0].spotIndex]['total']['utilization'].floor()}%",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -2565,8 +3285,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -2586,11 +3310,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             minY: 0,
                                             maxY: 100,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: spaces.map((volume) {
-                                                  return FlSpot(spaces.indexOf(volume).toDouble(), volume['total']['utilization'].toDouble());
+                                                  return FlSpot(
+                                                      spaces
+                                                          .indexOf(volume)
+                                                          .toDouble(),
+                                                      volume['total']
+                                                              ['utilization']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2600,10 +3334,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < spaces.last['volume'].length; i++)
+                                              for (int i = 0;
+                                                  i <
+                                                      spaces.last['volume']
+                                                          .length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: spaces.map((volume) {
-                                                    return FlSpot(spaces.indexOf(volume).toDouble(), volume['volume'][i]['utilization'].toDouble());
+                                                    return FlSpot(
+                                                        spaces
+                                                            .indexOf(volume)
+                                                            .toDouble(),
+                                                        volume['volume'][i]
+                                                                ['utilization']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -2628,7 +3372,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -2644,18 +3389,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "读取速度",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -2664,21 +3416,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < spaces.last['volume'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${spaces.last['volume'][i]['display_name']}：${Util.formatSize(spaces[items[0].spotIndex]['volume'][i]['read_byte'].floor())}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${Util.formatSize(spaces[items[0].spotIndex]['total']['read_byte'].floor())}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  spaces
+                                                                      .last[
+                                                                          'volume']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${spaces.last['volume'][i]['display_name']}：${Util.formatSize(spaces[items[0].spotIndex]['volume'][i]['read_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${Util.formatSize(spaces[items[0].spotIndex]['total']['read_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -2691,14 +3459,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
                                                 getTitlesWidget: (value, _) {
                                                   return Text(
-                                                    Util.formatSize(value, fixed: 0),
+                                                    Util.formatSize(value,
+                                                        fixed: 0),
                                                     style: TextStyle(
                                                       color: Color(0xff67727d),
                                                       fontSize: 12,
@@ -2706,16 +3479,27 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   );
                                                 },
                                                 reservedSize: 28,
-                                                interval: Util.chartInterval(maxVolumeReadSpeed),
+                                                interval: Util.chartInterval(
+                                                    maxVolumeReadSpeed),
                                               )),
                                             ),
                                             minY: 0,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: spaces.map((volume) {
-                                                  return FlSpot(spaces.indexOf(volume).toDouble(), volume['total']['read_byte'].toDouble());
+                                                  return FlSpot(
+                                                      spaces
+                                                          .indexOf(volume)
+                                                          .toDouble(),
+                                                      volume['total']
+                                                              ['read_byte']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2725,10 +3509,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < spaces.last['volume'].length; i++)
+                                              for (int i = 0;
+                                                  i <
+                                                      spaces.last['volume']
+                                                          .length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: spaces.map((volume) {
-                                                    return FlSpot(spaces.indexOf(volume).toDouble(), volume['volume'][i]['read_byte'].toDouble());
+                                                    return FlSpot(
+                                                        spaces
+                                                            .indexOf(volume)
+                                                            .toDouble(),
+                                                        volume['volume'][i]
+                                                                ['read_byte']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -2753,7 +3547,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -2769,18 +3564,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "写入速度",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -2789,21 +3591,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < spaces.last['volume'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${spaces.last['volume'][i]['display_name']}：${Util.formatSize(spaces[items[0].spotIndex]['volume'][i]['write_byte'].floor())}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${Util.formatSize(spaces[items[0].spotIndex]['total']['write_byte'].floor())}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  spaces
+                                                                      .last[
+                                                                          'volume']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${spaces.last['volume'][i]['display_name']}：${Util.formatSize(spaces[items[0].spotIndex]['volume'][i]['write_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${Util.formatSize(spaces[items[0].spotIndex]['total']['write_byte'].floor())}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -2816,14 +3634,19 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
                                                 getTitlesWidget: (value, _) {
                                                   return Text(
-                                                    Util.formatSize(value, fixed: 0),
+                                                    Util.formatSize(value,
+                                                        fixed: 0),
                                                     style: TextStyle(
                                                       color: Color(0xff67727d),
                                                       fontSize: 12,
@@ -2837,16 +3660,27 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                 //   return (value.floor() * 1000).toString();
                                                 // },
                                                 reservedSize: 28,
-                                                interval: Util.chartInterval(maxVolumeWriteSpeed),
+                                                interval: Util.chartInterval(
+                                                    maxVolumeWriteSpeed),
                                               )),
                                             ),
                                             minY: 0,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: spaces.map((volume) {
-                                                  return FlSpot(spaces.indexOf(volume).toDouble(), volume['total']['write_byte'].toDouble());
+                                                  return FlSpot(
+                                                      spaces
+                                                          .indexOf(volume)
+                                                          .toDouble(),
+                                                      volume['total']
+                                                              ['write_byte']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2856,10 +3690,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < spaces.last['volume'].length; i++)
+                                              for (int i = 0;
+                                                  i <
+                                                      spaces.last['volume']
+                                                          .length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: spaces.map((volume) {
-                                                    return FlSpot(spaces.indexOf(volume).toDouble(), volume['volume'][i]['write_byte'].toDouble());
+                                                    return FlSpot(
+                                                        spaces
+                                                            .indexOf(volume)
+                                                            .toDouble(),
+                                                        volume['volume'][i]
+                                                                ['write_byte']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -2884,7 +3728,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -2900,18 +3745,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "读取IOPS",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -2920,21 +3772,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < spaces.last['volume'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${spaces.last['volume'][i]['display_name']}：${spaces[items[0].spotIndex]['volume'][i]['read_access'].floor()}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${spaces[items[0].spotIndex]['total']['read_access'].floor()}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  spaces
+                                                                      .last[
+                                                                          'volume']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${spaces.last['volume'][i]['display_name']}：${spaces[items[0].spotIndex]['volume'][i]['read_access'].floor()}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${spaces[items[0].spotIndex]['total']['read_access'].floor()}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -2947,8 +3815,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -2967,11 +3839,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                             ),
                                             minY: 0,
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: spaces.map((volume) {
-                                                  return FlSpot(spaces.indexOf(volume).toDouble(), volume['total']['read_access'].toDouble());
+                                                  return FlSpot(
+                                                      spaces
+                                                          .indexOf(volume)
+                                                          .toDouble(),
+                                                      volume['total']
+                                                              ['read_access']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -2981,10 +3863,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < spaces.last['volume'].length; i++)
+                                              for (int i = 0;
+                                                  i <
+                                                      spaces.last['volume']
+                                                          .length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: spaces.map((volume) {
-                                                    return FlSpot(spaces.indexOf(volume).toDouble(), volume['volume'][i]['read_access'].toDouble());
+                                                    return FlSpot(
+                                                        spaces
+                                                            .indexOf(volume)
+                                                            .toDouble(),
+                                                        volume['volume'][i]
+                                                                ['read_access']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],
@@ -3009,7 +3901,8 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                           ),
                           NeuCard(
                             curveType: CurveType.flat,
-                            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
                             bevel: 20,
                             decoration: NeumorphicDecoration(
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -3025,18 +3918,25 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "写入IOPS",
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                                 AspectRatio(
                                   aspectRatio: 1.70,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
+                                    padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 20,
+                                        bottom: 5),
                                     child: NeuCard(
                                       curveType: CurveType.flat,
                                       bevel: 20,
                                       decoration: NeumorphicDecoration(
-                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       // padding: EdgeInsets.symmetric(horizontal: 10),
@@ -3045,21 +3945,37 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                         child: LineChart(
                                           LineChartData(
                                             lineTouchData: LineTouchData(
-                                              touchTooltipData: LineTouchTooltipData(
-                                                  tooltipBgColor: Colors.white.withOpacity(0.6),
-                                                  tooltipRoundedRadius: 20,
-                                                  fitInsideHorizontally: true,
-                                                  fitInsideVertically: true,
-                                                  getTooltipItems: (items) {
-                                                    return [
-                                                      for (int i = 0; i < spaces.last['volume'].length; i++)
-                                                        LineTooltipItem(
-                                                          "${spaces.last['volume'][i]['display_name']}：${Util.formatSize(spaces[items[0].spotIndex]['volume'][i]['write_access'].floor())}",
-                                                          TextStyle(color: colors[i]),
-                                                        ),
-                                                      LineTooltipItem("总计：${Util.formatSize(spaces[items[0].spotIndex]['total']['write_access'].floor())}", TextStyle(color: Colors.blue)),
-                                                    ];
-                                                  }),
+                                              touchTooltipData:
+                                                  LineTouchTooltipData(
+                                                      tooltipBgColor: Colors
+                                                          .white
+                                                          .withOpacity(0.6),
+                                                      tooltipRoundedRadius: 20,
+                                                      fitInsideHorizontally:
+                                                          true,
+                                                      fitInsideVertically: true,
+                                                      getTooltipItems: (items) {
+                                                        return [
+                                                          for (int i = 0;
+                                                              i <
+                                                                  spaces
+                                                                      .last[
+                                                                          'volume']
+                                                                      .length;
+                                                              i++)
+                                                            LineTooltipItem(
+                                                              "${spaces.last['volume'][i]['display_name']}：${Util.formatSize(spaces[items[0].spotIndex]['volume'][i]['write_access'].floor())}",
+                                                              TextStyle(
+                                                                  color: colors[
+                                                                      i]),
+                                                            ),
+                                                          LineTooltipItem(
+                                                              "总计：${Util.formatSize(spaces[items[0].spotIndex]['total']['write_access'].floor())}",
+                                                              TextStyle(
+                                                                  color: Colors
+                                                                      .blue)),
+                                                        ];
+                                                      }),
                                             ),
                                             gridData: FlGridData(
                                               show: false,
@@ -3072,8 +3988,12 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   reservedSize: 22,
                                                 ),
                                               ),
-                                              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
+                                              rightTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                      showTitles: false)),
                                               leftTitles: AxisTitles(
                                                   sideTitles: SideTitles(
                                                 showTitles: true,
@@ -3097,11 +4017,21 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                               )),
                                             ),
                                             // maxY: 20,
-                                            borderData: FlBorderData(show: true, border: Border.all(color: Colors.black12, width: 1)),
+                                            borderData: FlBorderData(
+                                                show: true,
+                                                border: Border.all(
+                                                    color: Colors.black12,
+                                                    width: 1)),
                                             lineBarsData: [
                                               LineChartBarData(
                                                 spots: spaces.map((volume) {
-                                                  return FlSpot(spaces.indexOf(volume).toDouble(), volume['total']['write_access'].toDouble());
+                                                  return FlSpot(
+                                                      spaces
+                                                          .indexOf(volume)
+                                                          .toDouble(),
+                                                      volume['total']
+                                                              ['write_access']
+                                                          .toDouble());
                                                 }).toList(),
                                                 isCurved: true,
                                                 color: Colors.blue,
@@ -3111,10 +4041,20 @@ class _PerformanceState extends State<Performance> with SingleTickerProviderStat
                                                   show: false,
                                                 ),
                                               ),
-                                              for (int i = 0; i < spaces.last['volume'].length; i++)
+                                              for (int i = 0;
+                                                  i <
+                                                      spaces.last['volume']
+                                                          .length;
+                                                  i++)
                                                 LineChartBarData(
                                                   spots: spaces.map((volume) {
-                                                    return FlSpot(spaces.indexOf(volume).toDouble(), volume['volume'][i]['write_access'].toDouble());
+                                                    return FlSpot(
+                                                        spaces
+                                                            .indexOf(volume)
+                                                            .toDouble(),
+                                                        volume['volume'][i]
+                                                                ['write_access']
+                                                            .toDouble());
                                                   }).toList(),
                                                   isCurved: true,
                                                   color: colors[i],

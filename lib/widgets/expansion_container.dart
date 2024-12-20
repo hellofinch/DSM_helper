@@ -246,10 +246,14 @@ class ExpansionContainer extends StatefulWidget {
   State<ExpansionContainer> createState() => _ExpansionContainerState();
 }
 
-class _ExpansionContainerState extends State<ExpansionContainer> with SingleTickerProviderStateMixin {
-  static final Animatable<double> _easeOutTween = CurveTween(curve: Curves.easeOut);
-  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeIn);
-  static final Animatable<double> _halfTween = Tween<double>(begin: 0.0, end: 0.5);
+class _ExpansionContainerState extends State<ExpansionContainer>
+    with SingleTickerProviderStateMixin {
+  static final Animatable<double> _easeOutTween =
+      CurveTween(curve: Curves.easeOut);
+  static final Animatable<double> _easeInTween =
+      CurveTween(curve: Curves.easeIn);
+  static final Animatable<double> _halfTween =
+      Tween<double>(begin: 0.0, end: 0.5);
 
   final ColorTween _borderColorTween = ColorTween();
   final ColorTween _headerColorTween = ColorTween();
@@ -269,9 +273,11 @@ class _ExpansionContainerState extends State<ExpansionContainer> with SingleTick
     _controller = AnimationController(duration: _kExpand, vsync: this);
     _heightFactor = _controller.drive(_easeInTween);
     _iconTurns = _controller.drive(_halfTween.chain(_easeInTween));
-    _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
+    _backgroundColor =
+        _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
-    _isExpanded = PageStorage.of(context)?.readState(context) as bool ?? widget.initiallyExpanded;
+    _isExpanded = PageStorage.of(context)?.readState(context) as bool ??
+        widget.initiallyExpanded;
     if (_isExpanded) _controller.value = 1.0;
   }
 
@@ -325,7 +331,8 @@ class _ExpansionContainerState extends State<ExpansionContainer> with SingleTick
   // }
 
   Widget _buildTrailingIcon(BuildContext context) {
-    if (_effectiveAffinity(widget.controlAffinity) != ListTileControlAffinity.trailing) return null;
+    if (_effectiveAffinity(widget.controlAffinity) !=
+        ListTileControlAffinity.trailing) return null;
     return _buildIcon(context);
   }
 
@@ -351,7 +358,8 @@ class _ExpansionContainerState extends State<ExpansionContainer> with SingleTick
                 behavior: HitTestBehavior.opaque,
                 onTap: _handleTap,
                 child: Container(
-                  padding: widget.tilePadding ?? EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: widget.tilePadding ??
+                      EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
                     children: [
                       Expanded(child: widget.title),
@@ -401,7 +409,8 @@ class _ExpansionContainerState extends State<ExpansionContainer> with SingleTick
         child: Padding(
           padding: widget.childrenPadding ?? EdgeInsets.zero,
           child: Column(
-            crossAxisAlignment: widget.expandedCrossAxisAlignment ?? CrossAxisAlignment.center,
+            crossAxisAlignment:
+                widget.expandedCrossAxisAlignment ?? CrossAxisAlignment.center,
             children: widget.children.sublist(widget.showFirst ? 1 : 0),
           ),
         ),

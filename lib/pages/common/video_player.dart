@@ -18,7 +18,12 @@ class VideoPlayer extends StatefulWidget {
   final String cover;
   final String nfo;
   final bool network;
-  VideoPlayer({@required this.url, this.name, this.cover, this.nfo, this.network: true});
+  VideoPlayer(
+      {@required this.url,
+      this.name,
+      this.cover,
+      this.nfo,
+      this.network: true});
 
   @override
   _VideoPlayerState createState() => _VideoPlayerState();
@@ -152,7 +157,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
   parseNfo() async {
     if (widget.nfo != null) {
       final myTransformer = Xml2Json();
-      String nfoUrl = Util.baseUrl + "/fbdownload/info.nfo?dlink=%22${Util.utf8Encode(widget.nfo)}%22&_sid=%22${Util.sid}%22&mode=open";
+      String nfoUrl = Util.baseUrl +
+          "/fbdownload/info.nfo?dlink=%22${Util.utf8Encode(widget.nfo)}%22&_sid=%22${Util.sid}%22&mode=open";
       var res = await Util.get(nfoUrl, decode: false);
       try {
         myTransformer.parse(res);
@@ -228,7 +234,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
             color: Colors.black,
             fsFit: FFit.contain, // 全屏模式下的填充
             fit: FFit.contain, // 正常模式下的填充
-            cover: widget.cover != null ? ExtendedNetworkImageProvider(Util.baseUrl + "/webapi/entry.cgi?path=${Uri.encodeComponent(widget.cover)}&size=original&api=SYNO.FileStation.Thumb&method=get&version=2&_sid=${Util.sid}&animate=true") : null,
+            cover: widget.cover != null
+                ? ExtendedNetworkImageProvider(Util.baseUrl +
+                    "/webapi/entry.cgi?path=${Uri.encodeComponent(widget.cover)}&size=original&api=SYNO.FileStation.Thumb&method=get&version=2&_sid=${Util.sid}&animate=true")
+                : null,
 
             panelBuilder: fPanelBuilder(
               // 单视频配置
@@ -381,7 +390,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
                   ),
                   ...actors.map(
                     (e) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

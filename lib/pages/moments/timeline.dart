@@ -30,7 +30,8 @@ class _TimelineState extends State<Timeline> {
   }
 
   getData() async {
-    var res = await MomentsApi.timeline(category: widget.category, type: widget.type);
+    var res =
+        await MomentsApi.timeline(category: widget.category, type: widget.type);
     if (res['success'] && mounted) {
       setState(() {
         timeline = [];
@@ -49,8 +50,10 @@ class _TimelineState extends State<Timeline> {
             timeline[i]['position']['start'] = 0;
             timeline[i]['position']['end'] = height;
           } else {
-            timeline[i]['position']['start'] = timeline[i - 1]['position']['end'];
-            timeline[i]['position']['end'] = timeline[i]['position']['start'] + height;
+            timeline[i]['position']['start'] =
+                timeline[i - 1]['position']['end'];
+            timeline[i]['position']['end'] =
+                timeline[i]['position']['start'] + height;
           }
         }
         setState(() {
@@ -63,7 +66,14 @@ class _TimelineState extends State<Timeline> {
   getLineInfo(line) async {
     if (line['items'] == null) {
       line['items'] = [];
-      MomentsApi.photos(year: line['year'], month: line['month'], day: line['day'], type: widget.type, category: widget.category == "Timeline" ? "Item" : widget.category).then((res) {
+      MomentsApi.photos(
+              year: line['year'],
+              month: line['month'],
+              day: line['day'],
+              type: widget.type,
+              category:
+                  widget.category == "Timeline" ? "Item" : widget.category)
+          .then((res) {
         if (res['success'] && mounted) {
           setState(() {
             line['items'] = res['data']['list'];
@@ -88,7 +98,9 @@ class _TimelineState extends State<Timeline> {
     Map timeLong;
     if (photo['type'] == "video") {
       if (photo['additional']['video_convert'].length > 0) {
-        duration = photo['additional']['video_convert'][0]['metadata']['duration'] ~/ 1000;
+        duration = photo['additional']['video_convert'][0]['metadata']
+                ['duration'] ~/
+            1000;
         timeLong = Util.timeLong(duration);
       } else {
         timeLong = {
@@ -98,8 +110,10 @@ class _TimelineState extends State<Timeline> {
         };
       }
     }
-    String thumbUrl = '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
-    String originalUrl = '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="xl"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
+    String thumbUrl =
+        '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
+    String originalUrl =
+        '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="xl"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(TransparentPageRoute(
@@ -107,7 +121,8 @@ class _TimelineState extends State<Timeline> {
             return ImagePreview(
               [originalUrl],
               0,
-              tag: "photo-timeline-${photo['additional']['thumbnail']['unit_id']}",
+              tag:
+                  "photo-timeline-${photo['additional']['thumbnail']['unit_id']}",
             );
           },
         ));
@@ -118,7 +133,8 @@ class _TimelineState extends State<Timeline> {
         child: Stack(
           children: [
             Hero(
-              tag: "photo-timeline-${photo['additional']['thumbnail']['unit_id']}",
+              tag:
+                  "photo-timeline-${photo['additional']['thumbnail']['unit_id']}",
               child: CupertinoExtendedImage(
                 thumbUrl,
                 width: photoWidth,
@@ -171,15 +187,22 @@ class _TimelineState extends State<Timeline> {
               Text(
                 "${line['year']}-${line['month'].toString().padLeft(2, "0")}-${line['day'].toString().padLeft(2, "0")}",
               ),
-              if (line['location'] != null && ((line['location']['first_level'] != null && line['location']['first_level'] != ""))) Text("   ${line['location']['first_level']}"),
-              if (line['location'] != null && ((line['location']['second_level'] != null && line['location']['second_level'].length > 0))) Text("${line['location']['second_level'].join(",")}"),
+              if (line['location'] != null &&
+                  ((line['location']['first_level'] != null &&
+                      line['location']['first_level'] != "")))
+                Text("   ${line['location']['first_level']}"),
+              if (line['location'] != null &&
+                  ((line['location']['second_level'] != null &&
+                      line['location']['second_level'].length > 0)))
+                Text("${line['location']['second_level'].join(",")}"),
             ],
           ),
         ),
         GridView.builder(
           shrinkWrap: true,
           // crossAxisCount: 4,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisSpacing: 2, crossAxisSpacing: 2),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4, mainAxisSpacing: 2, crossAxisSpacing: 2),
           itemCount: line['item_count'],
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, i) {
@@ -252,7 +275,11 @@ class _TimelineState extends State<Timeline> {
           : timeline.length > 0
               ? DraggableScrollbar.semicircle(
                   labelTextBuilder: (position) {
-                    var line = timeline.where((element) => element['position']['start'] <= position && element['position']['end'] >= position).toList();
+                    var line = timeline
+                        .where((element) =>
+                            element['position']['start'] <= position &&
+                            element['position']['end'] >= position)
+                        .toList();
                     if (line.length > 0) {
                       return Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -266,7 +293,8 @@ class _TimelineState extends State<Timeline> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("${line[0]['day'].toString().padLeft(2, "0")}日"),
+                                Text(
+                                    "${line[0]['day'].toString().padLeft(2, "0")}日"),
                                 Text("${line[0]['year']}"),
                               ],
                             )
@@ -277,7 +305,11 @@ class _TimelineState extends State<Timeline> {
                       return null;
                     }
                   },
-                  labelConstraints: BoxConstraints(minHeight: 60, maxHeight: 60, minWidth: 140, maxWidth: 140),
+                  labelConstraints: BoxConstraints(
+                      minHeight: 60,
+                      maxHeight: 60,
+                      minWidth: 140,
+                      maxWidth: 140),
                   controller: _scrollController,
                   child: ListView.builder(
                     controller: _scrollController,

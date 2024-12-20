@@ -11,7 +11,8 @@ class LogCenter extends StatefulWidget {
   _LogCenterState createState() => _LogCenterState();
 }
 
-class _LogCenterState extends State<LogCenter> with SingleTickerProviderStateMixin {
+class _LogCenterState extends State<LogCenter>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   List lastLogs = [];
   List logs = [];
@@ -89,7 +90,8 @@ class _LogCenterState extends State<LogCenter> with SingleTickerProviderStateMix
           children: [
             Row(
               children: [
-                Label(log['prio'] == "info" ? "信息" : log['prio'], log['prio'] == "info" ? Colors.green : Colors.red),
+                Label(log['prio'] == "info" ? "信息" : log['prio'],
+                    log['prio'] == "info" ? Colors.green : Colors.red),
                 SizedBox(
                   width: 5,
                 ),
@@ -134,7 +136,8 @@ class _LogCenterState extends State<LogCenter> with SingleTickerProviderStateMix
           children: [
             Row(
               children: [
-                Label(log['level'] == 0 ? "信息" : "${log['level']}", log['level'] == 0 ? Colors.green : Colors.red),
+                Label(log['level'] == 0 ? "信息" : "${log['level']}",
+                    log['level'] == 0 ? Colors.green : Colors.red),
                 SizedBox(
                   width: 5,
                 ),
@@ -249,11 +252,14 @@ class _LogCenterState extends State<LogCenter> with SingleTickerProviderStateMix
               isScrollable: true,
               controller: _tabController,
               indicatorSize: TabBarIndicatorSize.label,
-              labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+              labelColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               unselectedLabelColor: Colors.grey,
               indicator: BubbleTabIndicator(
                 indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                shadowColor: Util.getAdjustColor(
+                    Theme.of(context).scaffoldBackgroundColor, -20),
               ),
               tabs: [
                 Padding(

@@ -28,7 +28,8 @@ class _UninstallPackageState extends State<UninstallPackage> {
     if (res['success']) {
       setState(() {
         loading = false;
-        pageData = jsonDecode(Uri.decodeComponent(res['data']['additional']['uninstall_pages']));
+        pageData = jsonDecode(
+            Uri.decodeComponent(res['data']['additional']['uninstall_pages']));
         print(pageData);
       });
     } else {
@@ -172,10 +173,20 @@ class _UninstallPackageState extends State<UninstallPackage> {
                           //获取额外参数
                           Map extra = {};
                           for (int i = 0; i < pageData.length; i++) {
-                            for (int j = 0; j < pageData[i]['items'].length; j++) {
-                              for (int k = 0; k < pageData[i]['items'][j]['subitems'].length; k++) {
-                                if (pageData[i]['items'][j]['subitems'][k]['checked']) {
-                                  extra[pageData[i]['items'][j]['subitems'][i]['key']] = pageData[i]['items'][j]['subitems'][i]['checked'];
+                            for (int j = 0;
+                                j < pageData[i]['items'].length;
+                                j++) {
+                              for (int k = 0;
+                                  k <
+                                      pageData[i]['items'][j]['subitems']
+                                          .length;
+                                  k++) {
+                                if (pageData[i]['items'][j]['subitems'][k]
+                                    ['checked']) {
+                                  extra[pageData[i]['items'][j]['subitems'][i]
+                                          ['key']] =
+                                      pageData[i]['items'][j]['subitems'][i]
+                                          ['checked'];
                                 }
                               }
                             }
@@ -183,7 +194,8 @@ class _UninstallPackageState extends State<UninstallPackage> {
                           setState(() {
                             uninstalling = true;
                           });
-                          await Api.uninstallPackageTask(widget.package['id'], extra: extra);
+                          await Api.uninstallPackageTask(widget.package['id'],
+                              extra: extra);
                           Util.toast("卸载成功");
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();

@@ -58,12 +58,29 @@ enum UploadStatus {
 class Util {
   static GroupsModel groups = GroupsModel(
     qq: [
-      GroupModel(name: "交流群①", no: "240557031", key: "4woOsiYfPZO4lZ08fX4el43n926mj1r5", status: "已满"),
-      GroupModel(name: "交流群②", no: "97137990", key: "qp8XE0Ts1b_qR4wt5PThPJqhdWkBT2u5", status: "已满"),
-      GroupModel(name: "交流群③", no: "133302624", key: "rOqv_Fq8g4W_Xaa95B7f0AmN_xxlvHu-", status: ""),
+      GroupModel(
+          name: "交流群①",
+          no: "240557031",
+          key: "4woOsiYfPZO4lZ08fX4el43n926mj1r5",
+          status: "已满"),
+      GroupModel(
+          name: "交流群②",
+          no: "97137990",
+          key: "qp8XE0Ts1b_qR4wt5PThPJqhdWkBT2u5",
+          status: "已满"),
+      GroupModel(
+          name: "交流群③",
+          no: "133302624",
+          key: "rOqv_Fq8g4W_Xaa95B7f0AmN_xxlvHu-",
+          status: ""),
     ],
     channel: [
-      GroupModel(name: "QQ频道", no: "群晖助手交流反馈", key: "https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&biz=ka&businessType=5&from=246611&inviteCode=206Vc8vi4fl&mainSourceId=qr_code&subSourceId=pic4&jumpsource=shorturl#/out", status: ""),
+      GroupModel(
+          name: "QQ频道",
+          no: "群晖助手交流反馈",
+          key:
+              "https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&biz=ka&businessType=5&from=246611&inviteCode=206Vc8vi4fl&mainSourceId=qr_code&subSourceId=pic4&jumpsource=shorturl#/out",
+          status: ""),
     ],
     wechat: [
       GroupModel(name: "群晖助手", no: "", key: "", status: "受限"),
@@ -73,10 +90,10 @@ class Util {
   static bool isWechatInstalled = false;
   static DateTime vipExpireTime = DateTime.now();
   static bool vipForever = false;
-  static String appUrl = "https://dsm.apaipai.top";
+  static String appUrl = "";
   static String sid = "";
   static String account = "";
-  static String baseUrl = "https://dsm.apaipai.top";
+  static String baseUrl = "";
   static String hostname = "";
   static int version = 6;
   static bool checkSsl = true;
@@ -95,7 +112,9 @@ class Util {
 
   static bool get notReviewAccount => account != "jinx";
   static toast(String text) {
-    showToast(text ?? "", dismissOtherToast: true, textPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 8));
+    showToast(text ?? "",
+        dismissOtherToast: true,
+        textPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 8));
   }
 
   static String systemVersion(String version) {
@@ -148,7 +167,8 @@ class Util {
       int diff = 0;
 
       while (position < minLength) {
-        diff = int.parse(versionNames1[position]) - int.parse(versionNames2[position]);
+        diff = int.parse(versionNames1[position]) -
+            int.parse(versionNames2[position]);
         if (diff != 0) {
           break;
         }
@@ -185,7 +205,11 @@ class Util {
   }
 
   static Color getAdjustColor(Color baseColor, double amount) {
-    Map<String, int> colors = {'r': baseColor.red, 'g': baseColor.green, 'b': baseColor.blue};
+    Map<String, int> colors = {
+      'r': baseColor.red,
+      'g': baseColor.green,
+      'b': baseColor.blue
+    };
 
     colors = colors.map((key, value) {
       if (value + amount < 0) {
@@ -200,7 +224,16 @@ class Util {
   }
 
   static FileTypeEnum fileType(String name) {
-    List<String> image = ["png", "jpg", "jpeg", "gif", "bmp", "ico", "tiff", "tif"];
+    List<String> image = [
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+      "bmp",
+      "ico",
+      "tiff",
+      "tif"
+    ];
     List<String> movie = [
       "3gp",
       "3g2",
@@ -242,7 +275,38 @@ class Util {
       "swf",
       "f4v"
     ];
-    List<String> music = ["aac", "flac", "m4a", "m4b", "aif", "ogg", "pcm", "wav", "cda", "mid", "mp2", "mka", "mpc", "ape", "ra", "ac3", "dts", "wma", "mp3", "mp1", "mp2", "mpa", "ram", "m4p", "aiff", "dsf", "dff", "m3u", "wpl", "aiff"];
+    List<String> music = [
+      "aac",
+      "flac",
+      "m4a",
+      "m4b",
+      "aif",
+      "ogg",
+      "pcm",
+      "wav",
+      "cda",
+      "mid",
+      "mp2",
+      "mka",
+      "mpc",
+      "ape",
+      "ra",
+      "ac3",
+      "dts",
+      "wma",
+      "mp3",
+      "mp1",
+      "mp2",
+      "mpa",
+      "ram",
+      "m4p",
+      "aiff",
+      "dsf",
+      "dff",
+      "m3u",
+      "wpl",
+      "aiff"
+    ];
     List<String> ps = ["psd"];
     List<String> html = ["html", "htm", "shtml", "url"];
     List<String> word = ["doc", "docx"];
@@ -250,7 +314,23 @@ class Util {
     List<String> excel = ["xls", "xlsx"];
     List<String> text = ["txt", "log"];
     List<String> zip = ["zip", "gz", "tar", "tgz", "tbz", "bz2", "rar", "7z"];
-    List<String> code = ["py", "php", "c", "java", "jsp", "js", "css", "sql", "nfo", "xml", "kt", "conf", "json", "md", "sh"];
+    List<String> code = [
+      "py",
+      "php",
+      "c",
+      "java",
+      "jsp",
+      "js",
+      "css",
+      "sql",
+      "nfo",
+      "xml",
+      "kt",
+      "conf",
+      "json",
+      "md",
+      "sh"
+    ];
     List<String> pdf = ["pdf"];
     List<String> apk = ["apk"];
     List<String> iso = ["iso"];
@@ -288,11 +368,21 @@ class Util {
     }
   }
 
-  static Future<dynamic> get(String url, {Map<String, dynamic> data, bool login: true, String host, Map<String, dynamic> headers, CancelToken cancelToken, bool checkSsl, String cookie, int timeout = 20, bool decode: true}) async {
+  static Future<dynamic> get(String url,
+      {Map<String, dynamic> data,
+      bool login: true,
+      String host,
+      Map<String, dynamic> headers,
+      CancelToken cancelToken,
+      bool checkSsl,
+      String cookie,
+      int timeout = 20,
+      bool decode: true}) async {
     headers = headers ?? {};
     headers['Cookie'] = cookie ?? Util.cookie;
 
-    headers["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,zh-TW;q=0.5";
+    headers["Accept-Language"] =
+        "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,zh-TW;q=0.5";
     headers['origin'] = host ?? baseUrl;
     headers['referer'] = host ?? baseUrl;
     Dio dio = new Dio(
@@ -312,7 +402,8 @@ class Util {
     // }
     //忽略Https校验
     if (!(checkSsl ?? Util.checkSsl)) {
-      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+          (client) {
         client.badCertificateCallback = (cert, host, port) {
           return true;
         };
@@ -322,9 +413,11 @@ class Util {
 
     Response response;
     try {
-      response = await dio.get(url, queryParameters: data, cancelToken: cancelToken);
+      response =
+          await dio.get(url, queryParameters: data, cancelToken: cancelToken);
       if (url == "auth.cgi") {
-        if (response.headers.map['set-cookie'] != null && response.headers.map['set-cookie'].length > 0) {
+        if (response.headers.map['set-cookie'] != null &&
+            response.headers.map['set-cookie'].length > 0) {
           List cookies = [];
           //从原始cookie中提取did
           String did = "";
@@ -339,7 +432,8 @@ class Util {
           }
           bool haveDid = false;
           for (int i = 0; i < response.headers.map['set-cookie'].length; i++) {
-            Cookie cookie = Cookie.fromSetCookieValue(response.headers.map['set-cookie'][i]);
+            Cookie cookie = Cookie.fromSetCookieValue(
+                response.headers.map['set-cookie'][i]);
             cookies.add("${cookie.name}=${cookie.value}");
             if (cookie.name == "did") {
               haveDid = true;
@@ -368,7 +462,8 @@ class Util {
       }
     } on DioError catch (error) {
       String code = "";
-      if (error.message != null && error.message.contains("CERTIFICATE_VERIFY_FAILED")) {
+      if (error.message != null &&
+          error.message.contains("CERTIFICATE_VERIFY_FAILED")) {
         code = "SSL/HTTPS证书有误";
       } else {
         code = error.message;
@@ -395,10 +490,19 @@ class Util {
     Log.logger.info(obj);
   }
 
-  static Future<dynamic> post(String url, {Map<String, dynamic> data, bool login: true, String host, CancelToken cancelToken, Map<String, dynamic> headers, bool checkSsl, String cookie, int timeout = 20}) async {
+  static Future<dynamic> post(String url,
+      {Map<String, dynamic> data,
+      bool login: true,
+      String host,
+      CancelToken cancelToken,
+      Map<String, dynamic> headers,
+      bool checkSsl,
+      String cookie,
+      int timeout = 20}) async {
     headers = headers ?? {};
     headers['Cookie'] = cookie ?? Util.cookie;
-    headers["Accept-Language"] = "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,zh-TW;q=0.5";
+    headers["Accept-Language"] =
+        "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,zh-TW;q=0.5";
     headers['origin'] = host ?? baseUrl;
     headers['referer'] = host ?? baseUrl;
     Dio dio = new Dio(
@@ -432,7 +536,8 @@ class Util {
     //   logPrint: logPrint,
     // ));
     if (!(checkSsl ?? Util.checkSsl)) {
-      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+          (client) {
         client.badCertificateCallback = (cert, host, port) {
           return true;
         };
@@ -454,7 +559,14 @@ class Util {
     }
   }
 
-  static Future<dynamic> upload(String url, {Map<String, dynamic> params, Map<String, dynamic> data, bool login: true, String host, CancelToken cancelToken, Function(int, int) onSendProgress, Map<String, dynamic> headers}) async {
+  static Future<dynamic> upload(String url,
+      {Map<String, dynamic> params,
+      Map<String, dynamic> data,
+      bool login: true,
+      String host,
+      CancelToken cancelToken,
+      Function(int, int) onSendProgress,
+      Map<String, dynamic> headers}) async {
     headers = headers ?? {};
     headers['Cookie'] = Util.cookie;
     headers['Accept-Encoding'] = "gzip, deflate";
@@ -480,7 +592,8 @@ class Util {
     // };
     //忽略Https校验
     if (!checkSsl) {
-      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+      (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
+          (client) {
         client.badCertificateCallback = (cert, host, port) {
           return true;
         };
@@ -540,15 +653,24 @@ class Util {
     }
   }
 
-  static Future<dynamic> downloadPkg(String saveName, String url, onReceiveProgress, CancelToken cancelToken) async {
+  static Future<dynamic> downloadPkg(String saveName, String url,
+      onReceiveProgress, CancelToken cancelToken) async {
     Dio dio = new Dio();
     Directory tempDir = await getTemporaryDirectory();
     String tempPath = tempDir.path;
     Response response;
 
     try {
-      response = await dio.download(url, tempPath + Platform.pathSeparator + saveName, deleteOnError: true, onReceiveProgress: onReceiveProgress, cancelToken: cancelToken);
-      return {"code": 1, "msg": "下载完成", "data": tempPath + Platform.pathSeparator + saveName};
+      response = await dio.download(
+          url, tempPath + Platform.pathSeparator + saveName,
+          deleteOnError: true,
+          onReceiveProgress: onReceiveProgress,
+          cancelToken: cancelToken);
+      return {
+        "code": 1,
+        "msg": "下载完成",
+        "data": tempPath + Platform.pathSeparator + saveName
+      };
     } on DioError catch (error) {
       debugPrint("请求出错:$url");
       if (error.type == DioErrorType.cancel) {
@@ -607,11 +729,17 @@ class Util {
     debugPrint(saveName);
     // CancelToken cancelToken = CancelToken();
     // DioDownload().downloadFile(url: url, savePath: saveName, cancelToken: cancelToken);
-    String taskId = await FlutterDownloader.enqueue(url: url, fileName: saveName, savedDir: savePath, showNotification: true, openFileFromNotification: true);
+    String taskId = await FlutterDownloader.enqueue(
+        url: url,
+        fileName: saveName,
+        savedDir: savePath,
+        showNotification: true,
+        openFileFromNotification: true);
     return taskId;
   }
 
-  static String formatSize(num size, {int format = 1024, int fixed = 2, bool showByte = false}) {
+  static String formatSize(num size,
+      {int format = 1024, int fixed = 2, bool showByte = false}) {
     if (size == 0) {
       return "0${showByte ? 'Bytes' : ''}";
     } else if (size < format) {
@@ -677,7 +805,8 @@ class Util {
     return prefs.remove(name);
   }
 
-  static Future<Map> saveImage(String url, {BuildContext context, bool showLoading: true}) async {
+  static Future<Map> saveImage(String url,
+      {BuildContext context, bool showLoading: true}) async {
     var hide;
     try {
       bool permission = false;
@@ -699,11 +828,14 @@ class Util {
       File save;
       if (url.startsWith("http")) {
         File image = await getCachedImageFile(url);
-        save = await image.copy(image.path + DateTime.now().millisecondsSinceEpoch.toString() + ".png");
+        save = await image.copy(image.path +
+            DateTime.now().millisecondsSinceEpoch.toString() +
+            ".png");
       } else {
         save = File(url);
       }
-      bool result = await GallerySaver.saveImage(save.path, albumName: Util.appName);
+      bool result =
+          await GallerySaver.saveImage(save.path, albumName: Util.appName);
       if (showLoading) {
         hide();
       }
@@ -734,13 +866,15 @@ class Util {
     return r.toString();
   }
 
-  static checkUpdate(bool showMsg, BuildContext context, {bool force = false}) async {
+  static checkUpdate(bool showMsg, BuildContext context,
+      {bool force = false}) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String buildNumber = packageInfo.buildNumber;
     if (kDebugMode) {
       buildNumber = '1';
     }
-    var res = await Api.update(buildNumber, force: force); //packageInfo.buildNumber
+    var res =
+        await Api.update(buildNumber, force: force); //packageInfo.buildNumber
     if (res['code'] == 1) {
       Navigator.of(context).push(CupertinoPageRoute(
           builder: (context) {

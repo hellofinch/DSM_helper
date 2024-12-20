@@ -133,7 +133,8 @@ class _VipLoginState extends State<VipLogin> {
               child: TextField(
                 onChanged: (v) => password = v,
                 obscureText: true,
-                textInputAction: isRegister ? TextInputAction.next : TextInputAction.done,
+                textInputAction:
+                    isRegister ? TextInputAction.next : TextInputAction.done,
                 onEditingComplete: () {
                   FocusScope.of(context).unfocus();
                 },

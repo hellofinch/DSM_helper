@@ -117,7 +117,11 @@ class _SearchState extends State<Search> {
                 borderRadius: BorderRadius.circular(20),
               ),
               onPressed: () {
-                Navigator.of(context).pop({"folders": folders, "pattern": pattern, "search_content": searchContent});
+                Navigator.of(context).pop({
+                  "folders": folders,
+                  "pattern": pattern,
+                  "search_content": searchContent
+                });
                 // Navigator.of(context).push(CupertinoPageRoute(
                 //     builder: (context) {
                 //       return SearchResult(

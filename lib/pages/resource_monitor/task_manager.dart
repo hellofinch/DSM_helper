@@ -14,7 +14,8 @@ class TaskManager extends StatefulWidget {
   _TaskManagerState createState() => _TaskManagerState();
 }
 
-class _TaskManagerState extends State<TaskManager> with SingleTickerProviderStateMixin {
+class _TaskManagerState extends State<TaskManager>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   List processes = [];
   List services = [];
@@ -60,13 +61,18 @@ class _TaskManagerState extends State<TaskManager> with SingleTickerProviderStat
     List<String> titles = service['display_name'].split(":");
     //判断是否在string内
     if (titles.length > 1) {
-      if (webManagerStrings[titles[0]] != null && webManagerStrings[titles[0]][titles[1]] != null) {
+      if (webManagerStrings[titles[0]] != null &&
+          webManagerStrings[titles[0]][titles[1]] != null) {
         if (webManagerStrings[titles[0]][titles[1]] != null) {
           title = webManagerStrings[titles[0]][titles[1]];
         }
-      } else if (Util.strings[service['display_name']][titles[0]] != null && Util.strings[service['display_name']][titles[0]][titles[1]] != null) {
+      } else if (Util.strings[service['display_name']][titles[0]] != null &&
+          Util.strings[service['display_name']][titles[0]][titles[1]] != null) {
         title = Util.strings[service['display_name']][titles[0]][titles[1]];
-      } else if (Util.strings[service['display_name']] != null && Util.strings[service['display_name']]['common'] != null && Util.strings[service['display_name']]['common']['displayname'] != null) {
+      } else if (Util.strings[service['display_name']] != null &&
+          Util.strings[service['display_name']]['common'] != null &&
+          Util.strings[service['display_name']]['common']['displayname'] !=
+              null) {
         title = Util.strings[service['display_name']]['common']['displayname'];
       }
     } else {
@@ -122,7 +128,8 @@ class _TaskManagerState extends State<TaskManager> with SingleTickerProviderStat
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              Text("内存：${slice['memory'] is num ? Util.formatSize(slice['memory'], fixed: 1) : slice['memory']}")
+              Text(
+                  "内存：${slice['memory'] is num ? Util.formatSize(slice['memory'], fixed: 1) : slice['memory']}")
             ],
           ),
           SizedBox(
@@ -130,14 +137,22 @@ class _TaskManagerState extends State<TaskManager> with SingleTickerProviderStat
           ),
           Row(
             children: [
-              Expanded(child: Text("CPU(%)：${slice['cpu_utilization'] is num ? slice['cpu_utilization'].toStringAsFixed(2) : slice['cpu_utilization']}")),
-              Expanded(child: Text("CPU Time：${slice['cpu_time'] is String ? slice['cpu_time'] : '${cpuTime['hours']}:${cpuTime['minutes']}:${cpuTime['seconds']}'}")),
+              Expanded(
+                  child: Text(
+                      "CPU(%)：${slice['cpu_utilization'] is num ? slice['cpu_utilization'].toStringAsFixed(2) : slice['cpu_utilization']}")),
+              Expanded(
+                  child: Text(
+                      "CPU Time：${slice['cpu_time'] is String ? slice['cpu_time'] : '${cpuTime['hours']}:${cpuTime['minutes']}:${cpuTime['seconds']}'}")),
             ],
           ),
           Row(
             children: [
-              Expanded(child: Text("读取(秒)：${slice['byte_read_per_sec'] is num ? Util.formatSize(slice['byte_read_per_sec'], fixed: 1, showByte: true) : slice['byte_read_per_sec']}")),
-              Expanded(child: Text("写入(秒)：${slice['byte_write_per_sec'] is num ? Util.formatSize(slice['byte_write_per_sec'], fixed: 1, showByte: true) : slice['byte_write_per_sec']}")),
+              Expanded(
+                  child: Text(
+                      "读取(秒)：${slice['byte_read_per_sec'] is num ? Util.formatSize(slice['byte_read_per_sec'], fixed: 1, showByte: true) : slice['byte_read_per_sec']}")),
+              Expanded(
+                  child: Text(
+                      "写入(秒)：${slice['byte_write_per_sec'] is num ? Util.formatSize(slice['byte_write_per_sec'], fixed: 1, showByte: true) : slice['byte_write_per_sec']}")),
             ],
           ),
         ],
@@ -187,8 +202,12 @@ class _TaskManagerState extends State<TaskManager> with SingleTickerProviderStat
           ),
           Row(
             children: [
-              Expanded(child: Text("私有内存：${Util.formatSize(process['mem'] * 97, fixed: 1)}")),
-              Expanded(child: Text("共享内存：${Util.formatSize(process['mem_shared'] * 1024, fixed: 2)}")),
+              Expanded(
+                  child: Text(
+                      "私有内存：${Util.formatSize(process['mem'] * 97, fixed: 1)}")),
+              Expanded(
+                  child: Text(
+                      "共享内存：${Util.formatSize(process['mem_shared'] * 1024, fixed: 2)}")),
             ],
           ),
         ],
@@ -226,19 +245,24 @@ class _TaskManagerState extends State<TaskManager> with SingleTickerProviderStat
                     isScrollable: true,
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.label,
-                    labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                    labelColor: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
                     unselectedLabelColor: Colors.grey,
                     indicator: BubbleTabIndicator(
                       indicatorColor: Theme.of(context).scaffoldBackgroundColor,
-                      shadowColor: Util.getAdjustColor(Theme.of(context).scaffoldBackgroundColor, -20),
+                      shadowColor: Util.getAdjustColor(
+                          Theme.of(context).scaffoldBackgroundColor, -20),
                     ),
                     tabs: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("服务"),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         child: Text("进程"),
                       ),
                     ],

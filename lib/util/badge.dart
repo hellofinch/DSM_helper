@@ -16,9 +16,13 @@ class Badge extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: size / 44 * 14),
         alignment: Alignment.center,
         height: size,
-        decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(size / 44 * 30), boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.5), offset: Offset(1, 2)),
-        ]),
+        decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(size / 44 * 30),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.5), offset: Offset(1, 2)),
+            ]),
         child: Text(
           "$badge",
           style: TextStyle(color: Colors.white, fontSize: size / 44 * 28),

@@ -102,7 +102,9 @@ class _SelectFileState extends State<SelectFile> {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                curveType: selectedFiles.contains(file['index']) ? CurveType.emboss : CurveType.flat,
+                curveType: selectedFiles.contains(file['index'])
+                    ? CurveType.emboss
+                    : CurveType.flat,
                 padding: EdgeInsets.all(5),
                 bevel: 5,
                 child: SizedBox(
@@ -232,7 +234,8 @@ class _SelectFileState extends State<SelectFile> {
             child: NeuButton(
               onPressed: () async {
                 if (selectedFiles.length > 0) {
-                  var res = await Api.downloadCreate(widget.listId[0], widget.destination, selectedFiles);
+                  var res = await Api.downloadCreate(
+                      widget.listId[0], widget.destination, selectedFiles);
                   if (res['success']) {
                     Util.toast("下载任务创建成功");
                     Navigator.of(context).pop();

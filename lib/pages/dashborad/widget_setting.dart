@@ -126,7 +126,8 @@ class _WidgetSettingState extends State<WidgetSetting> {
                 setState(() {
                   setState(() {
                     showShortcut = !showShortcut;
-                    Provider.of<ShortcutProvider>(context, listen: false).changeMode(showShortcut);
+                    Provider.of<ShortcutProvider>(context, listen: false)
+                        .changeMode(showShortcut);
                   });
                 });
               },
@@ -175,7 +176,8 @@ class _WidgetSettingState extends State<WidgetSetting> {
                 setState(() {
                   setState(() {
                     showWallpaper = !showWallpaper;
-                    Provider.of<WallpaperProvider>(context, listen: false).changeMode(showWallpaper);
+                    Provider.of<WallpaperProvider>(context, listen: false)
+                        .changeMode(showWallpaper);
                   });
                 });
               },
@@ -258,7 +260,9 @@ class _WidgetSettingState extends State<WidgetSetting> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            curveType: selectedWidgets.contains(widget) ? CurveType.emboss : CurveType.flat,
+                            curveType: selectedWidgets.contains(widget)
+                                ? CurveType.emboss
+                                : CurveType.flat,
                             padding: EdgeInsets.all(5),
                             bevel: 5,
                             child: SizedBox(

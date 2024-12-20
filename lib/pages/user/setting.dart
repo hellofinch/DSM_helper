@@ -38,8 +38,10 @@ class _UserSettingState extends State<UserSetting> {
         loading = false;
         normalUser = res['data'];
       });
-      _usernameController.value = TextEditingValue(text: normalUser['username']);
-      _fullnameController.value = TextEditingValue(text: normalUser['fullname']);
+      _usernameController.value =
+          TextEditingValue(text: normalUser['username']);
+      _fullnameController.value =
+          TextEditingValue(text: normalUser['fullname']);
       _emailController.value = TextEditingValue(text: normalUser['email']);
     } else {
       Util.toast("加载失败，code:${res['error']['code']}");
@@ -204,7 +206,8 @@ class _UserSettingState extends State<UserSetting> {
                       Navigator.of(context)
                           .push(CupertinoPageRoute(
                               builder: (context) {
-                                return OtpBind(normalUser['username'], normalUser['email']);
+                                return OtpBind(normalUser['username'],
+                                    normalUser['email']);
                               },
                               settings: RouteSettings(name: "otp_bind")))
                           .then((res) {
@@ -221,7 +224,9 @@ class _UserSettingState extends State<UserSetting> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    curveType: normalUser['OTP_enable'] ? CurveType.emboss : CurveType.flat,
+                    curveType: normalUser['OTP_enable']
+                        ? CurveType.emboss
+                        : CurveType.flat,
                     bevel: 12,
                     height: 68,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -264,7 +269,8 @@ class _UserSettingState extends State<UserSetting> {
                         Util.toast("请输入新密码");
                         return;
                       }
-                      if (changedData['confirm_password'] != changedData['password']) {
+                      if (changedData['confirm_password'] !=
+                          changedData['password']) {
                         Util.toast("确认密码与新密码不一致");
                         return;
                       }

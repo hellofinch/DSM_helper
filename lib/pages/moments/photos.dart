@@ -33,7 +33,8 @@ class _PhotosState extends State<Photos> {
   }
 
   Widget _buildPhotoItem(photo) {
-    String thumbUrl = '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
+    String thumbUrl =
+        '${Util.baseUrl}/webapi/entry.cgi?id=${photo['additional']['thumbnail']['unit_id']}&cache_key="${photo['additional']['thumbnail']['cache_key']}"&type="unit"&size="sm"&api="SYNO.${Util.version == 7 ? "Foto" : "Photo"}.Thumbnail"&method="get"&version=1&_sid=${Util.sid}';
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(TransparentPageRoute(
@@ -113,7 +114,15 @@ class _PhotosState extends State<Photos> {
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   "${widget.album['name']}",
-                  style: TextStyle(color: Theme.of(context).textTheme.headline6.color, shadows: [BoxShadow(color: Colors.white, offset: Offset(1, 1), blurRadius: 5, spreadRadius: 5)]),
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.headline6.color,
+                      shadows: [
+                        BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(1, 1),
+                            blurRadius: 5,
+                            spreadRadius: 5)
+                      ]),
                 ),
                 centerTitle: true,
                 background: Hero(

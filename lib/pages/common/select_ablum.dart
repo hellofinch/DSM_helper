@@ -46,7 +46,9 @@ class _SelectAlbumState extends State<SelectAlbum> {
                 if (album.isAll) {
                   selectedAlbums = [album];
                 } else {
-                  selectedAlbums = selectedAlbums.where((element) => !element.isAll).toList();
+                  selectedAlbums = selectedAlbums
+                      .where((element) => !element.isAll)
+                      .toList();
                   if (selectedAlbums.contains(album)) {
                     selectedAlbums.remove(album);
                   } else {
@@ -146,7 +148,8 @@ class _SelectAlbumState extends State<SelectAlbum> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         bevel: 5,
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         child: Text(
                           "完成",
                           style: TextStyle(fontSize: 12, color: Colors.blue),

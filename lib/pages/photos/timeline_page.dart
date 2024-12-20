@@ -3,7 +3,15 @@ import 'package:dsm_helper/widgets/neu_back_button.dart';
 import 'package:flutter/material.dart';
 
 class TimelinePage extends StatefulWidget {
-  const TimelinePage({this.title, this.type, this.geocodingId, this.generalTagId, this.isTeam: false, this.recentlyAdd: false, Key key}) : super(key: key);
+  const TimelinePage(
+      {this.title,
+      this.type,
+      this.geocodingId,
+      this.generalTagId,
+      this.isTeam: false,
+      this.recentlyAdd: false,
+      Key key})
+      : super(key: key);
   final String title;
   final String type;
   final int geocodingId;
