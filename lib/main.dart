@@ -34,73 +34,8 @@ void main() async {
     return true;
   };
 
-  Future<String> getBestDomain(List<String> domains) async {
-    final completer = Completer<String>();
-    for (String domain in domains) {
-      try {
-        Util.get(domain).then((res) {
-          if (res != null && res['code'] == 1) {
-            if (!completer.isCompleted) {
-              completer.complete("http://${res['data']}");
-            }
-          }
-        });
-      } catch (e) {}
-    }
-    return completer.future;
-  }
-
   WidgetsFlutterBinding.ensureInitialized();
-  String agreement = await Util.getStorage("agreement");
   Log.init();
-  if (agreement != null && agreement == "1") {
-    registerWxApi(appId: "wxabdf23571f34b49b", universalLink: "").then((value) {
-      stopLog();
-    });
-    // 域名优选
-    Util.appUrl = await getBestDomain([
-      'http://dsm.apaipai.top/index/check',
-      'http://dsm.flutter.fit/index/check'
-    ]);
-    // 是否关闭广告
-    // 判断是否登录
-    // bool isForever = true;
-    // DateTime noAdTime;
-    Util.isWechatInstalled = await isWeChatInstalled;
-    // String userToken = await Util.getStorage("user_token");
-    // String noAdTimeStr = await Util.getStorage("no_ad_time");
-    // if (noAdTimeStr.isNotBlank) {
-    //   noAdTime = DateTime.parse(noAdTimeStr);
-    // }
-    // if (userToken.isNotBlank) {
-    //   var res = await Util.post("${Util.appUrl}/vip/info",
-    //       data: {"token": userToken});
-    //   if (res['code'] == 1) {
-    //     isForever = Util.vipForever = res['data']['is_forever'] == 1;
-    //     if (res['data']['vip_expire_time'] != null) {
-    //       DateTime vipExpireTime =
-    //           DateTime.parse(res['data']['vip_expire_time']);
-    //       Util.vipExpireTime = vipExpireTime;
-    //       if (noAdTime == null) {
-    //         if (vipExpireTime.isAfter(DateTime.now())) {
-    //           noAdTime = vipExpireTime;
-    //         }
-    //       } else {
-    //         if (vipExpireTime.isAfter(noAdTime)) {
-    //           noAdTime = vipExpireTime;
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-
-    // if (isForever || (noAdTime != null && noAdTime.isAfter(DateTime.now()))) {
-    //   // 处于关闭广告有效期内
-    //   if (kDebugMode) {
-    //     debugPrint("免广告有效期内");
-    //   }
-    // }
-  }
 
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
 
