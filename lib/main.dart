@@ -33,10 +33,40 @@ void main() async {
       (X509Certificate cert, String host, int port) {
     return true;
   };
+  Future<String> getBestDomain(List<String> domains) async {
+    final completer = Completer<String>();
+    for (String domain in domains) {
+      try {
+        Util.get(domain).then((res) {
+          if (res != null && res['code'] == 1) {
+            if (!completer.isCompleted) {
+              completer.complete("http://${res['data']}");
+            }
+          }
+        });
+      } catch (e) {}
+    }
+    return completer.future;
+  }
 
   WidgetsFlutterBinding.ensureInitialized();
+  String agreement = await Util.getStorage("agreement");
   Log.init();
+  if (agreement != null && agreement == "1") {
+    // print("初始化穿山甲");
+    // 域名优选
+    Util.appUrl = await getBestDomain([
+      'http://dsm.apaipai.top/index/check',
+      'http://dsm.flutter.fit/index/check'
+    ]);
 
+    bool isForever = false;
+    String isForeverVip = await Util.getStorage("is_forever_vip");
+    // 如果缓存中无会员过期时间或会员已过期，则重新检测是否开通会员
+    if (isForeverVip == '1') {
+      Util.vipForever = isForever = true;
+    }
+  }
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
 
   Util.downloadSavePath = await Util.getStorage("download_save_path") ??

@@ -90,9 +90,9 @@ class Util {
   static bool isWechatInstalled = false;
   static DateTime vipExpireTime = DateTime.now();
   static bool vipForever = false;
-  static String appUrl = "";
+  static String appUrl = "https://dsm.apaipai.top";
   static String sid = "";
-  static String account = "";
+  static String account = "https://dsm.apaipai.top";
   static String baseUrl = "";
   static String hostname = "";
   static int version = 6;
