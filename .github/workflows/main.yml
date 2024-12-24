@@ -31,14 +31,13 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: '17'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 33
           build-tools: 33.0.2
-          ndk: 25.2.9519653
 
       # Accept Android licenses
       - name: Accept Android SDK licenses
