@@ -3,9 +3,13 @@ name: Flutter Android Build
 on:
   push:
     branches:
-      - main
-  pull_request:
-
+      - release
+  workflow_dispatch: # 允许手动触发 Workflow
+    inputs: # 可选的用户输入参数
+      buildType:
+        description: 'Build type (release/debug)'
+        required: true
+        default: 'release'
 jobs:
   build:
     name: Build Signed Flutter APK
