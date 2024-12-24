@@ -1,0 +1,70 @@
+name: Flutter Android Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    name: Build Signed Flutter APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup Flutter
+      - name: Setup Flutter 3.7.12
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.12'
+
+      # Setup Java and Android SDK
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33
+          build-tools: 33.0.2
+          ndk: 25.2.9519653
+
+      # Accept Android licenses
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Setup keystore and key.properties
+      - name: Setup keystore and key.properties
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/key.jks
+          echo "storePassword=${KEYSTORE_PASSWORD}" > android/key.properties
+          echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
+          echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
+          echo "storeFile=app/key.jks" >> android/key.properties
+
+      # Build signed APK
+      - name: Build signed APK
+        run: flutter build apk --release
+
+      # Upload APK as artifact
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
