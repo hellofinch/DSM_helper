@@ -60,7 +60,7 @@ jobs:
           echo "storePassword=${KEYSTORE_PASSWORD}" > android/key.properties
           echo "keyPassword=${KEY_PASSWORD}" >> android/key.properties
           echo "keyAlias=${KEY_ALIAS}" >> android/key.properties
-          echo "storeFile=app/key.jks" >> android/key.properties
+          echo "storeFile=android/app/key.jks" >> android/key.properties
 
       # Build signed APK
       - name: Build signed APK
