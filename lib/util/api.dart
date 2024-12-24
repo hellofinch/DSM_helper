@@ -22,35 +22,35 @@ class Api {
       //     "msg": "已是最新版本",
       //   };
       // }
-      String urlBase64 = "aHR0cHM6Ly93d3cucGd5ZXIuY29tL2FwaXYyL2FwcC9jaGVjaw==";
-      var res = await Util.post(Util.base64ToString(urlBase64), data: {
-        "_api_key": "f4621000de0337cc74a156cea513e828",
-        "appKey": "ed1169bc9b9d290ef91c7e21d4ffb008",
-        "buildVersion": buildNumber,
-      });
-      if (res != null) {
-        try {
-          if (res['code'] == 0) {
-            List<String> ignoredVersions = [];
-            String ignoredVersionsString =
-                await Util.getStorage("ignoredVersions");
-            if (ignoredVersionsString.isNotBlank) {
-              ignoredVersions = ignoredVersionsString.split(",");
-            }
-            if (int.parse(buildNumber) <
-                int.parse(res['data']['buildVersionNo'])) {
-              if (force ||
-                  !ignoredVersions.contains(res['data']['buildVersionNo'])) {
-                return {
-                  "code": 1,
-                  "msg": "版本更新",
-                  "data": res['data'],
-                };
-              }
-            }
-          }
-        } catch (e) {}
-      }
+      // String urlBase64 = "aHR0cHM6Ly93d3cucGd5ZXIuY29tL2FwaXYyL2FwcC9jaGVjaw==";
+      // var res = await Util.post(Util.base64ToString(urlBase64), data: {
+      //   "_api_key": "f4621000de0337cc74a156cea513e828",
+      //   "appKey": "ed1169bc9b9d290ef91c7e21d4ffb008",
+      //   "buildVersion": buildNumber,
+      // });
+      // if (res != null) {
+      //   try {
+      //     if (res['code'] == 0) {
+      //       List<String> ignoredVersions = [];
+      //       String ignoredVersionsString =
+      //           await Util.getStorage("ignoredVersions");
+      //       if (ignoredVersionsString.isNotBlank) {
+      //         ignoredVersions = ignoredVersionsString.split(",");
+      //       }
+      //       if (int.parse(buildNumber) <
+      //           int.parse(res['data']['buildVersionNo'])) {
+      //         if (force ||
+      //             !ignoredVersions.contains(res['data']['buildVersionNo'])) {
+      //           return {
+      //             "code": 1,
+      //             "msg": "版本更新",
+      //             "data": res['data'],
+      //           };
+      //         }
+      //       }
+      //     }
+      //   } catch (e) {}
+      // }
     }
     return {
       "code": 0,

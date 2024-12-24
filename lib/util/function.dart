@@ -92,7 +92,7 @@ class Util {
   static bool vipForever = false;
   static String appUrl = "https://dsm.apaipai.top";
   static String sid = "";
-  static String account = "https://dsm.apaipai.top";
+  static String account = "";
   static String baseUrl = "";
   static String hostname = "";
   static int version = 6;
