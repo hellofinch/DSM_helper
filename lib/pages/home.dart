@@ -182,19 +182,19 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   getData() async {
     if (Platform.isAndroid) {
       packageInfo = await PackageInfo.fromPlatform();
-      String buildNumber = packageInfo.buildNumber;
-      if (kDebugMode) {
-        buildNumber = '1';
-      }
-      var res = await Api.update(buildNumber); //packageInfo.buildNumber
-      if (res['code'] == 1) {
-        showCupertinoDialog(
-          context: context,
-          builder: (context) {
-            return UpdateDialog(res['data'], packageInfo);
-          },
-        );
-      }
+      // String buildNumber = packageInfo.buildNumber;
+      // if (kDebugMode) {
+      //   buildNumber = '1';
+      // }
+      // var res = await Api.update(buildNumber); //packageInfo.buildNumber
+      // if (res['code'] == 1) {
+      //   showCupertinoDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return UpdateDialog(res['data'], packageInfo);
+      //     },
+      //   );
+      // }
     }
   }
 
@@ -233,7 +233,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return WillPopScope( //PopScope instead 3.12.0 Deprecated
       onWillPop: onWillPop,
       child: Scaffold(
         appBar: null,

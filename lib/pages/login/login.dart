@@ -57,6 +57,7 @@ class _LoginState extends State<Login> {
   CancelToken cancelToken = CancelToken();
   @override
   initState() {
+    Util.setStorage("agreement", "1");
     Util.getStorage("read").then((value) {
       if (value.isNotBlank && value == "1") {
         setState(() {
@@ -64,7 +65,7 @@ class _LoginState extends State<Login> {
         });
       }
     });
-    checkAgreement();
+    read = true;
     if (Platform.isAndroid) {
       checkUpdate();
     } else {
@@ -312,16 +313,17 @@ class _LoginState extends State<Login> {
   checkUpdate() async {
     if (Platform.isAndroid) {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String buildNumber = packageInfo.buildNumber;
-      if (kDebugMode) {
-        buildNumber = '1';
-      }
-      var res = await Api.update(buildNumber); //packageInfo.buildNumber
-      if (res['code'] == 1) {
-        setState(() {
-          updateInfo = res['data'];
-        });
-      }
+      // need change
+      // String buildNumber = packageInfo.buildNumber;
+      // if (kDebugMode) {
+      //   buildNumber = '1';
+      // }
+      // var res = await Api.update(buildNumber); //packageInfo.buildNumber
+      // if (res['code'] == 1) {
+      //   setState(() {
+      //     updateInfo = res['data'];
+      //   });
+      // }
     }
   }
 
@@ -619,35 +621,6 @@ class _LoginState extends State<Login> {
     }
   }
 
-  // wakeup() async {
-  //   print("wakeup");
-  //   // final client = HttpDnsClient("http://180.76.76.76");
-  //   // final result = await client.lookup("baidu.com");
-  //   // print(result);
-  //   String ipv4 = '192.168.0.100';
-  //   IPv4Address ipv4Address;
-  //   MACAddress macAddress;
-  //   if (IPv4Address.validate(ipv4)) {
-  //     ipv4Address = IPv4Address(ipv4);
-  //     //Continue execution
-  //   } else {
-  //     Util.toast("IP地址有误");
-  //     return;
-  //     // Handle invalid address case
-  //   }
-  //   String mac = '02-11-32-27-31-2F';
-  //   if (MACAddress.validate(mac)) {
-  //     macAddress = MACAddress(mac);
-  //     //Continue execution
-  //   } else {
-  //     Util.toast("MAC地址有误");
-  //     return;
-  //     // Handle invalid address case
-  //   }
-  //   WakeOnLAN wol = WakeOnLAN(ipv4Address, macAddress, port: 1234);
-  //   await wol.wake().then((v) => print('sent'));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -681,23 +654,6 @@ class _LoginState extends State<Login> {
           widget.type == "login" ? "账号登录" : "添加账号",
         ),
         actions: [
-          // Padding(
-          //   padding: EdgeInsets.only(right: 10, top: 8, bottom: 8),
-          //   child: NeuButton(
-          //     decoration: NeumorphicDecoration(
-          //       color: Theme.of(context).scaffoldBackgroundColor,
-          //       borderRadius: BorderRadius.circular(10),
-          //     ),
-          //     padding: EdgeInsets.all(10),
-          //     bevel: 5,
-          //     onPressed: wakeup,
-          //     child: Image.asset(
-          //       "assets/icons/history.png",
-          //       width: 20,
-          //       height: 20,
-          //     ),
-          //   ),
-          // ),
           if (servers.length > 0)
             Padding(
               padding: EdgeInsets.only(right: 10, top: 8, bottom: 8),
@@ -785,6 +741,7 @@ class _LoginState extends State<Login> {
                       autocorrect: false,
                       controller: _hostController,
                       onChanged: (v) {
+                        Util.setStorage("read", "1");
                         setState(() {
                           host = v;
                         });
@@ -1086,9 +1043,6 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-            // SizedBox(
-            //   height: 20,
-            // ),
 
             NeuButton(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -1098,10 +1052,6 @@ class _LoginState extends State<Login> {
               ),
               onPressed: () {
                 print(login);
-                if (!read) {
-                  Util.toast("请先阅读并同意用户协议和隐私政策");
-                  return;
-                }
                 if (login) {
                   cancelToken?.cancel("取消登录");
                   cancelToken = CancelToken();
@@ -1134,86 +1084,6 @@ class _LoginState extends State<Login> {
                       style: TextStyle(fontSize: 18),
                     ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            if (Platform.isAndroid)
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    read = !read;
-                    Util.setStorage("read", read ? "1" : "0");
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                            color: read ? Color(0xffff9813) : Colors.grey),
-                      ),
-                      height: 20,
-                      width: 20,
-                      alignment: Alignment.center,
-                      child: read
-                          ? Icon(
-                              CupertinoIcons.checkmark_alt,
-                              color: Color(0xffff9813),
-                              size: 16,
-                            )
-                          : SizedBox(),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(text: "我已阅读并同意 ${Util.appName}"),
-                          TextSpan(
-                            text: "用户协议",
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue,
-                                fontSize: 12),
-                            recognizer: _licenseRecognizer
-                              ..onTap = () {
-                                FocusScope.of(context).unfocus();
-                                Navigator.of(context).push(
-                                    CupertinoPageRoute(builder: (context) {
-                                  return License();
-                                }));
-                              },
-                          ),
-                          TextSpan(text: "和 "),
-                          TextSpan(
-                            text: "隐私政策",
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue,
-                                fontSize: 12),
-                            recognizer: _privacyRecognizer
-                              ..onTap = () {
-                                FocusScope.of(context).unfocus();
-                                Navigator.of(context).push(
-                                    CupertinoPageRoute(builder: (context) {
-                                  return Browser(
-                                    url: '${Util.appUrl}/privacy',
-                                    title: "隐私政策",
-                                  );
-                                }));
-                              },
-                          ),
-                        ],
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ],
-                ),
-              )
           ],
         ),
       ),
